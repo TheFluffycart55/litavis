@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_scatterstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "litavis:scatterstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:burrow_rod"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_scatterstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:burrow_rod"
+    ]
+  }
+}

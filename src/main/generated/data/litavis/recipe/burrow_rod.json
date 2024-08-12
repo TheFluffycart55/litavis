@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "litavis:scatterstone"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "litavis:burrow_rod"
+  }
+}

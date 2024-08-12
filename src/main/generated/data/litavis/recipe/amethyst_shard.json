@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": {
+      "item": "litavis:scatterstone"
+    },
+    "S": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "T": {
+      "item": "litavis:entombed_armor_trim_smithing_template"
+    }
+  },
+  "pattern": [
+    "STS",
+    "SRS",
+    "SSS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "litavis:entombed_armor_trim_smithing_template"
+  }
+}
