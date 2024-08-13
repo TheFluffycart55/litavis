@@ -79,6 +79,7 @@ public class ScatterstoneBlock extends Block {
         this.setDefaultState(this.getDefaultState().with(FALLING, false));
     }
 
+    //COMMIT FILES TEST
     @Override
     protected void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
         BlockPos blockPos = hit.getBlockPos();
