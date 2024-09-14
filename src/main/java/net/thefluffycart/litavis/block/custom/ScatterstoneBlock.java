@@ -1,10 +1,8 @@
 package net.thefluffycart.litavis.block.custom;
 
-import com.google.gson.internal.GsonBuildConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.tag.BlockTags;
@@ -13,13 +11,9 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.math.random.RandomSplitter;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 public class ScatterstoneBlock extends Block {
     public static final BooleanProperty FALLING = BooleanProperty.of("falling");
@@ -99,6 +93,7 @@ public class ScatterstoneBlock extends Block {
 
     public void blockDrop(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!FallingBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY() ) {
+            world.scheduleBlockTick(pos, this.asBlock(), 100);
             return;
         }
         FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, pos, state);
