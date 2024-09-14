@@ -19,7 +19,7 @@ public class ModBlocks {
     public static final Block SCATTERSTONE_PILLAR = registerBlock("scatterstone_pillar",
             new PillarBlock(FabricBlockSettings.copyOf(Blocks.BRICKS).sounds(BlockSoundGroup.DRIPSTONE_BLOCK)));
 
-
+//test
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         return Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, name), block);
