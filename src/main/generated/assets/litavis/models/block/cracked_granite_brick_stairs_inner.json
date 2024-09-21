@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "litavis:block/cracked_granite_bricks",
+    "side": "litavis:block/cracked_granite_bricks",
+    "top": "litavis:block/cracked_granite_bricks"
+  }
+}
