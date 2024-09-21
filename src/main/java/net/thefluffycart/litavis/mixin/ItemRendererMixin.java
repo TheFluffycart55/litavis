@@ -19,9 +19,9 @@ public abstract class ItemRendererMixin {
     @ModifyVariable(method = "renderItem", at = @At(value = "HEAD"), argsOnly = true)
 
     public BakedModel useCopperGrip(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if (stack.isOf(ModItems.COPPER_GRIP) && renderMode != ModelTransformationMode.GUI) {
-            BakedModel copper_grip_3d = ((ItemRendererAccessor) this).litavis$getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(Identifier.of(Litavis.MOD_ID, "copper_grip_3d")));
-            return copper_grip_3d;
+        if (stack.isOf(ModItems.TERRAFORMER) && renderMode != ModelTransformationMode.GUI) {
+            BakedModel terraformer3d = ((ItemRendererAccessor) this).litavis$getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(Identifier.of(Litavis.MOD_ID, "terraformer_3d")));
+            return terraformer3d;
         }
         return value;
     }

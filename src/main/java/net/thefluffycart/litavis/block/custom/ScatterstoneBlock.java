@@ -92,7 +92,7 @@ public class ScatterstoneBlock extends Block {
     }
 
     public void blockDrop(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!FallingBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY() ) {
+        if (!ScatterstoneBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY() ) {
             world.scheduleBlockTick(pos, this.asBlock(), 100);
             return;
         }

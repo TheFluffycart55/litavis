@@ -1,0 +1,41 @@
+{
+  "painting.litavis.golden_land.title": "Golden Land",
+  "painting.litavis.golden_land.author": "Takahito Ekusa",
+
+  "item.litavis.earth_charge": "Earth Charge",
+  "item.litavis.burrow_rod": "Burrow Rod",
+  "item.litavis.terraformer": "Terraformer",
+  "item.litavis.entombed_armor_trim_smithing_template": "Smithing Template",
+
+  "itemgroup.litavis": "Litavis",
+
+  "block.litavis.granite_bricks": "Granite Bricks",
+  "block.litavis.granite_brick_stairs": "Granite Brick Stairs",
+  "block.litavis.granite_brick_slab": "Granite Brick Slab",
+  "block.litavis.granite_brick_wall": "Granite Brick Wall",
+  "block.litavis.granite_pillar": "Granite Pillar",
+
+  "block.litavis.cracked_granite_bricks": "Cracked Granite Bricks",
+  "block.litavis.cracked_granite_brick_stairs": "Cracked Granite Brick Stairs",
+  "block.litavis.cracked_granite_brick_slab": "Cracked Granite Brick Slab",
+  "block.litavis.cracked_granite_brick_wall": "Cracked Granite Brick Wall",
+  "block.litavis.granite_pillar": "Cracked Granite Pillar",
+
+  "block.litavis.mossy_granite_bricks": "Mossy Granite Bricks",
+  "block.litavis.mossy_granite_brick_stairs": "Mossy Granite Brick Stairs",
+  "block.litavis.mossy_granite_brick_slab": "Mossy Granite Brick Slab",
+  "block.litavis.mossy_granite_brick_wall": "Mossy Granite Brick Wall",
+  "block.litavis.granite_pillar": "Mossy Granite Pillar",
+
+  "block.litavis.cracked_mossy_granite_bricks": "Cracked Mossy Granite Bricks",
+  "block.litavis.cracked_mossy_granite_brick_stairs": "Cracked Mossy Granite Brick Stairs",
+  "block.litavis.cracked_mossy_granite_brick_slab": "Cracked Mossy Granite Brick Slab",
+  "block.litavis.cracked_mossy_granite_brick_wall": "Cracked Mossy Granite Brick Wall",
+  "block.litavis.granite_pillar": "Cracked Mossy Granite Pillar",
+
+  "block.litavis.chiseled_granite": "Chiseled Granite",
+  "block.litavis.scatterstone": "Scatterstone",
+
+  "trim_pattern.litavis.entombed_armor_trim_smithing_template": "Entombed Armor Trim",
+  "trim_pattern.litavis.entombed_armor_trim": "Entombed Armor Trim"
+}

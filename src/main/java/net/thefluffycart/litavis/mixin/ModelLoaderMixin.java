@@ -28,7 +28,7 @@ public abstract class ModelLoaderMixin {
                     shift = At.Shift.AFTER, ordinal = 1))
 
     private void addCopperGrip(BlockColors blockColors, Profiler profiler, Map<Identifier, JsonUnbakedModel> jsonUnbakedModels, Map<Identifier, List<BlockStatesLoader.SourceTrackedData>> blockStates, CallbackInfo ci) {
-        this.loadItemModel(ModelIdentifier.ofInventoryVariant(Identifier.of(Litavis.MOD_ID, "copper_grip_3d")));
+        this.loadItemModel(ModelIdentifier.ofInventoryVariant(Identifier.of(Litavis.MOD_ID, "terraformer_3d")));
 
     }
 }

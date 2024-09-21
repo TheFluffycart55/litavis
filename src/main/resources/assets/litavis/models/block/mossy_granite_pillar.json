@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "litavis:block/granite_pillar_top",
+    "side": "litavis:block/mossy_granite_pillar"
+  }
+}

@@ -1,6 +1,23 @@
 {
   "values": [
-    "litavis:scatterstone",
-    "litavis:scatterstone_pillar"
+    "litavis:granite_pillar",
+    "litavis:chiseled_granite",
+    "litavis:granite_bricks",
+    "litavis:granite_brick_stairs",
+    "litavis:granite_brick_slab",
+    "litavis:granite_brick_wall",
+    "litavis:mossy_granite_bricks",
+    "litavis:mossy_granite_brick_stairs",
+    "litavis:mossy_granite_brick_slab",
+    "litavis:mossy_granite_brick_wall",
+    "litavis:cracked_granite_bricks",
+    "litavis:cracked_granite_brick_stairs",
+    "litavis:cracked_granite_brick_slab",
+    "litavis:cracked_granite_brick_wall",
+    "litavis:cracked_mossy_granite_bricks",
+    "litavis:cracked_mossy_granite_brick_stairs",
+    "litavis:cracked_mossy_granite_brick_slab",
+    "litavis:cracked_mossy_granite_brick_wall",
+    "litavis:scatterstone"
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "asset_id": "litavis:entombed",
+  "description": {
+    "translate": "trim_pattern.litavis.entombed_armor_trim_smithing_template"
+  },
+  "template_item": "litavis:entombed_armor_trim_smithing_template"
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "litavis:block/chiseled_granite"
+    }
+  }
+}
