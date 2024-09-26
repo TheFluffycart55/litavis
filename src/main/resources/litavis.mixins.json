@@ -3,7 +3,8 @@
 	"package": "net.thefluffycart.litavis.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"TrunkPlacerTypeInvoker"
 	],
 
 	"client": [

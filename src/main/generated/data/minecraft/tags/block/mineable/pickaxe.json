@@ -10,14 +10,17 @@
     "litavis:mossy_granite_brick_stairs",
     "litavis:mossy_granite_brick_slab",
     "litavis:mossy_granite_brick_wall",
+    "litavis:mossy_granite_pillar",
     "litavis:cracked_granite_bricks",
     "litavis:cracked_granite_brick_stairs",
     "litavis:cracked_granite_brick_slab",
     "litavis:cracked_granite_brick_wall",
+    "litavis:cracked_granite_pillar",
     "litavis:cracked_mossy_granite_bricks",
     "litavis:cracked_mossy_granite_brick_stairs",
     "litavis:cracked_mossy_granite_brick_slab",
     "litavis:cracked_mossy_granite_brick_wall",
-    "litavis:scatterstone"
+    "litavis:cracked_mossy_granite_pillar",
+    "litavis:tripslate"
   ]
 }

@@ -3,6 +3,8 @@ package net.thefluffycart.litavis;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
@@ -12,9 +14,15 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.entity.ModEntities;
+import net.thefluffycart.litavis.entity.custom.BurrowEntity;
+import net.thefluffycart.litavis.entity.custom.MoleEntity;
 import net.thefluffycart.litavis.item.ModItemGroups;
 import net.thefluffycart.litavis.item.ModItems;
 import net.thefluffycart.litavis.item.custom.TerraformerItem;
+import net.thefluffycart.litavis.sound.ModSounds;
+import net.thefluffycart.litavis.world.gen.ModWorldGeneration;
+import net.thefluffycart.litavis.world.tree.ModTrunkPlacerTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +54,23 @@ public class Litavis implements ModInitializer {
 					return ActionResult.PASS;
 				}
 		);
+		registerStrippables();
+
+		ModSounds.registerSounds();
+		ModEntities.registerModEntities();
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModTrunkPlacerTypes.register();
+
+		ModWorldGeneration.generateModWorldGeneration();
+
+		FabricDefaultAttributeRegistry.register(ModEntities.MOLE, MoleEntity.createMoleAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntities.BURROW, BurrowEntity.createburrowAttributes());
+	}
+	private static void registerStrippables(){
+		StrippableBlockRegistry.register(ModBlocks.EUCALYPTUS_LOG, ModBlocks.STRIPPED_EUCALYPTUS_LOG);
+		StrippableBlockRegistry.register(ModBlocks.EUCALYPTUS_WOOD, ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
 	}
 }
 

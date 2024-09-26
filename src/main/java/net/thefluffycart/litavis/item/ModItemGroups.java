@@ -19,6 +19,8 @@ public class ModItemGroups {
                         entries.add(ModItems.BURROW_ROD);
                         entries.add(ModItems.TERRAFORMER);
                         entries.add(ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE);
+                        entries.add(ModItems.MOLE_SPAWN_EGG);
+                        entries.add(ModItems.ECHOING_HALLS_MUSIC_DISC);
 
                         entries.add(ModBlocks.GRANITE_BRICKS);
                         entries.add(ModBlocks.GRANITE_BRICK_STAIRS);
@@ -47,7 +49,13 @@ public class ModItemGroups {
 
 
                         entries.add(ModBlocks.CHISELED_GRANITE);
-                        entries.add(ModBlocks.SCATTERSTONE);
+                        entries.add(ModBlocks.TRIPSLATE);
+                        entries.add(ModBlocks.EUCALYPTUS_LOG);
+                        entries.add(ModBlocks.EUCALYPTUS_WOOD);
+                        entries.add(ModBlocks.STRIPPED_EUCALYPTUS_LOG);
+                        entries.add(ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
+                        entries.add(ModBlocks.EUCALYPTUS_PLANKS);
+                        entries.add(ModBlocks.EUCALYPTUS_SAPLING);
                     }).build());
 
     public static void registerItemGroups() {

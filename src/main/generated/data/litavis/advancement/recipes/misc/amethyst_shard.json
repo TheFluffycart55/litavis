@@ -11,27 +11,27 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_scatterstone": {
-      "conditions": {
-        "items": [
-          {
-            "items": "litavis:scatterstone"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "minecraft:amethyst_shard"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tripslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "litavis:tripslate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_scatterstone",
+      "has_tripslate",
       "has_amethyst_shard"
     ]
   ],

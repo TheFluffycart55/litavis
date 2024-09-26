@@ -23,16 +23,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     @Override
     public void generate(RecipeExporter exporter) {
         offerReversibleCompactingRecipes(exporter, RecipeCategory.BUILDING_BLOCKS, ModItems.BURROW_ROD, RecipeCategory.DECORATIONS
-                , ModBlocks.SCATTERSTONE);
+                , ModBlocks.TRIPSLATE);
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE, 1)
                 .pattern("STS")
                 .pattern("SRS")
                 .pattern("SSS")
                 .input('T', ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE)
-                .input('R', ModBlocks.SCATTERSTONE)
+                .input('R', ModBlocks.TRIPSLATE)
                 .input('S', Items.AMETHYST_SHARD)
-                .criterion(hasItem(ModBlocks.SCATTERSTONE), conditionsFromItem(ModBlocks.SCATTERSTONE))
+                .criterion(hasItem(ModBlocks.TRIPSLATE), conditionsFromItem(ModBlocks.TRIPSLATE))
                 .criterion(hasItem(Items.AMETHYST_SHARD), conditionsFromItem(Items.AMETHYST_SHARD))
                 .offerTo(exporter, Identifier.of(getRecipeName(Items.AMETHYST_SHARD)));
     }

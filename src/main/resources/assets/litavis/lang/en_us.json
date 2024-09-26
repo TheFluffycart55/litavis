@@ -6,8 +6,11 @@
   "item.litavis.burrow_rod": "Burrow Rod",
   "item.litavis.terraformer": "Terraformer",
   "item.litavis.entombed_armor_trim_smithing_template": "Smithing Template",
+  "item.litavis.mole_spawn_egg": "Mole Spawn Egg",
 
   "itemgroup.litavis": "Litavis",
+  "item.litavis.echoing_halls_music_disc": "Echoing Halls Music Disc",
+  "item.litavis.echoing_halls_music_disc.desc": "Sneakedy - Echoing Halls",
 
   "block.litavis.granite_bricks": "Granite Bricks",
   "block.litavis.granite_brick_stairs": "Granite Brick Stairs",
@@ -34,7 +37,7 @@
   "block.litavis.granite_pillar": "Cracked Mossy Granite Pillar",
 
   "block.litavis.chiseled_granite": "Chiseled Granite",
-  "block.litavis.scatterstone": "Scatterstone",
+  "block.litavis.tripslate": "Tripslate",
 
   "trim_pattern.litavis.entombed_armor_trim_smithing_template": "Entombed Armor Trim",
   "trim_pattern.litavis.entombed_armor_trim": "Entombed Armor Trim"

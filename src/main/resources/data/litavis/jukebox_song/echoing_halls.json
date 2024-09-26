@@ -1,0 +1,9 @@
+{
+  "comparator_output": 10,
+  "description":
+  {
+    "translate": "item.litavis.echoing_halls_music_disc.desc"
+  },
+  "length_in_seconds": 78,
+  "sound_event": "litavis:echoing_halls"
+}

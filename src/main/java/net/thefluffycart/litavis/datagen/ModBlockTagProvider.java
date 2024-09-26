@@ -17,36 +17,25 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
 
-                .add(ModBlocks.GRANITE_PILLAR)
-                .add(ModBlocks.CHISELED_GRANITE)
+                .add(ModBlocks.GRANITE_PILLAR, ModBlocks.CHISELED_GRANITE, ModBlocks.GRANITE_BRICKS,
+                        ModBlocks.GRANITE_BRICK_STAIRS, ModBlocks.GRANITE_BRICK_SLAB, ModBlocks.GRANITE_BRICK_WALL)
 
-                .add(ModBlocks.GRANITE_BRICKS)
-                .add(ModBlocks.GRANITE_BRICK_STAIRS)
-                .add(ModBlocks.GRANITE_BRICK_SLAB)
-                .add(ModBlocks.GRANITE_BRICK_WALL)
+                .add(ModBlocks.MOSSY_GRANITE_BRICKS, ModBlocks.MOSSY_GRANITE_BRICK_STAIRS,
+                        ModBlocks.MOSSY_GRANITE_BRICK_SLAB, ModBlocks.MOSSY_GRANITE_BRICK_WALL, ModBlocks.MOSSY_GRANITE_PILLAR)
 
-                .add(ModBlocks.MOSSY_GRANITE_BRICKS)
-                .add(ModBlocks.MOSSY_GRANITE_BRICK_STAIRS)
-                .add(ModBlocks.MOSSY_GRANITE_BRICK_SLAB)
-                .add(ModBlocks.MOSSY_GRANITE_BRICK_WALL)
-                .add(ModBlocks.MOSSY_GRANITE_PILLAR)
+                .add(ModBlocks.CRACKED_GRANITE_BRICKS, ModBlocks.CRACKED_GRANITE_BRICK_STAIRS, ModBlocks.CRACKED_GRANITE_BRICK_SLAB,
+                        ModBlocks.CRACKED_GRANITE_BRICK_WALL, ModBlocks.CRACKED_GRANITE_PILLAR)
 
-                .add(ModBlocks.CRACKED_GRANITE_BRICKS)
-                .add(ModBlocks.CRACKED_GRANITE_BRICK_STAIRS)
-                .add(ModBlocks.CRACKED_GRANITE_BRICK_SLAB)
-                .add(ModBlocks.CRACKED_GRANITE_BRICK_WALL)
-                .add(ModBlocks.CRACKED_GRANITE_PILLAR)
+                .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICKS, ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_STAIRS, ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB,
+                        ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL, ModBlocks.CRACKED_MOSSY_GRANITE_PILLAR)
 
-                .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICKS)
-                .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_STAIRS)
-                .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB)
-                .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL)
-                .add(ModBlocks.CRACKED_MOSSY_GRANITE_PILLAR)
-
-                .add(ModBlocks.SCATTERSTONE);
+                .add(ModBlocks.TRIPSLATE);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.MOSSY_GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL);
+
+        getOrCreateTagBuilder(BlockTags.LOGS)
+                .add(ModBlocks.EUCALYPTUS_LOG, ModBlocks.EUCALYPTUS_WOOD, ModBlocks.STRIPPED_EUCALYPTUS_LOG, ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
     }
 }

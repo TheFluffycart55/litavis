@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "litavis:block/tripslate_top",
+    "side": "litavis:block/tripslate"
+  }
+}
