@@ -8,9 +8,7 @@
 	],
 
 	"client": [
-		"ItemRendererAccessor",
-		"ItemRendererMixin",
-		"ModelLoaderMixin"
+
 	],
 	"injectors": {
 		"defaultRequire": 1

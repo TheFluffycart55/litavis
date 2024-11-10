@@ -17,7 +17,7 @@ public class BurrowModel extends SinglePartEntityModel<BurrowEntity>{
 
     public BurrowModel(ModelPart root) {
         this.burrow = root.getChild("burrow");
-        this.head = root.getChild("burrow").getChild("head");
+        this.head = this.burrow.getChild("head");
     }
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
@@ -53,14 +53,13 @@ public class BurrowModel extends SinglePartEntityModel<BurrowEntity>{
 
         ModelPartData base = head.addChild("base", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 4.0F, 0.0F));
 
-        ModelPartData top_base = base.addChild("top_base", ModelPartBuilder.create().uv(36, 29).cuboid(-2.5F, -1.0F, -2.5F, 5.0F, 2.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -5.0F, 0.0F));
+        ModelPartData top_base = base.addChild("top_base", ModelPartBuilder.create().uv(35, 19).cuboid(-2.9F, -1.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -5.0F, 0.0F));
 
-        ModelPartData bottom_base = base.addChild("bottom_base", ModelPartBuilder.create().uv(36, 37).cuboid(-1.5F, -0.5F, -1.5F, 3.0F, 1.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -0.5F, 0.0F));
+        ModelPartData bottom_base = base.addChild("bottom_base", ModelPartBuilder.create().uv(40, 31).cuboid(-1.5F, -1.5F, -1.5F, 3.0F, 2.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -0.5F, 0.0F));
 
         ModelPartData dust_trail = burrow.addChild("dust_trail", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, -6.0F, 0.0F));
         return TexturedModelData.of(modelData, 64, 64);
     }
-
     @Override
     public void setAngles(BurrowEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.getPart().traverse().forEach(ModelPart::resetTransform);

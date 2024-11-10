@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "litavis:block/calibrated_tripslate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "litavis:block/calibrated_tripslate"
+    },
+    "axis=z": {
+      "model": "litavis:block/calibrated_tripslate_horizontal",
+      "x": 90
+    }
+  }
+}
