@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#",
+        "#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:granite"
+        }
+    },
+    "result": {
+        "id": "litavis:granite_pillar",
+        "count": 1
+    }
+}

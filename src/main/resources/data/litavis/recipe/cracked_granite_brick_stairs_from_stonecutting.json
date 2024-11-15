@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "litavis:cracked_granite_bricks"
+    },
+    "result": {
+        "id": "litavis:cracked_granite_brick_stairs",
+        "count": 1
+    }
+}

@@ -23,7 +23,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
-import net.thefluffycart.litavis.sound.ModSounds;
 
 import java.util.EnumSet;
 
@@ -32,20 +31,17 @@ public class BurrowEntity extends HostileEntity {
     public final AnimationState diggingAnimationState = new AnimationState();
     private float eyeOffset = 0f;
     private int eyeOffsetCooldown;
+    private boolean burrowing = false;
     private static final TrackedData<Byte> BURROW_FLAGS = DataTracker.registerData(BurrowEntity.class, TrackedDataHandlerRegistry.BYTE);
 
     public BurrowEntity(EntityType<? extends BurrowEntity> entityType, World world) {
 
         super((EntityType<? extends HostileEntity>)entityType, world);
-        this.setPathfindingPenalty(PathNodeType.WATER, -1.0f);
-        this.setPathfindingPenalty(PathNodeType.LAVA, 8.0f);
-        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0f);
-        this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0f);
         this.experiencePoints = 10;
     }
 
     protected void initGoals() {
-        this.goalSelector.add(4, new BurrowEntity.ShootFireballGoal(this));
+        this.goalSelector.add(4, new BurrowEntity.ShootEarthchargeGoal(this));
         this.goalSelector.add(5, new GoToWalkTargetGoal(this, 1.0));
         this.goalSelector.add(7, new WanderAroundFarGoal((PathAwareEntity)this, 1.0, 0.0f));
         this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
@@ -55,7 +51,10 @@ public class BurrowEntity extends HostileEntity {
     }
 
     public static DefaultAttributeContainer.Builder createburrowAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23f).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23f)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class BurrowEntity extends HostileEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.BURROW_IDLE;
+        return SoundEvents.ENTITY_BREEZE_IDLE_GROUND;
     }
 
     @Override
@@ -80,41 +79,16 @@ public class BurrowEntity extends HostileEntity {
     }
 
     @Override
-    public float getBrightnessAtEyes() {
-        return 1.0f;
-    }
-
-    @Override
-    public boolean isOnFire() {
-        return this.isFireActive();
-    }
-
-    private boolean isFireActive() {
-        return (this.dataTracker.get(BURROW_FLAGS) & 1) != 0;
-    }
-
-    void setFireActive(boolean fireActive) {
-        byte b = this.dataTracker.get(BURROW_FLAGS);
-        b = fireActive ? (byte)(b | 1) : (byte)(b & 0xFFFFFFFE);
-        this.dataTracker.set(BURROW_FLAGS, b);
-    }
-
-    @Override
     public void tickMovement() {
         if (!this.isOnGround() && this.getVelocity().y < 0.0) {
             this.setVelocity(this.getVelocity().multiply(1.0, 0.6, 1.0));
         }
         if (this.getWorld().isClient) {
             if (this.random.nextInt(24) == 0 && !this.isSilent()) {
-                this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, ModSounds.BURROW_GROAN, this.getSoundCategory(), 1.0f + this.random.nextFloat(), this.random.nextFloat() * 0.7f + 0.3f, false);
+                this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BREEZE_INHALE, this.getSoundCategory(), 1.0f + this.random.nextFloat(), this.random.nextFloat() * 0.7f + 0.3f, false);
             }
         }
         super.tickMovement();
-    }
-
-    @Override
-    public boolean hurtByWater() {
-        return true;
     }
 
     @Override
@@ -133,14 +107,29 @@ public class BurrowEntity extends HostileEntity {
         super.mobTick();
     }
 
-    static class ShootFireballGoal
+    static class BurrowAttack extends Goal
+    {
+        private final BurrowEntity burrow;
+        
+        public BurrowAttack(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        }
+        @Override
+        public boolean canStart() {
+            LivingEntity livingEntity = this.burrow.getTarget();
+            return livingEntity != null && livingEntity.isAlive() && this.burrow.canTarget(livingEntity);
+        }
+    }
+    
+    static class ShootEarthchargeGoal
             extends Goal {
         private final BurrowEntity burrow;
-        private int fireballsFired;
-        private int fireballCooldown;
+        private int earthChargesFired;
+        private int earthChargesCooldown;
         private int targetNotVisibleTicks;
 
-        public ShootFireballGoal(BurrowEntity burrow) {
+        public ShootEarthchargeGoal(BurrowEntity burrow) {
             this.burrow = burrow;
             this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
         }
@@ -153,13 +142,7 @@ public class BurrowEntity extends HostileEntity {
 
         @Override
         public void start() {
-            this.fireballsFired = 0;
-        }
-
-        @Override
-        public void stop() {
-            this.burrow.setFireActive(false);
-            this.targetNotVisibleTicks = 0;
+            this.earthChargesFired = 0;
         }
 
         @Override
@@ -170,7 +153,7 @@ public class BurrowEntity extends HostileEntity {
 
         @Override
         public void tick() {
-            --this.fireballCooldown;
+            --this.earthChargesCooldown;
             LivingEntity livingEntity = this.burrow.getTarget();
             if (livingEntity == null) {
                 return;
@@ -182,8 +165,8 @@ public class BurrowEntity extends HostileEntity {
                 if (!bl) {
                     return;
                 }
-                if (this.fireballCooldown <= 0) {
-                    this.fireballCooldown = 20;
+                if (this.earthChargesCooldown <= 0) {
+                    this.earthChargesCooldown = 20;
                     this.burrow.tryAttack(livingEntity);
                 }
                 this.burrow.getMoveControl().moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), 1.0);
@@ -191,19 +174,17 @@ public class BurrowEntity extends HostileEntity {
                 double e = livingEntity.getX() - this.burrow.getX();
                 double f = livingEntity.getBodyY(0.5) - this.burrow.getBodyY(0.5);
                 double g = livingEntity.getZ() - this.burrow.getZ();
-                if (this.fireballCooldown <= 0) {
-                    ++this.fireballsFired;
-                    if (this.fireballsFired == 1) {
-                        this.fireballCooldown = 60;
-                        this.burrow.setFireActive(true);
-                    } else if (this.fireballsFired <= 4) {
-                        this.fireballCooldown = 6;
+                if (this.earthChargesCooldown <= 0) {
+                    ++this.earthChargesFired;
+                    if (this.earthChargesFired == 1) {
+                        this.earthChargesCooldown = 60;
+                    } else if (this.earthChargesFired <= 4) {
+                        this.earthChargesCooldown = 6;
                     } else {
-                        this.fireballCooldown = 100;
-                        this.fireballsFired = 0;
-                        this.burrow.setFireActive(false);
+                        this.earthChargesCooldown = 100;
+                        this.earthChargesFired = 0;
                     }
-                    if (this.fireballsFired > 1) {
+                    if (this.earthChargesFired > 1) {
                         double h = Math.sqrt(Math.sqrt(d)) * 0.5;
                         if (!this.burrow.isSilent()) {
                             this.burrow.getWorld().syncWorldEvent(null, WorldEvents.BLAZE_SHOOTS, this.burrow.getBlockPos(), 0);

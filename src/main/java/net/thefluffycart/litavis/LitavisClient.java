@@ -21,6 +21,9 @@ public class LitavisClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.BURROW, BurrowModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.BURROW, BurrowRenderer::new);
 
+        EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.EARTH_CHARGE, EarthChargeModel::getTexturedModelData);
+        EntityRendererRegistry.register(ModEntities.EARTH_CHARGE, EarthChargeRenderer::new);
+
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.EUCALYPTUS_SAPLING, RenderLayer.getCutout());
     }
 }

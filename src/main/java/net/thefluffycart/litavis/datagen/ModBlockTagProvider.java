@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.util.ModTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -28,7 +29,9 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICKS, ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_STAIRS, ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB,
                         ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL, ModBlocks.CRACKED_MOSSY_GRANITE_PILLAR)
 
-                .add(ModBlocks.TRIPSLATE);
+                .add(ModBlocks.TRIPSLATE)
+                .add(ModBlocks.TRIPSLATE_BRICKS);
+
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.MOSSY_GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_GRANITE_BRICK_WALL);
@@ -37,11 +40,19 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.EUCALYPTUS_FENCE);
         getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(ModBlocks.EUCALYPTUS_FENCE_GATE);
 
+        getOrCreateTagBuilder(BlockTags.MOSS_REPLACEABLE)
+                .add(ModBlocks.TRIPSLATE);
         getOrCreateTagBuilder(BlockTags.PLANKS)
                 .add(ModBlocks.EUCALYPTUS_PLANKS);
 
         getOrCreateTagBuilder(BlockTags.LEAVES)
                 .add(ModBlocks.EUCALYPTUS_LEAVES);
+
+        getOrCreateTagBuilder(ModTags.Blocks.TRIPSLATE_BRICK_VARIANTS)
+                .add(ModBlocks.TRIPSLATE_BRICKS)
+                .add(ModBlocks.CRACKED_TRIPSLATE_BRICKS)
+                .add(ModBlocks.MOSSY_TRIPSLATE_BRICKS)
+                .add(ModBlocks.CHISELED_TRIPSLATE);
 
         getOrCreateTagBuilder(BlockTags.LOGS)
                 .add(ModBlocks.EUCALYPTUS_LOG, ModBlocks.EUCALYPTUS_WOOD, ModBlocks.STRIPPED_EUCALYPTUS_LOG, ModBlocks.STRIPPED_EUCALYPTUS_WOOD);

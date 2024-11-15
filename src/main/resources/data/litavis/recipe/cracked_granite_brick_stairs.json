@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "litavis:cracked_granite_bricks"
+        }
+    },
+    "result": {
+        "id": "litavis:cracked_granite_brick_stairs",
+        "count": 4
+    }
+}

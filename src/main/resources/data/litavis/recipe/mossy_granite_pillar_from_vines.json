@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#V"
+    ],
+    "key": {
+        "#": {
+            "item": "litavis:granite_pillar"
+        },
+        "V": {
+            "item": "minecraft:vine"
+        }
+    },
+    "result": {
+        "id": "litavis:mossy_granite_pillar",
+        "count": 1
+    }
+}

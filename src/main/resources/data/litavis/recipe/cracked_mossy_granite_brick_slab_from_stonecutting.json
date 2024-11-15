@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "litavis:cracked_mossy_granite_bricks"
+    },
+    "result": {
+        "id": "litavis:cracked_mossy_granite_brick_slab",
+        "count": 2
+    }
+}

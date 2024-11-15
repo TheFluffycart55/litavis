@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#V"
+    ],
+    "key": {
+        "#": {
+            "item": "litavis:cracked_granite_bricks"
+        },
+        "V": {
+            "item": "minecraft:moss_block"
+        }
+    },
+    "result": {
+        "id": "litavis:cracked_mossy_granite_bricks",
+        "count": 1
+    }
+}

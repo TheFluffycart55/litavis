@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "litavis:granite_bricks"
+        }
+    },
+    "result": {
+        "id": "litavis:granite_brick_slab",
+        "count": 6
+    }
+}

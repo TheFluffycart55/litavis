@@ -1,4 +1,4 @@
-// 1.21	2024-10-10T16:14:18.7227567	Litavis/Block Loot Tables
+// 1.21.1	2024-11-15T12:15:20.9901577	Litavis/Block Loot Tables
 9b6820fe031bc2e18911dbbdf35a1b96f5ce0153 data\litavis\loot_table\blocks\cracked_granite_pillar.json
 1f43ac64447851bcb3bb0f1986757edafd118d7a data\litavis\loot_table\blocks\eucalyptus_sapling.json
 42d9ccae71be46e65492237ad4b14f2eda34c1f0 data\litavis\loot_table\blocks\mossy_granite_pillar.json
@@ -7,12 +7,13 @@ ab19503bc9786e07b83e03ab3b62792d6c3ab8d2 data\litavis\loot_table\blocks\cracked_
 ef5cb672301378e83960d4f5be8ea14780ab0174 data\litavis\loot_table\blocks\cracked_granite_brick_slab.json
 231f34fff3cf6d4e52f00c1bf527c7829103d6bb data\litavis\loot_table\blocks\tripslate.json
 5b731edb7a8ae5f760d8fb7b252f0ba37e0f1d9a data\litavis\loot_table\blocks\eucalyptus_wood.json
-196dcc60cca876ed702c10b224cae6e9ed5636a4 data\litavis\loot_table\blocks\granite_brick_slab.json
 4e2ecb2a4e0a3c51d416808064371deb332141fc data\litavis\loot_table\blocks\granite_brick_stairs.json
+196dcc60cca876ed702c10b224cae6e9ed5636a4 data\litavis\loot_table\blocks\granite_brick_slab.json
 124328dce3f1c05de802d578c54d6587ca36483c data\litavis\loot_table\blocks\cracked_granite_bricks.json
 3bde4cf1f489394051b8a69d1a34fe6b4e1744cc data\litavis\loot_table\blocks\cracked_granite_brick_stairs.json
 04304665160795e44ebd36921150031f9e17bdde data\litavis\loot_table\blocks\eucalyptus_leaves.json
 3ae9cb47b90826e5f1073edef1f2d1809c58d770 data\litavis\loot_table\blocks\stripped_eucalyptus_log.json
+892aa5920c47ff7429c4529c62477011df5f8b39 data\litavis\loot_table\blocks\tripslate_bricks.json
 6d55e427477c0ae12a7bd2374570459a13f339e3 data\litavis\loot_table\blocks\granite_pillar.json
 8cbcdee213feddc204fc3fadd666713f6356ff1b data\litavis\loot_table\blocks\mossy_granite_brick_wall.json
 05a247fc4a522dfcdfc707713b863d5d4ad826dc data\litavis\loot_table\blocks\granite_brick_wall.json

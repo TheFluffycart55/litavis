@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "E": {
+      "item": "litavis:earth_charge"
+    },
+    "G": {
+      "item": "litavis:granite_tablet"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "EGI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "litavis:terraformer"
+  }
+}

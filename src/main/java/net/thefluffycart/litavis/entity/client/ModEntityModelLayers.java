@@ -9,4 +9,6 @@ public class ModEntityModelLayers {
             new EntityModelLayer(Identifier.of(Litavis.MOD_ID, "mole"), "main");
     public static final EntityModelLayer BURROW =
             new EntityModelLayer(Identifier.of(Litavis.MOD_ID, "burrow"), "main");
+    public static final EntityModelLayer EARTH_CHARGE =
+            new EntityModelLayer(Identifier.of(Litavis.MOD_ID, "earth_charge"), "main");
 }

@@ -1,7 +1,11 @@
-// 1.21	2024-10-10T16:14:18.7197652	Litavis/Recipes
+// 1.21.1	2024-11-15T12:15:20.9881643	Litavis/Recipes
 d6712252c710e132c7b3924aab8295f4bd8227f9 data\litavis\advancement\recipes\decorations\tripslate.json
-95f33dccf71062b1f7d3c4ea91e9e379d946c356 data\litavis\advancement\recipes\misc\amethyst_shard.json
+48c9c4b9049e0bbe4e98c19057950165eba44868 data\litavis\recipe\terraformer_crafting.json
+b925181451a54a118520a6f2a432082001883632 data\litavis\advancement\recipes\building_blocks\tripslate_crafting.json
+8deca5f756e55ac06e8886d41d43bd4183afabb3 data\litavis\advancement\recipes\building_blocks\terraformer_crafting.json
 e115005821a9b25ebd343fd83ea2b28d52435c62 data\litavis\recipe\burrow_rod.json
 f18a89328151a69e820d9ef7b0ef1afd70530fda data\litavis\advancement\recipes\building_blocks\burrow_rod.json
+a49a0799b6f69792e92b53e6e2fb433623f751a1 data\litavis\recipe\tripslate_crafting.json
+2367bf813b0d9bc1664923613568bc9227c36fc9 data\litavis\recipe\tripslate_bricks_crafting.json
+5e312e1f26857a5ea04f5ac0b0e9cabaca21792c data\litavis\advancement\recipes\building_blocks\tripslate_bricks_crafting.json
 cca80bc5195a0866b6d3e1d13c535fe93e0e9894 data\litavis\recipe\tripslate.json
-8f5cb21b803b4a624f0c6f4f7948dd18fe09092d data\litavis\recipe\amethyst_shard.json

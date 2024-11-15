@@ -24,6 +24,10 @@ public class ModItemGroups {
                         entries.add(ModBlocks.GRAVEL_EXHAUST);
 
                         entries.add(ModBlocks.TRIPSLATE);
+                        entries.add(ModBlocks.TRIPSLATE_BRICKS);
+                        entries.add(ModBlocks.CRACKED_TRIPSLATE_BRICKS);
+                        entries.add(ModBlocks.MOSSY_TRIPSLATE_BRICKS);
+                        entries.add(ModBlocks.CHISELED_TRIPSLATE);
                         entries.add(ModBlocks.CALIBRATED_TRIPSLATE);
 
                         entries.add(ModItems.GRANITE_TABLET);

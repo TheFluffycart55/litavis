@@ -12,13 +12,22 @@ import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
 import net.thefluffycart.litavis.block.custom.GravelExhaustBlock;
 import net.thefluffycart.litavis.block.custom.TripslateBlock;
+import net.thefluffycart.litavis.block.custom.TripslateBrickBlock;
 import net.thefluffycart.litavis.world.tree.ModSaplingGenerators;
 
 public class ModBlocks {
 
     public static final Block TRIPSLATE = registerBlock("tripslate",
             new TripslateBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5f, 6.0f)));
-   public static final Block CALIBRATED_TRIPSLATE = registerBlock("calibrated_tripslate",
+    public static final Block TRIPSLATE_BRICKS = registerBlock("tripslate_bricks",
+            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block CRACKED_TRIPSLATE_BRICKS = registerBlock("mossy_tripslate_bricks",
+            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block MOSSY_TRIPSLATE_BRICKS = registerBlock("cracked_tripslate_bricks",
+            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block CHISELED_TRIPSLATE = registerBlock("chiseled_tripslate",
+            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block CALIBRATED_TRIPSLATE = registerBlock("calibrated_tripslate",
             new TripslateBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
     public static final Block EUCALYPTUS_LOG = registerBlock("eucalyptus_log",
             new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
@@ -62,9 +71,9 @@ public class ModBlocks {
 
     //Granite Variants
     public static final Block GRANITE_PILLAR = registerBlock("granite_pillar",
-            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block GRANITE_BRICKS = registerBlock("granite_bricks",
-            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block GRANITE_BRICK_STAIRS = registerBlock("granite_brick_stairs",
             new StairsBlock(ModBlocks.GRANITE_BRICKS.getDefaultState(),
                     FabricBlockSettings.copyOf(Blocks.GRANITE)));
@@ -76,45 +85,45 @@ public class ModBlocks {
 
     //Cracked Granite Variants
     public static final Block CRACKED_GRANITE_PILLAR = registerBlock("cracked_granite_pillar",
-            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_GRANITE_BRICKS = registerBlock("cracked_granite_bricks",
-            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_GRANITE_BRICK_STAIRS = registerBlock("cracked_granite_brick_stairs",
             new StairsBlock(ModBlocks.GRANITE_BRICKS.getDefaultState(),
-                    FabricBlockSettings.copyOf(Blocks.GRANITE)));
+                    FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_GRANITE_BRICK_SLAB = registerBlock("cracked_granite_brick_slab",
-            new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE)));
+            new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_GRANITE_BRICK_WALL = registerBlock("cracked_granite_brick_wall",
-            new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE)));
+            new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
 
     //Mossy Granite Variants
     public static final Block MOSSY_GRANITE_PILLAR = registerBlock("mossy_granite_pillar",
-            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block MOSSY_GRANITE_BRICKS = registerBlock("mossy_granite_bricks",
-            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block MOSSY_GRANITE_BRICK_STAIRS = registerBlock("mossy_granite_brick_stairs",
             new StairsBlock(ModBlocks.GRANITE_BRICKS.getDefaultState(),
-                    FabricBlockSettings.copyOf(Blocks.GRANITE)));
+                    FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block MOSSY_GRANITE_BRICK_SLAB = registerBlock("mossy_granite_brick_slab",
-            new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE)));
+            new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block MOSSY_GRANITE_BRICK_WALL = registerBlock("mossy_granite_brick_wall",
-            new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE)));
+            new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
 
     //Cracked Mossy Granite Variants
     public static final Block CRACKED_MOSSY_GRANITE_PILLAR = registerBlock("cracked_mossy_granite_pillar",
-            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new PillarBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_MOSSY_GRANITE_BRICKS = registerBlock("cracked_mossy_granite_bricks",
-            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_MOSSY_GRANITE_BRICK_STAIRS = registerBlock("cracked_mossy_granite_brick_stairs",
             new StairsBlock(ModBlocks.GRANITE_BRICKS.getDefaultState(),
-                    FabricBlockSettings.copyOf(Blocks.GRANITE)));
+                    FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_MOSSY_GRANITE_BRICK_SLAB = registerBlock("cracked_mossy_granite_brick_slab",
-            new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE)));
+            new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_MOSSY_GRANITE_BRICK_WALL = registerBlock("cracked_mossy_granite_brick_wall",
-            new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE)));
+            new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
 
     public static final Block CHISELED_GRANITE = registerBlock("chiseled_granite",
-            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.STONE)));
+            new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
 
     public static final Block GRAVEL_EXHAUST = registerBlock("gravel_exhaust",
             new GravelExhaustBlock(AbstractBlock.Settings.create().strength(3.0f, 6.0f).sounds(BlockSoundGroup.COPPER_GRATE).mapColor(MapColor.ORANGE).requiresTool().nonOpaque()));

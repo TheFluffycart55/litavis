@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "litavis:block/cracked_tripslate_bricks"
+    }
+  }
+}

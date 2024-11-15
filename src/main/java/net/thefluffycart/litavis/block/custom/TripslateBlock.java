@@ -93,6 +93,7 @@ public class TripslateBlock extends PillarBlock {
     }
 
     protected void configureFallingBlockEntity(FallingBlockEntity entity) {
+        entity.setHurtEntities(1.5F, 40);
     }
 
     public static boolean canFallThrough(BlockState state) {
