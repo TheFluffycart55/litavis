@@ -13,6 +13,7 @@ public class EarthChargeModel extends SinglePartEntityModel<EarthChargeEntity>{
         this.earth_charge = root.getChild("earth_charge");
         this.pebbles = root.getChild("pebbles");
     }
+    //Test
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
