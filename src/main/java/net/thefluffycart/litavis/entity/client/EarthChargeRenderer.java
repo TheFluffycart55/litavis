@@ -20,7 +20,7 @@ import net.thefluffycart.litavis.entity.custom.EarthChargeEntity;
 @Environment(EnvType.CLIENT)
 public class EarthChargeRenderer extends EntityRenderer<EarthChargeEntity> {
     private static final float field_52258 = MathHelper.square(3.5F);
-    private static final Identifier TEXTURE = Identifier.of(Litavis.MOD_ID, "textures/entity/earth_charge_anim.png");
+    private static final Identifier TEXTURE = Identifier.of(Litavis.MOD_ID, "textures/entity/earth_charge.png");
     private final EarthChargeModel model;
 
     public EarthChargeRenderer(EntityRendererFactory.Context context) {
@@ -32,9 +32,12 @@ public class EarthChargeRenderer extends EntityRenderer<EarthChargeEntity> {
     public void render(EarthChargeEntity earthChargeEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         if (earthChargeEntity.age >= 2 || !(this.dispatcher.camera.getFocusedEntity().squaredDistanceTo(earthChargeEntity) < (double)field_52258)) {
             float h = (float)earthChargeEntity.age + g;
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getBreezeWind(TEXTURE, this.getXOffset(h) % 1.0F, 0.0F));
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
+            matrixStack.push();
+            matrixStack.translate(0.0, -1, 0.0);
             this.model.setAngles(earthChargeEntity, 0.0F, 0.0F, h, 0.0F, 0.0F);
             this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+            matrixStack.pop();
             super.render(earthChargeEntity, f, g, matrixStack, vertexConsumerProvider, i);
         }
     }

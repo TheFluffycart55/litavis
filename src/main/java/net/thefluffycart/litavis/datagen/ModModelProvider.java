@@ -26,7 +26,6 @@ public class ModModelProvider extends FabricModelProvider {
         BlockStateModelGenerator.BlockTexturePool crackedTripslateBrickTexturePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.CRACKED_TRIPSLATE_BRICKS);
         BlockStateModelGenerator.BlockTexturePool eucalyptusTexturePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.EUCALYPTUS_PLANKS);
 
-
         graniteBrickTexturePool.stairs(ModBlocks.GRANITE_BRICK_STAIRS);
         graniteBrickTexturePool.slab(ModBlocks.GRANITE_BRICK_SLAB);
         graniteBrickTexturePool.wall(ModBlocks.GRANITE_BRICK_WALL);
@@ -43,6 +42,18 @@ public class ModModelProvider extends FabricModelProvider {
         crackedMossyGraniteBrickTexturePool.slab(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB);
         crackedMossyGraniteBrickTexturePool.wall(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL);
 
+        tripslateBrickTexturePool.stairs(ModBlocks.TRIPSLATE_BRICK_STAIRS);
+        tripslateBrickTexturePool.slab(ModBlocks.TRIPSLATE_BRICK_SLAB);
+        tripslateBrickTexturePool.wall(ModBlocks.TRIPSLATE_BRICK_WALL);
+
+        crackedTripslateBrickTexturePool.stairs(ModBlocks.CRACKED_TRIPSLATE_BRICK_STAIRS);
+        crackedTripslateBrickTexturePool.slab(ModBlocks.CRACKED_TRIPSLATE_BRICK_SLAB);
+        crackedTripslateBrickTexturePool.wall(ModBlocks.CRACKED_TRIPSLATE_BRICK_WALL);
+
+        mossyTripslateBrickTexturePool.stairs(ModBlocks.MOSSY_TRIPSLATE_BRICK_STAIRS);
+        mossyTripslateBrickTexturePool.slab(ModBlocks.MOSSY_TRIPSLATE_BRICK_SLAB);
+        mossyTripslateBrickTexturePool.wall(ModBlocks.MOSSY_TRIPSLATE_BRICK_WALL);
+
         blockStateModelGenerator.registerLog(ModBlocks.EUCALYPTUS_LOG).log(ModBlocks.EUCALYPTUS_LOG).wood(ModBlocks.EUCALYPTUS_WOOD);
         blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_EUCALYPTUS_LOG).log(ModBlocks.STRIPPED_EUCALYPTUS_LOG).wood(ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
 
@@ -58,17 +69,14 @@ public class ModModelProvider extends FabricModelProvider {
 
         blockStateModelGenerator.registerDoor(ModBlocks.EUCALYPTUS_DOOR);
         blockStateModelGenerator.registerOrientableTrapdoor(ModBlocks.EUCALYPTUS_TRAPDOOR);
-
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.BURROW_ROD, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ENTOMBED_KEY, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARTH_CHARGE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.ECHOING_HALLS_MUSIC_DISC, Models.GENERATED);
         itemModelGenerator.register(ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.MOLE_SPAWN_EGG,
-                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         itemModelGenerator.register(ModItems.BURROW_SPAWN_EGG,
                 new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
     }

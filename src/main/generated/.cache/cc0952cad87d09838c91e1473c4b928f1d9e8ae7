@@ -1,10 +1,9 @@
-// 1.21.1	2024-11-15T12:15:20.9891608	Litavis/Tags for minecraft:block
+// 1.21.1	2024-12-05T00:08:42.979705	Litavis/Tags for minecraft:block
 f2cb8853f48db95e6940b18b16fcca23b832b174 data\minecraft\tags\block\leaves.json
-98fa0a9f44bccd65b8e150f2807b1e3fc7bdc1b8 data\minecraft\tags\block\mineable\pickaxe.json
 0335ba64d2a61959216e5721aa833852e6ec7ae5 data\minecraft\tags\block\logs.json
-21f6ab94601fad5fbf1c27a0b62e13ac5d154f42 data\litavis\tags\block\tripslate_brick_variants.json
-b163091ae5c45cc462925477285893d1220e04b4 data\minecraft\tags\block\fences.json
+0ca9f4dd4df0aec919fa792f5700c79a8a80cfa7 data\minecraft\tags\block\mineable\pickaxe.json
 c61ed250b448725f46210af040475f4c4b09118f data\minecraft\tags\block\fence_gates.json
-ece2e98b87b230801c2c1d6044b87f71e3067e6b data\minecraft\tags\block\moss_replaceable.json
-54e84b7ae51df4c4d58d9a50933c62788987bc96 data\minecraft\tags\block\walls.json
 7754f623280be7b8bccf994b25b8ce8a7d1b8e04 data\minecraft\tags\block\planks.json
+b163091ae5c45cc462925477285893d1220e04b4 data\minecraft\tags\block\fences.json
+7bf4ffdb296d356fec4297a08c4d104e7718bdb8 data\minecraft\tags\block\walls.json
+ece2e98b87b230801c2c1d6044b87f71e3067e6b data\minecraft\tags\block\moss_replaceable.json

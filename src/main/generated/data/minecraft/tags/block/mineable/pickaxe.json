@@ -21,7 +21,20 @@
     "litavis:cracked_mossy_granite_brick_slab",
     "litavis:cracked_mossy_granite_brick_wall",
     "litavis:cracked_mossy_granite_pillar",
+    "litavis:tripslate_bricks",
+    "litavis:tripslate_brick_stairs",
+    "litavis:tripslate_brick_slab",
+    "litavis:tripslate_brick_wall",
+    "litavis:cracked_tripslate_bricks",
+    "litavis:mossy_tripslate_brick_stairs",
+    "litavis:mossy_tripslate_brick_slab",
+    "litavis:mossy_tripslate_brick_wall",
+    "litavis:mossy_tripslate_bricks",
+    "litavis:cracked_tripslate_brick_stairs",
+    "litavis:cracked_tripslate_brick_slab",
+    "litavis:cracked_tripslate_brick_wall",
+    "litavis:polished_tripslate",
     "litavis:tripslate",
-    "litavis:tripslate_bricks"
+    "litavis:calibrated_tripslate"
   ]
 }

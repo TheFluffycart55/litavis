@@ -3,6 +3,8 @@ package net.thefluffycart.litavis.block;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -10,25 +12,51 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
-import net.thefluffycart.litavis.block.custom.GravelExhaustBlock;
-import net.thefluffycart.litavis.block.custom.TripslateBlock;
-import net.thefluffycart.litavis.block.custom.TripslateBrickBlock;
+import net.thefluffycart.litavis.block.custom.*;
 import net.thefluffycart.litavis.world.tree.ModSaplingGenerators;
 
 public class ModBlocks {
 
     public static final Block TRIPSLATE = registerBlock("tripslate",
-            new TripslateBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5f, 6.0f)));
-    public static final Block TRIPSLATE_BRICKS = registerBlock("tripslate_bricks",
-            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
-    public static final Block CRACKED_TRIPSLATE_BRICKS = registerBlock("mossy_tripslate_bricks",
-            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
-    public static final Block MOSSY_TRIPSLATE_BRICKS = registerBlock("cracked_tripslate_bricks",
-            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
-    public static final Block CHISELED_TRIPSLATE = registerBlock("chiseled_tripslate",
-            new TripslateBrickBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
-    public static final Block CALIBRATED_TRIPSLATE = registerBlock("calibrated_tripslate",
             new TripslateBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block TRIPSLATE_BRICKS = registerBlock("tripslate_bricks",
+            new Block(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block POLISHED_TRIPSLATE = registerBlock("polished_tripslate",
+            new Block(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block CRACKED_TRIPSLATE_BRICKS = registerBlock("mossy_tripslate_bricks",
+            new Block(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block MOSSY_TRIPSLATE_BRICKS = registerBlock("cracked_tripslate_bricks",
+            new Block(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block CHISELED_TRIPSLATE = registerBlock("chiseled_tripslate",
+            new Block(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.TERRACOTTA_BROWN).requiresTool().strength(1.5F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+    public static final Block CALIBRATED_TRIPSLATE = registerBlock("calibrated_tripslate",
+            new CalibratedTripslateBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block TRIPSLATE_BRICK_STAIRS = registerBlock("tripslate_brick_stairs",
+            new StairsBlock(ModBlocks.TRIPSLATE_BRICKS.getDefaultState(),
+                    AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block TRIPSLATE_BRICK_SLAB = registerBlock("tripslate_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block TRIPSLATE_BRICK_WALL = registerBlock("tripslate_brick_wall",
+            new WallBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+
+    public static final Block CRACKED_TRIPSLATE_BRICK_STAIRS = registerBlock("cracked_tripslate_brick_stairs",
+            new StairsBlock(ModBlocks.TRIPSLATE_BRICKS.getDefaultState(),
+                    AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block CRACKED_TRIPSLATE_BRICK_SLAB = registerBlock("cracked_tripslate_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block CRACKED_TRIPSLATE_BRICK_WALL = registerBlock("cracked_tripslate_brick_wall",
+            new WallBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+
+    public static final Block MOSSY_TRIPSLATE_BRICK_STAIRS = registerBlock("mossy_tripslate_brick_stairs",
+            new StairsBlock(ModBlocks.TRIPSLATE_BRICKS.getDefaultState(),
+                    AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block MOSSY_TRIPSLATE_BRICK_SLAB = registerBlock("mossy_tripslate_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+    public static final Block MOSSY_TRIPSLATE_BRICK_WALL = registerBlock("mossy_tripslate_brick_wall",
+            new WallBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
+
+
+
     public static final Block EUCALYPTUS_LOG = registerBlock("eucalyptus_log",
             new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
     public static final Block EUCALYPTUS_WOOD = registerBlock("eucalyptus_wood",
@@ -127,7 +155,12 @@ public class ModBlocks {
 
     public static final Block GRAVEL_EXHAUST = registerBlock("gravel_exhaust",
             new GravelExhaustBlock(AbstractBlock.Settings.create().strength(3.0f, 6.0f).sounds(BlockSoundGroup.COPPER_GRATE).mapColor(MapColor.ORANGE).requiresTool().nonOpaque()));
-//test
+
+    public static final Block SCULPTED_CORE = registerBlock("sculpted_core",
+            new SculptedCoreBlock(AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_YELLOW).instrument(NoteBlockInstrument.SNARE).sounds(BlockSoundGroup.DECORATED_POT).strength(10.0F).pistonBehavior(PistonBehavior.NORMAL).resistance(1200.0F)));
+
+
+
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         return Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, name), block);

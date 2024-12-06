@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "litavis:item/echoing_halls_music_disc"
-  }
-}

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
 import net.thefluffycart.litavis.block.ModBlocks;
@@ -24,12 +25,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        offerReversibleCompactingRecipes(exporter, RecipeCategory.BUILDING_BLOCKS, ModItems.BURROW_ROD, RecipeCategory.DECORATIONS
-                , ModBlocks.TRIPSLATE);
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TRIPSLATE, 4)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TRIPSLATE_BRICKS, 4)
                 .pattern("TT")
                 .pattern("TT")
-                .input('T', ModBlocks.TRIPSLATE_BRICKS)
+                .input('T', ModBlocks.TRIPSLATE)
                 .criterion(hasItem(ModBlocks.TRIPSLATE), conditionsFromItem(ModBlocks.TRIPSLATE))
                 .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "tripslate_bricks_crafting"));
 
@@ -42,13 +41,24 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Blocks.MUD), conditionsFromItem(Blocks.MUD))
                 .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "tripslate_crafting"));
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModItems.TERRAFORMER, 1)
-                .pattern("EGI")
-                .input('E', ModItems.EARTH_CHARGE)
-                .input('G', ModItems.GRANITE_TABLET)
-                .input('I', Blocks.IRON_BLOCK)
-                .criterion(hasItem(ModItems.EARTH_CHARGE), conditionsFromItem(ModItems.EARTH_CHARGE))
-                .criterion(hasItem(ModItems.GRANITE_TABLET), conditionsFromItem(ModItems.GRANITE_TABLET))
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CALIBRATED_TRIPSLATE, 1)
+                .pattern("AAA")
+                .pattern("ATA")
+                .pattern("AAA")
+                .input('T', ModBlocks.TRIPSLATE)
+                .input('A', Items.AMETHYST_SHARD)
+                .criterion(hasItem(ModBlocks.SCULPTED_CORE), conditionsFromItem(ModBlocks.SCULPTED_CORE))
+                .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "calibrated_tripslate_crafting"));
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.TERRAFORMER, 1)
+                .pattern("TT ")
+                .pattern(" BS")
+                .pattern("TT ")
+                .input('S', ModBlocks.SCULPTED_CORE)
+                .input('T', Blocks.TERRACOTTA)
+                .input('B', ModItems.BURROW_ROD)
+                .criterion(hasItem(ModBlocks.SCULPTED_CORE), conditionsFromItem(ModBlocks.SCULPTED_CORE))
                 .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "terraformer_crafting"));
+
     }
 }

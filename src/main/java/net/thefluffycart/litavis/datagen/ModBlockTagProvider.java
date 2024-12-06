@@ -29,13 +29,26 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICKS, ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_STAIRS, ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB,
                         ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL, ModBlocks.CRACKED_MOSSY_GRANITE_PILLAR)
 
+                .add(ModBlocks.TRIPSLATE_BRICKS, ModBlocks.TRIPSLATE_BRICK_STAIRS, ModBlocks.TRIPSLATE_BRICK_SLAB,
+                        ModBlocks.TRIPSLATE_BRICK_WALL)
+
+                .add(ModBlocks.MOSSY_TRIPSLATE_BRICKS, ModBlocks.MOSSY_TRIPSLATE_BRICK_STAIRS,
+                        ModBlocks.MOSSY_TRIPSLATE_BRICK_SLAB, ModBlocks.MOSSY_TRIPSLATE_BRICK_WALL)
+
+                .add(ModBlocks.CRACKED_TRIPSLATE_BRICKS, ModBlocks.CRACKED_TRIPSLATE_BRICK_STAIRS,
+                        ModBlocks.CRACKED_TRIPSLATE_BRICK_SLAB, ModBlocks.CRACKED_TRIPSLATE_BRICK_WALL)
+                .add(ModBlocks.POLISHED_TRIPSLATE)
+
                 .add(ModBlocks.TRIPSLATE)
-                .add(ModBlocks.TRIPSLATE_BRICKS);
+                .add(ModBlocks.CALIBRATED_TRIPSLATE);
 
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.MOSSY_GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_GRANITE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL);
+        getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.TRIPSLATE_BRICK_WALL);
+        getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_TRIPSLATE_BRICK_WALL);
+        getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.MOSSY_TRIPSLATE_BRICK_WALL);
 
         getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.EUCALYPTUS_FENCE);
         getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(ModBlocks.EUCALYPTUS_FENCE_GATE);
@@ -47,12 +60,6 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
         getOrCreateTagBuilder(BlockTags.LEAVES)
                 .add(ModBlocks.EUCALYPTUS_LEAVES);
-
-        getOrCreateTagBuilder(ModTags.Blocks.TRIPSLATE_BRICK_VARIANTS)
-                .add(ModBlocks.TRIPSLATE_BRICKS)
-                .add(ModBlocks.CRACKED_TRIPSLATE_BRICKS)
-                .add(ModBlocks.MOSSY_TRIPSLATE_BRICKS)
-                .add(ModBlocks.CHISELED_TRIPSLATE);
 
         getOrCreateTagBuilder(BlockTags.LOGS)
                 .add(ModBlocks.EUCALYPTUS_LOG, ModBlocks.EUCALYPTUS_WOOD, ModBlocks.STRIPPED_EUCALYPTUS_LOG, ModBlocks.STRIPPED_EUCALYPTUS_WOOD);

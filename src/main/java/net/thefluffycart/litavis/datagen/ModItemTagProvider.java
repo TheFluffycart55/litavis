@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.item.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,5 +22,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(ItemTags.PLANKS)
                 .add(ModBlocks.EUCALYPTUS_PLANKS.asItem());
+
+        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(ModItems.TERRAFORMER);
+        getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE)
+                .add(ModItems.TERRAFORMER);
     }
 }

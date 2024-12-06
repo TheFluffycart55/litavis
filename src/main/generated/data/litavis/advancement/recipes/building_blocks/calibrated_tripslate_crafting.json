@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sculpted_core": {
+      "conditions": {
+        "items": [
+          {
+            "items": "litavis:sculpted_core"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "litavis:calibrated_tripslate_crafting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sculpted_core"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "litavis:calibrated_tripslate_crafting"
+    ]
+  }
+}

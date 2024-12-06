@@ -24,8 +24,9 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.util.ModTags;
 
-public class TripslateBlock extends PillarBlock {
+public class TripslateBlock extends Block {
     public static final BooleanProperty FALLING = BooleanProperty.of("falling");
     public static final MapCodec<PillarBlock> CODEC = PillarBlock.createCodec(PillarBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = Properties.AXIS;
@@ -46,6 +47,11 @@ public class TripslateBlock extends PillarBlock {
         return PillarBlock.changeRotation(state, rotation);
     }
 
+    protected int getFallDelay()
+    {
+        return 200;
+    }
+
     @Override
     protected void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
         BlockPos blockPos = hit.getBlockPos();
@@ -54,22 +60,27 @@ public class TripslateBlock extends PillarBlock {
         }
     }
 
-    protected int getFallDelay()
-    {
-        return 200;
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (neighborState.isOf(this) && neighborState.get(FALLING)) {
+            this.blockDrop(state, (ServerWorld) world, pos);
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (neighborState.isOf(this))
-        {
-            if (neighborState.get(FALLING))
-            {
-                this.blockDrop(state, (ServerWorld) world, pos);
-
+    protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        if (world.isClient) {
+            return;
+        }
+        boolean bl = state.get(FALLING);
+        if (bl != FALLING.equals(Boolean.FALSE)) {
+            if (bl) {
+                world.scheduleBlockTick(pos, this, 4);
+            } else {
+                world.setBlockState(pos, (BlockState)state.cycle(FALLING), Block.NOTIFY_LISTENERS);
             }
         }
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     public DamageSource getDamageSource(Entity attacker) {
@@ -78,17 +89,24 @@ public class TripslateBlock extends PillarBlock {
 
 
     public void blockDrop(BlockState state, ServerWorld world, BlockPos pos) {
-        if (!TripslateBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY() ) {
+        if (!TripslateBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY()) {
             return;
         }
-        if (state.isOf(this))
-        {
-            world.scheduleBlockTick(pos, this, this.getFallDelay());
-            world.setBlockState(pos, state.cycle(FALLING));
+
+        if (state.isOf(this)) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
             FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, pos, state);
             fallingBlockEntity.handleFallDamage(1f, 5f, getDamageSource(fallingBlockEntity));
-            world.breakBlock(new BlockPos(pos), false);
             this.configureFallingBlockEntity(fallingBlockEntity);
+            for (Direction direction : Direction.values()) {
+                BlockPos neighborPos = pos.offset(direction);
+                BlockState neighborState = world.getBlockState(neighborPos);
+                if (neighborState.isOf(this)) {
+                    blockDrop(neighborState, world, neighborPos);
+                } else {
+                    world.updateNeighbors(neighborPos, this);
+                }
+            }
         }
     }
 
@@ -126,6 +144,7 @@ public class TripslateBlock extends PillarBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState)this.getDefaultState().with(AXIS, ctx.getSide().getAxis());
+        this.getDefaultState().with(FALLING, Boolean.FALSE);
+        return this.getDefaultState().with(AXIS, ctx.getSide().getAxis());
     }
 }

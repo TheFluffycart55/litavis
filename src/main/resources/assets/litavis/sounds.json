@@ -1,12 +1,4 @@
 {
-  "echoing_halls": {
-    "sounds": [
-      {
-        "name": "litavis:echoing_halls",
-        "stream": true
-      }
-    ]
-  },
   "burrow_idle":
   {
     "subtitle": "sounds.litavis.burrow_idle",

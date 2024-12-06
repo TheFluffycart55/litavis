@@ -7,6 +7,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.BlazeEntity;
+import net.minecraft.entity.projectile.AbstractWindChargeEntity;
+import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.SmallFireballEntity;
+import net.minecraft.entity.projectile.WindChargeEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,7 +32,6 @@ public class EarthChargeEntity extends ThrownItemEntity {
         super(entityType, world);
     }
 
-
     public EarthChargeEntity(World world, LivingEntity owner) {
         super(ModEntities.EARTH_CHARGE, owner, world); // null will be changed later
     }
@@ -39,19 +43,25 @@ public class EarthChargeEntity extends ThrownItemEntity {
     @Environment(EnvType.CLIENT)
     private ParticleEffect getParticleParameters() {
         ItemStack itemStack = this.getStack();
-        return (ParticleEffect)(itemStack.isEmpty() ? ParticleTypes.ITEM_SNOWBALL : new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack));
+        return (ParticleEffect)(itemStack.isEmpty() ? ParticleTypes.MYCELIUM : new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack));
     }
+
+
 
     @Environment(EnvType.CLIENT)
     public void handleStatus(byte status) {
-        if (status == 3) {
+        if (status == 1) {
             ParticleEffect particleEffect = this.getParticleParameters();
 
             for(int i = 0; i < 8; ++i) {
                 this.getWorld().addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
+    }
 
+    @Override
+    public boolean hasNoGravity() {
+        return true;
     }
 
     @Override
@@ -63,15 +73,15 @@ public class EarthChargeEntity extends ThrownItemEntity {
 
             for (int x = -1; x <= 1; x++) {
                 for (int z = -1; z <= 1; z++) {
-                    Block Tripslate = ModBlocks.TRIPSLATE;
-                    BlockState blockState = Tripslate.getDefaultState().with(TripslateBlock.FALLING, true);
-                    BlockPos blockPos = pos.add(x, 7, z);
-                    serverWorld.setBlockState(blockPos, blockState);
+                        BlockPos blockPos = pos.add(x, 6, z);
+                        Block Tripslate = ModBlocks.TRIPSLATE;
+                        BlockState blockState = Tripslate.getDefaultState().with(TripslateBlock.FALLING, true);
+                        serverWorld.setBlockState(blockPos, blockState);
                 }
             }
         }
 
-        this.discard(); // Remove the projectile after impact
+        this.discard();
     }
 
     protected Item getDefaultItem() {

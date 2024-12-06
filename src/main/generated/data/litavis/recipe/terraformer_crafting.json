@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
+  "category": "equipment",
   "key": {
-    "E": {
-      "item": "litavis:earth_charge"
+    "B": {
+      "item": "litavis:burrow_rod"
     },
-    "G": {
-      "item": "litavis:granite_tablet"
+    "S": {
+      "item": "litavis:sculpted_core"
     },
-    "I": {
-      "item": "minecraft:iron_block"
+    "T": {
+      "item": "minecraft:terracotta"
     }
   },
   "pattern": [
-    "EGI"
+    "TT ",
+    " BS",
+    "TT "
   ],
   "result": {
     "count": 1,

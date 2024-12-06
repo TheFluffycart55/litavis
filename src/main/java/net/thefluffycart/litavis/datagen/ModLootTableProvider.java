@@ -16,7 +16,9 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         addDrop(ModBlocks.TRIPSLATE);
+        addDrop(ModBlocks.CALIBRATED_TRIPSLATE);
         addDrop(ModBlocks.TRIPSLATE_BRICKS);
+        addDrop(ModBlocks.POLISHED_TRIPSLATE);
 
         addDrop(ModBlocks.GRANITE_BRICKS);
         addDrop(ModBlocks.GRANITE_PILLAR);
@@ -42,6 +44,21 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_STAIRS);
         addDrop(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB, slabDrops(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_SLAB));
         addDrop(ModBlocks.CRACKED_MOSSY_GRANITE_BRICK_WALL);
+
+        addDrop(ModBlocks.TRIPSLATE_BRICKS);
+        addDrop(ModBlocks.TRIPSLATE_BRICK_STAIRS);
+        addDrop(ModBlocks.TRIPSLATE_BRICK_SLAB, slabDrops(ModBlocks.TRIPSLATE_BRICK_SLAB));
+        addDrop(ModBlocks.TRIPSLATE_BRICK_WALL);
+
+        addDrop(ModBlocks.CRACKED_TRIPSLATE_BRICKS);
+        addDrop(ModBlocks.CRACKED_TRIPSLATE_BRICK_STAIRS);
+        addDrop(ModBlocks.CRACKED_TRIPSLATE_BRICK_SLAB, slabDrops(ModBlocks.CRACKED_TRIPSLATE_BRICK_SLAB));
+        addDrop(ModBlocks.CRACKED_TRIPSLATE_BRICK_WALL);
+
+        addDrop(ModBlocks.MOSSY_TRIPSLATE_BRICKS);
+        addDrop(ModBlocks.MOSSY_TRIPSLATE_BRICK_STAIRS);
+        addDrop(ModBlocks.MOSSY_TRIPSLATE_BRICK_SLAB, slabDrops(ModBlocks.MOSSY_TRIPSLATE_BRICK_SLAB));
+        addDrop(ModBlocks.MOSSY_TRIPSLATE_BRICK_WALL);
 
         addDrop(ModBlocks.EUCALYPTUS_LOG);
         addDrop(ModBlocks.EUCALYPTUS_WOOD);

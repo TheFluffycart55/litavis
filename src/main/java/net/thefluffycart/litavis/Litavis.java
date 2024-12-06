@@ -2,6 +2,7 @@ package net.thefluffycart.litavis;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
@@ -10,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.SlimeBlock;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
@@ -35,26 +37,42 @@ public class Litavis implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-					ItemStack offhandStack = player.getOffHandStack();
-					ItemStack mainHandStack = player.getMainHandStack();
-					BlockPos blockPos = hitResult.getBlockPos();
-					BlockState blockState = world.getBlockState(blockPos);
+			ItemStack offhandStack = player.getOffHandStack();
+			ItemStack mainHandStack = player.getMainHandStack();
+			BlockPos blockPos = hitResult.getBlockPos();
+			BlockState blockState = world.getBlockState(blockPos);
 
-			if (mainHandStack.getItem() instanceof BlockItem) {
-						if (offhandStack.getItem() instanceof TerraformerItem) {
-							if (world.getBlockState(hitResult.getBlockPos()) != Blocks.LEVER.getDefaultState() &&
-									!world.getBlockState(hitResult.getBlockPos()).isIn(BlockTags.BUTTONS) &&
-									!world.getBlockState(hitResult.getBlockPos()).isIn(BlockTags.PRESSURE_PLATES)) {
-								if(!blockState.hasBlockEntity())
-								{
-									offhandStack.damage(1, player, EquipmentSlot.OFFHAND);
-								}
+			if (mainHandStack.getItem() instanceof BlockItem blockItem) {
+				if (offhandStack.getItem() instanceof TerraformerItem) {
+					if (!world.getBlockState(blockPos).isOf(Blocks.LEVER) &&
+							!world.getBlockState(blockPos).isIn(BlockTags.BUTTONS) &&
+							!world.getBlockState(blockPos).isIn(BlockTags.PRESSURE_PLATES)) {
+
+						if (!blockState.hasBlockEntity()) {
+							ItemPlacementContext context = new ItemPlacementContext(
+									new ItemPlacementContext(player, hand, mainHandStack, hitResult)
+							);
+
+							if (context != null && blockItem.place(context).isAccepted()) {
+								offhandStack.damage(1, player, EquipmentSlot.OFFHAND);
+								return ActionResult.SUCCESS;
 							}
 						}
 					}
-					return ActionResult.PASS;
 				}
-		);
+			}
+
+			return ActionResult.PASS;
+		});
+
+		PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
+			ItemStack offhandStack = player.getOffHandStack();
+
+			if (offhandStack.getItem() instanceof TerraformerItem) {
+				offhandStack.damage(1, player, EquipmentSlot.OFFHAND);
+			}
+		});
+
 		registerStrippables();
 
 		ModSounds.registerSounds();

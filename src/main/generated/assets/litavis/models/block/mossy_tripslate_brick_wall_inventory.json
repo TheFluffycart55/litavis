@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "litavis:block/cracked_tripslate_bricks"
+  }
+}

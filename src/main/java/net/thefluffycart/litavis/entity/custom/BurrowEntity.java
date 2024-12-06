@@ -110,7 +110,7 @@ public class BurrowEntity extends HostileEntity {
     static class BurrowAttack extends Goal
     {
         private final BurrowEntity burrow;
-        
+
         public BurrowAttack(BurrowEntity burrow) {
             this.burrow = burrow;
             this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
@@ -121,7 +121,7 @@ public class BurrowEntity extends HostileEntity {
             return livingEntity != null && livingEntity.isAlive() && this.burrow.canTarget(livingEntity);
         }
     }
-    
+
     static class ShootEarthchargeGoal
             extends Goal {
         private final BurrowEntity burrow;
@@ -191,9 +191,9 @@ public class BurrowEntity extends HostileEntity {
                         }
                         for (int i = 0; i < 1; ++i) {
                             Vec3d vec3d = new Vec3d(this.burrow.getRandom().nextTriangular(e, 2.297 * h), f, this.burrow.getRandom().nextTriangular(g, 2.297 * h));
-                            SmallFireballEntity smallFireballEntity = new SmallFireballEntity(this.burrow.getWorld(), this.burrow, vec3d.normalize());
-                            smallFireballEntity.setPosition(smallFireballEntity.getX(), this.burrow.getBodyY(0.5) + 0.5, smallFireballEntity.getZ());
-                            this.burrow.getWorld().spawnEntity(smallFireballEntity);
+                            EarthChargeEntity earthChargeEntity = new EarthChargeEntity(this.burrow.getWorld(), this.burrow);
+                            earthChargeEntity.setPosition(earthChargeEntity.getX(), this.burrow.getBodyY(0.5) + 0.5, earthChargeEntity.getZ());
+                            this.burrow.getWorld().spawnEntity(earthChargeEntity);
                         }
                     }
                 }

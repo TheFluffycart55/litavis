@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "litavis:block/mossy_tripslate_brick_slab"
+    },
+    "type=double": {
+      "model": "litavis:block/cracked_tripslate_bricks"
+    },
+    "type=top": {
+      "model": "litavis:block/mossy_tripslate_brick_slab_top"
+    }
+  }
+}

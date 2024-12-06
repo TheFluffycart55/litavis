@@ -26,7 +26,7 @@ public class ModEntities {
     public static final EntityType<EarthChargeEntity> EARTH_CHARGE = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(Litavis.MOD_ID, "earth_charge"),
             FabricEntityTypeBuilder.<EarthChargeEntity>create(SpawnGroup.MISC, EarthChargeEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F)).trackRangeBlocks(4)
+                    .dimensions(EntityDimensions.fixed(0.5f, 0.5F)).trackRangeBlocks(2)
                     .trackedUpdateRate(10).build());
     public static void registerModEntities()
     {
