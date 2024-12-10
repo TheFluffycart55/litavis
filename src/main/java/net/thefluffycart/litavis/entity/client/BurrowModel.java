@@ -5,11 +5,8 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.thefluffycart.litavis.entity.client.animation.BurrowAnimations;
-import net.thefluffycart.litavis.entity.client.animation.MoleAnimations;
 import net.thefluffycart.litavis.entity.custom.BurrowEntity;
-import net.thefluffycart.litavis.entity.custom.MoleEntity;
 
 public class BurrowModel extends SinglePartEntityModel<BurrowEntity>{
     private final ModelPart burrow;

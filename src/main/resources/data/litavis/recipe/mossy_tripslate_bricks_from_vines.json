@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#V"
+    ],
+    "key": {
+        "#": {
+            "item": "litavis:tripslate_bricks"
+        },
+        "V": {
+            "item": "minecraft:vine"
+        }
+    },
+    "result": {
+        "id": "litavis:mossy_tripslate_bricks",
+        "count": 1
+    }
+}

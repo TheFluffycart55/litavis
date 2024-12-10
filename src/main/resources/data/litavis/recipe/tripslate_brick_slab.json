@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "litavis:tripslate_bricks"
+        }
+    },
+    "result": {
+        "id": "litavis:tripslate_brick_slab",
+        "count": 6
+    }
+}

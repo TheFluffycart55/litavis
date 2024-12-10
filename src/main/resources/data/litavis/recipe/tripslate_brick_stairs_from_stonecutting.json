@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "litavis:tripslate_bricks"
+    },
+    "result": {
+        "id": "litavis:tripslate_brick_stairs",
+        "count": 1
+    }
+}

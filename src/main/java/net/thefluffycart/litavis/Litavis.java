@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.thefluffycart.litavis.block.ModBlocks;
 import net.thefluffycart.litavis.entity.ModEntities;
 import net.thefluffycart.litavis.entity.custom.BurrowEntity;
-import net.thefluffycart.litavis.entity.custom.MoleEntity;
 import net.thefluffycart.litavis.item.ModItemGroups;
 import net.thefluffycart.litavis.item.ModItems;
 import net.thefluffycart.litavis.item.custom.TerraformerItem;
@@ -85,7 +84,6 @@ public class Litavis implements ModInitializer {
 
 		ModWorldGeneration.generateModWorldGeneration();
 
-		FabricDefaultAttributeRegistry.register(ModEntities.MOLE, MoleEntity.createMoleAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntities.BURROW, BurrowEntity.createburrowAttributes());
 	}
 	private static void registerStrippables(){

@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "litavis:mossy_tripslate_bricks"
+    },
+    "result": {
+        "id": "litavis:mossy_tripslate_brick_wall",
+        "count": 1
+    }
+}

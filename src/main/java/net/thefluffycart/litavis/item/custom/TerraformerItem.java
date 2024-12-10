@@ -2,16 +2,14 @@ package net.thefluffycart.litavis.item.custom;
 
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class TerraformerItem extends ToolItem {
@@ -22,7 +20,7 @@ public class TerraformerItem extends ToolItem {
     }
 
 
-    public static AttributeModifiersComponent createAttributeModifiers(int baseReachRange, float baseAttackRange) {
+    public static AttributeModifiersComponent createAttributeModifiers(int baseReachRange) {
         return AttributeModifiersComponent.builder().add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, new EntityAttributeModifier(BASE_REACH_RANGE_MODIFIER_ID, (float)baseReachRange, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.OFFHAND).build();
     }
 
@@ -30,6 +28,13 @@ public class TerraformerItem extends ToolItem {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         return super.useOnBlock(context);
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        float fallDistance = 0f;
+        user.handleFallDamage(fallDistance, 0.05f, world.getDamageSources().fall());
+        return super.use(world, user, hand);
     }
 }
 

@@ -1,3 +1,6 @@
 {
-  "parent": "litavis:block/eucalyptus_sapling"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "litavis:item/eucalyptus_sapling"
+  }
 }

@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
 import net.thefluffycart.litavis.entity.custom.BurrowEntity;
-import net.thefluffycart.litavis.entity.custom.MoleEntity;
 
 public class BurrowRenderer extends MobEntityRenderer<BurrowEntity, BurrowModel>
 {

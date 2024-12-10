@@ -5,13 +5,14 @@
 	"name": "Litavis",
 	"description": "Hehe, rock go brrr",
 	"authors": [
-		"Me!"
+		"TheFluffycart55",
+		"Special thanks to KaupenJoe and HollowedWanderer"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/litavis",
+		"sources": "https://github.com/TheFluffycart55/litavis"
 	},
-	"license": "MIT",
+	"license": "All Rights Reserved",
 	"icon": "assets/litavis/icon.png",
 	"environment": "*",
 	"entrypoints": {

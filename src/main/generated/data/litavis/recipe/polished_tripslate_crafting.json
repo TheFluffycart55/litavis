@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "T": {
-      "item": "litavis:polished_tripslate"
+      "item": "litavis:tripslate"
     }
   },
   "pattern": [
@@ -12,6 +12,6 @@
   ],
   "result": {
     "count": 4,
-    "id": "litavis:tripslate_bricks"
+    "id": "litavis:polished_tripslate"
   }
 }

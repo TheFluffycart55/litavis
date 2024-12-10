@@ -25,11 +25,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TRIPSLATE_BRICKS, 4)
+        //Tripslate Variants
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.POLISHED_TRIPSLATE, 4)
                 .pattern("TT")
                 .pattern("TT")
                 .input('T', ModBlocks.TRIPSLATE)
                 .criterion(hasItem(ModBlocks.TRIPSLATE), conditionsFromItem(ModBlocks.TRIPSLATE))
+                .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "polished_tripslate_crafting"));
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TRIPSLATE_BRICKS, 4)
+                .pattern("TT")
+                .pattern("TT")
+                .input('T', ModBlocks.POLISHED_TRIPSLATE)
+                .criterion(hasItem(ModBlocks.POLISHED_TRIPSLATE), conditionsFromItem(ModBlocks.POLISHED_TRIPSLATE))
                 .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "tripslate_bricks_crafting"));
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TRIPSLATE, 4)
@@ -41,10 +49,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Blocks.MUD), conditionsFromItem(Blocks.MUD))
                 .offerTo(exporter, Identifier.of(Litavis.MOD_ID, "tripslate_crafting"));
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CALIBRATED_TRIPSLATE, 1)
-                .pattern("AAA")
-                .pattern("ATA")
-                .pattern("AAA")
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CALIBRATED_TRIPSLATE, 2)
+                .pattern("TA")
+                .pattern("AT")
                 .input('T', ModBlocks.TRIPSLATE)
                 .input('A', Items.AMETHYST_SHARD)
                 .criterion(hasItem(ModBlocks.SCULPTED_CORE), conditionsFromItem(ModBlocks.SCULPTED_CORE))

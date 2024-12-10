@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "litavis:polished_tripslate_crafting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tripslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "litavis:tripslate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tripslate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "litavis:polished_tripslate_crafting"
+    ]
+  }
+}
