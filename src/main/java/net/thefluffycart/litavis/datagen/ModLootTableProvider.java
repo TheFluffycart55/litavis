@@ -65,6 +65,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.STRIPPED_EUCALYPTUS_LOG);
         addDrop(ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
         addDrop(ModBlocks.EUCALYPTUS_PLANKS);
+        addDrop(ModBlocks.EUCALYPTUS_SIGN);
         addDrop(ModBlocks.EUCALYPTUS_DOOR, doorDrops(ModBlocks.EUCALYPTUS_DOOR));
         addDrop(ModBlocks.EUCALYPTUS_SAPLING);
 

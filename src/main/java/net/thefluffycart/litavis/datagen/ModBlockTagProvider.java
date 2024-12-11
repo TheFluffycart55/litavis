@@ -50,6 +50,9 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.CRACKED_TRIPSLATE_BRICK_WALL);
         getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.MOSSY_TRIPSLATE_BRICK_WALL);
 
+        getOrCreateTagBuilder(BlockTags.SIGNS)
+                .add(ModBlocks.EUCALYPTUS_SIGN);
+
         getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.EUCALYPTUS_FENCE);
         getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(ModBlocks.EUCALYPTUS_FENCE_GATE);
 

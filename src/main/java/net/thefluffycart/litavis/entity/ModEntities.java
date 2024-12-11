@@ -21,6 +21,7 @@ public class ModEntities {
             FabricEntityTypeBuilder.<EarthChargeEntity>create(SpawnGroup.MISC, EarthChargeEntity::new)
                     .dimensions(EntityDimensions.fixed(0.5f, 0.5F)).trackRangeBlocks(2)
                     .trackedUpdateRate(10).build());
+    
     public static void registerModEntities()
     {
         Litavis.LOGGER.info("Registering Mod Entities for " + Litavis.MOD_ID);

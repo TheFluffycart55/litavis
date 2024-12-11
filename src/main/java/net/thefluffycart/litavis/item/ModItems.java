@@ -26,6 +26,10 @@ public class ModItems {
     public static final Item EARTH_CHARGE = registerItem("earth_charge",
             new EarthChargeItem(new Item.Settings()));
 
+    public static final Item EUCALYPTUS_SIGN = registerItem("chestnut_sign",
+            new SignItem(new Item.Settings().maxCount(16), ModBlocks.STANDING_EUCALYPTUS_SIGN, ModBlocks.WALL_EUCALYPTUS_SIGN));
+    public static final Item HANGING_EUCALYPTUS_SIGN = registerItem("chestnut_hanging_sign",
+            new HangingSignItem(ModBlocks.HANGING_EUCALYPTUS_SIGN, ModBlocks.WALL_HANGING_EUCALYPTUS_SIGN, new Item.Settings().maxCount(16)));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
         entries.add(BURROW_ROD);

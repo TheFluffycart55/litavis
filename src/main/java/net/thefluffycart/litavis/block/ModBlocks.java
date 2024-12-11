@@ -1,12 +1,16 @@
 package net.thefluffycart.litavis.block;
 
+import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.data.family.BlockFamilies;
+import net.minecraft.data.family.BlockFamily;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
@@ -83,13 +87,40 @@ public class ModBlocks {
             new PressurePlateBlock(BlockSetType.ACACIA, AbstractBlock.Settings.create()));
     public static final Block EUCALYPTUS_BUTTON = registerBlock("eucalyptus_button",
             new ButtonBlock(BlockSetType.IRON, 10, AbstractBlock.Settings.create()));
+    public static final Block EUCALYPTUS_SIGN = registerBlock("eucalyptus_sign",
+            new SignBlock(WoodType.ACACIA, AbstractBlock.Settings.create().mapColor(MapColor.DARK_CRIMSON).solid().instrument(NoteBlockInstrument.BASS).noCollision().strength(1.0f)));
+
+
+    //EUCALYPTUS SIGNS
+
+    public static final Identifier EUCALYPTUS_SIGN_TEXTURE = Identifier.of(Litavis.MOD_ID, "entity/signs/eucalyptus_sign");
+    public static final Identifier EUCALYPTUS_HANGING_SIGN_TEXTURE = Identifier.of(Litavis.MOD_ID, "entity/signs/hanging/hanging_eucalyptus_sign");
+    public static final Identifier EUCALYPTUS_HANGING_GUI_SIGN_TEXTURE = Identifier.of(Litavis.MOD_ID, "textures/gui/hanging_signs/eucalyptus_sign");
+
+    public static final Block STANDING_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_standing_sign"),
+            new TerraformSignBlock(EUCALYPTUS_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_SIGN)));
+
+    public static final Block WALL_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_wall_sign"),
+            new TerraformWallSignBlock(EUCALYPTUS_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_WALL_SIGN).dropsLike(STANDING_EUCALYPTUS_SIGN)));
+
+    public static final Block HANGING_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_hanging_sign"),
+            new TerraformHangingSignBlock(EUCALYPTUS_HANGING_SIGN_TEXTURE, EUCALYPTUS_HANGING_GUI_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_HANGING_SIGN)));
+    
+    public static final Block WALL_HANGING_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_wall_hanging_sign"),
+            new TerraformWallHangingSignBlock(EUCALYPTUS_HANGING_SIGN_TEXTURE, EUCALYPTUS_HANGING_GUI_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_WALL_HANGING_SIGN).dropsLike(HANGING_EUCALYPTUS_SIGN)));
+    
+    public static final BlockFamily EUCALYPTUS_FAMILY = BlockFamilies.register(ModBlocks.EUCALYPTUS_PLANKS)
+            .sign(ModBlocks.STANDING_EUCALYPTUS_SIGN, ModBlocks.WALL_EUCALYPTUS_SIGN)
+            .group("wooden").unlockCriterionName("has_planks").build();
+
+    //EUCALYPTUS DOORS
 
     public static final Block EUCALYPTUS_DOOR = registerBlock("eucalyptus_door",
             new DoorBlock(BlockSetType.DARK_OAK, AbstractBlock.Settings.create().nonOpaque()));
     public static final Block EUCALYPTUS_TRAPDOOR = registerBlock("eucalyptus_trapdoor",
             new TrapdoorBlock(BlockSetType.DARK_OAK, AbstractBlock.Settings.create().nonOpaque()));
 
-
+    //EUCALYPTUS TREE BLOCKS
 
     public static final Block EUCALYPTUS_LEAVES = registerBlock("eucalyptus_leaves",
             new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
@@ -158,8 +189,6 @@ public class ModBlocks {
 
     public static final Block SCULPTED_CORE = registerBlock("sculpted_core",
             new SculptedCoreBlock(AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_YELLOW).instrument(NoteBlockInstrument.SNARE).sounds(BlockSoundGroup.DECORATED_POT).strength(10.0F).pistonBehavior(PistonBehavior.NORMAL).resistance(1200.0F)));
-
-
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

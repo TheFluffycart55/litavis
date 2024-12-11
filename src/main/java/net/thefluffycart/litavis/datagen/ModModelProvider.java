@@ -67,6 +67,8 @@ public class ModModelProvider extends FabricModelProvider {
         eucalyptusTexturePool.fence(ModBlocks.EUCALYPTUS_FENCE);
         eucalyptusTexturePool.fenceGate(ModBlocks.EUCALYPTUS_FENCE_GATE);
 
+        eucalyptusTexturePool.family(ModBlocks.EUCALYPTUS_FAMILY);
+
         blockStateModelGenerator.registerDoor(ModBlocks.EUCALYPTUS_DOOR);
         blockStateModelGenerator.registerOrientableTrapdoor(ModBlocks.EUCALYPTUS_TRAPDOOR);
     }
@@ -74,6 +76,8 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.BURROW_ROD, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EUCALYPTUS_SIGN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.HANGING_EUCALYPTUS_SIGN, Models.GENERATED);
         itemModelGenerator.register(ModBlocks.EUCALYPTUS_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModItems.ENTOMBED_KEY, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARTH_CHARGE, Models.GENERATED);
