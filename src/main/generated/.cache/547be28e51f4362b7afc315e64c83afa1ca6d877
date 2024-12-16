@@ -1,5 +1,7 @@
-// 1.21.1	2024-12-10T10:09:56.3652906	Litavis/Tags for minecraft:item
+// 1.21.1	2024-12-15T21:27:59.0258565	Litavis/Tags for minecraft:item
 0335ba64d2a61959216e5721aa833852e6ec7ae5 data\minecraft\tags\item\logs.json
 7754f623280be7b8bccf994b25b8ce8a7d1b8e04 data\minecraft\tags\item\planks.json
+78488fcfb234fbee0b8415b77099e483a7608c57 data\minecraft\tags\item\boats.json
+a6a43f1d2c049c4fc5923d23096b197b2e5d6f9e data\minecraft\tags\item\chest_boats.json
 c6e2afcaf869d97fe0ecd331aaab37b6a47fe0c5 data\minecraft\tags\item\enchantable\vanishing.json
 c6e2afcaf869d97fe0ecd331aaab37b6a47fe0c5 data\minecraft\tags\item\enchantable\durability.json

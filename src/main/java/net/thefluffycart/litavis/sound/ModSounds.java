@@ -11,6 +11,8 @@ import net.thefluffycart.litavis.Litavis;
 
 public class ModSounds {
 
+    //REMOVED SOUNDS DUE TO SOME ISSUES, ECHOING HALLS HAS BEEN CUT FROM THE MOD DUE TO THE COMPOSER HANDING OUT MY ASSETS WITHOUT ASKING OR CREDIT.
+    //HOPEFULLY A NEW SONG WILL BE COMING BY JUNE 2025
     public static final SoundEvent BURROW_IDLE = registerSoundEvent("burrow_idle");
     public static final SoundEvent BURROW_GROAN = registerSoundEvent("burrow_groan");
 

@@ -1,7 +1,8 @@
-// 1.21.1	2024-12-10T10:09:56.3672835	Litavis/Tags for minecraft:block
+// 1.21.1	2024-12-15T21:27:59.0288566	Litavis/Tags for minecraft:block
+3197f532619460ac6bba04b4db87281c6cc05884 data\minecraft\tags\block\signs.json
 f2cb8853f48db95e6940b18b16fcca23b832b174 data\minecraft\tags\block\leaves.json
-0335ba64d2a61959216e5721aa833852e6ec7ae5 data\minecraft\tags\block\logs.json
 0ca9f4dd4df0aec919fa792f5700c79a8a80cfa7 data\minecraft\tags\block\mineable\pickaxe.json
+0335ba64d2a61959216e5721aa833852e6ec7ae5 data\minecraft\tags\block\logs.json
 c61ed250b448725f46210af040475f4c4b09118f data\minecraft\tags\block\fence_gates.json
 7754f623280be7b8bccf994b25b8ce8a7d1b8e04 data\minecraft\tags\block\planks.json
 b163091ae5c45cc462925477285893d1220e04b4 data\minecraft\tags\block\fences.json

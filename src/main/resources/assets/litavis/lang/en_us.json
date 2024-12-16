@@ -4,9 +4,10 @@
 
   "item.litavis.earth_charge": "Earth Charge",
   "item.litavis.entombed_key": "Entombed Key",
+  "block.litavis.sculpted_core": "Sculpted Core",
+  "item.litavis.terraformer": "Terraformer",
   "item.litavis.burrow_spawn_egg": "Burrow Spawn Egg",
   "item.litavis.burrow_rod": "Burrow Rod",
-  "item.litavis.terraformer": "Terraformer",
   "item.litavis.entombed_armor_trim_smithing_template": "Smithing Template",
 
   "itemgroup.litavis": "Litavis",
@@ -20,9 +21,9 @@
   "block.litavis.eucalyptus_leaves": "Eucalyptus Leaves",
   "block.litavis.eucalyptus_stairs": "Eucalyptus Stairs",
   "block.litavis.eucalyptus_log": "Eucalyptus Log",
-  "block.litavis.stripped_eucalyptus_log": "Stripepd Eucalyptus Log",
+  "block.litavis.stripped_eucalyptus_log": "Strippd Eucalyptus Log",
   "block.litavis.eucalyptus_wood": "Eucalyptus Wood",
-  "block.litavis.stripped_eucalyptus_wood": "Stripepd Eucalyptus Wood",
+  "block.litavis.stripped_eucalyptus_wood": "Strippd Eucalyptus Wood",
   "block.litavis.eucalyptus_planks": "Eucalyptus Planks",
   "block.litavis.eucalyptus_slab": "Eucalyptus Slab",
   "block.litavis.eucalyptus_fence": "Eucalyptus Fence",
@@ -31,6 +32,11 @@
   "block.litavis.eucalyptus_button": "Eucalyptus Button",
   "block.litavis.eucalyptus_door": "Eucalyptus Door",
   "block.litavis.eucalyptus_trapdoor": "Eucalyptus Trapdoor",
+  "block.litavis.eucalyptus_sign": "Eucalyptus Sign",
+  "block.litavis.eucalyptus_hanging_sign": "Eucalyptus Hanging Sign",
+  "item.litavis.eucalyptus_boat": "Eucalyptus Boat",
+  "item.litavis.eucalyptus_chest_boat": "Eucalyptus Boat with Chest",
+  "entity.litavis.eucalyptus_chest_boat": "Eucalyptus Boat with Chest",
 
   "block.litavis.granite_bricks": "Granite Bricks",
   "block.litavis.granite_brick_stairs": "Granite Brick Stairs",
@@ -78,6 +84,8 @@
   "block.litavis.polished_tripslate": "Polished Tripslate",
 
   "block.litavis.chiseled_granite": "Chiseled Granite",
+
+  "entity.litavis.burrow": "Burrow",
 
   "enchantment.litavis.terraforming": "Terraforming",
   "enchantment.litavis.extension": "Extension",

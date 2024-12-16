@@ -62,8 +62,7 @@ public class BurrowModel extends SinglePartEntityModel<BurrowEntity>{
         this.getPart().traverse().forEach(ModelPart::resetTransform);
 
         this.animateMovement(BurrowAnimations.BURROW_WALK, limbSwing, limbSwingAmount, 6f, 6.5f);
-        this.updateAnimation(entity.idleAnimationState, BurrowAnimations.BURROW_DRILLREADY, ageInTicks, 1f);
-        this.updateAnimation(entity.diggingAnimationState, BurrowAnimations.BURROW_DRILLCHARGE, ageInTicks, 1f);
+        this.updateAnimation(entity.idleAnimationState, BurrowAnimations.BURROW_IDLE, ageInTicks, 1f);
     }
 
     @Override

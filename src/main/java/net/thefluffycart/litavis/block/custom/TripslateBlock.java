@@ -52,6 +52,7 @@ public class TripslateBlock extends Block {
         return 200;
     }
 
+    //DROP ON HIT
     @Override
     protected void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
         BlockPos blockPos = hit.getBlockPos();
@@ -60,6 +61,7 @@ public class TripslateBlock extends Block {
         }
     }
 
+    //DESPITE ALREADY BEING TOLD IT'S FALLING, DOUBLE CHECK TO MAKE SURE WE'RE UPDATED, AND ACTUALLY FALLING
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (neighborState.isOf(this) && neighborState.get(FALLING)) {
@@ -68,6 +70,7 @@ public class TripslateBlock extends Block {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
+    //UPDATE NEIGHBORING TRIPSLATE
     @Override
     protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         if (world.isClient) {
@@ -87,17 +90,22 @@ public class TripslateBlock extends Block {
         return attacker.getDamageSources().fallingAnvil(attacker);
     }
 
-
+    //THIS CODE HAUNTS MY NIGHTMARES, I DO NOT KNOW HOW IT WORKS, OR WHY THIS STOPS THE ITEM FROM DROPPING
+    //BUT IT DOES AND I WILL NOT TOUCH IT
     public void blockDrop(BlockState state, ServerWorld world, BlockPos pos) {
+        //MAKE SURE YOU CAN FALL
         if (!TripslateBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY()) {
             return;
         }
-
+        //CHECK IF NEIGHBOR IS TRIPSLATE
         if (state.isOf(this)) {
+            //REMOVE SELF
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+            //SETUP FALLING BLOCK ENTITY
             FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, pos, state);
             fallingBlockEntity.handleFallDamage(1f, 5f, getDamageSource(fallingBlockEntity));
             this.configureFallingBlockEntity(fallingBlockEntity);
+            //UPDATE NEIGHBORING TRIPSLATE TO DROP
             for (Direction direction : Direction.values()) {
                 BlockPos neighborPos = pos.offset(direction);
                 BlockState neighborState = world.getBlockState(neighborPos);
@@ -118,6 +126,7 @@ public class TripslateBlock extends Block {
         return state.isAir() || state.isIn(BlockTags.FIRE) || state.isLiquid() || state.isReplaceable();
     }
 
+    //PILLAR BLOCK
     public static BlockState changeRotation(BlockState state, BlockRotation rotation) {
         switch (rotation) {
             case COUNTERCLOCKWISE_90:

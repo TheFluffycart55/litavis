@@ -21,10 +21,6 @@ public class BurrowRenderer extends MobEntityRenderer<BurrowEntity, BurrowModel>
 
     @Override
     public void render(BurrowEntity livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if(livingEntity.isBaby())
-        {
-            matrixStack.scale(0.75f, 0.75f, 0.75f);
-        }
 
         super.render(livingEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }

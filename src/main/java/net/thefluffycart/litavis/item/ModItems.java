@@ -1,5 +1,6 @@
 package net.thefluffycart.litavis.item;
 
+import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -10,12 +11,14 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.entity.ModBoats;
 import net.thefluffycart.litavis.entity.ModEntities;
 import net.thefluffycart.litavis.item.custom.TerraformerItem;
 import net.thefluffycart.litavis.item.custom.EarthChargeItem;
 import net.thefluffycart.litavis.sound.ModSounds;
 
 public class ModItems {
+    //ENTOMBED RUINS ITEMS
     public static final Item BURROW_ROD = registerItem("burrow_rod", new Item(new Item.Settings()));
     public static final Item ENTOMBED_KEY = registerItem("entombed_key", new Item(new Item.Settings()));
     public static final Item ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("entombed_armor_trim_smithing_template", SmithingTemplateItem.of(Identifier.of("litavis", "entombed_armor_trim")));
@@ -26,9 +29,10 @@ public class ModItems {
     public static final Item EARTH_CHARGE = registerItem("earth_charge",
             new EarthChargeItem(new Item.Settings()));
 
-    public static final Item EUCALYPTUS_SIGN = registerItem("chestnut_sign",
+    //SIGNS
+    public static final Item EUCALYPTUS_SIGN = registerItem("eucalyptus_sign",
             new SignItem(new Item.Settings().maxCount(16), ModBlocks.STANDING_EUCALYPTUS_SIGN, ModBlocks.WALL_EUCALYPTUS_SIGN));
-    public static final Item HANGING_EUCALYPTUS_SIGN = registerItem("chestnut_hanging_sign",
+    public static final Item HANGING_EUCALYPTUS_SIGN = registerItem("eucalyptus_hanging_sign",
             new HangingSignItem(ModBlocks.HANGING_EUCALYPTUS_SIGN, ModBlocks.WALL_HANGING_EUCALYPTUS_SIGN, new Item.Settings().maxCount(16)));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
@@ -36,6 +40,9 @@ public class ModItems {
         entries.add(ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE);
         entries.add(EARTH_CHARGE);
     }
+
+    public static final Item EUCALYPTUS_BOAT = TerraformBoatItemHelper.registerBoatItem(ModBoats.EUCALYPTUS_BOAT_ID, ModBoats.EUCALYPTUS_BOAT_KEY, false);
+    public static final Item EUCALYPTUS_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(ModBoats.EUCALYPTUS_CHEST_BOAT_ID, ModBoats.EUCALYPTUS_BOAT_KEY, true);
 
     private static void addItemsToBuildingBlocksGroup(FabricItemGroupEntries entries)
     {

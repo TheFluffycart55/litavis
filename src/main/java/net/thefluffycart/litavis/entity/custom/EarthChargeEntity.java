@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.BlazeEntity;
@@ -21,6 +22,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.thefluffycart.litavis.block.ModBlocks;
 import net.thefluffycart.litavis.block.custom.TripslateBlock;
@@ -28,6 +31,7 @@ import net.thefluffycart.litavis.entity.ModEntities;
 import net.thefluffycart.litavis.item.ModItems;
 
 public class EarthChargeEntity extends ThrownItemEntity {
+    //NO IDEA WHY THIS HAD TO BE 3 SEPARATE CONSTRUCTORS, BUT IT WORKS
     public EarthChargeEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -46,7 +50,11 @@ public class EarthChargeEntity extends ThrownItemEntity {
         return (ParticleEffect)(itemStack.isEmpty() ? ParticleTypes.MYCELIUM : new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack));
     }
 
-
+    //AN HOUR OF STRUGGLE, FOR THE SOLUTION TO BE THIS SHIT
+    @Override
+    public boolean hasNoGravity() {
+        return true;
+    }
 
     @Environment(EnvType.CLIENT)
     public void handleStatus(byte status) {
@@ -60,11 +68,6 @@ public class EarthChargeEntity extends ThrownItemEntity {
     }
 
     @Override
-    public boolean hasNoGravity() {
-        return true;
-    }
-
-    @Override
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
 
@@ -73,12 +76,14 @@ public class EarthChargeEntity extends ThrownItemEntity {
 
             for (int x = -1; x <= 1; x++) {
                 for (int z = -1; z <= 1; z++) {
-                        BlockPos blockPos = pos.add(x, 6, z);
-                        Block Tripslate = ModBlocks.TRIPSLATE;
-                        BlockState blockState = Tripslate.getDefaultState().with(TripslateBlock.FALLING, true);
-                        serverWorld.setBlockState(blockPos, blockState);
+                    BlockPos blockPos = pos.add(x, 6, z);
+                    Block Tripslate = ModBlocks.TRIPSLATE;
+                    BlockState blockState = Tripslate.getDefaultState().with(TripslateBlock.FALLING, true);
+                    serverWorld.setBlockState(blockPos, blockState);
                 }
             }
+            boolean bl = this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING);
+            this.discard();
         }
 
         this.discard();

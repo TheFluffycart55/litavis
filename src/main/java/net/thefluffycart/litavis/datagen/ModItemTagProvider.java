@@ -23,6 +23,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.PLANKS)
                 .add(ModBlocks.EUCALYPTUS_PLANKS.asItem());
 
+        getOrCreateTagBuilder(ItemTags.BOATS)
+                .add(ModItems.EUCALYPTUS_BOAT);
+
+        getOrCreateTagBuilder(ItemTags.CHEST_BOATS)
+                .add(ModItems.EUCALYPTUS_CHEST_BOAT);
+
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
                 .add(ModItems.TERRAFORMER);
         getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE)

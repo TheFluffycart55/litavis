@@ -24,6 +24,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class EucalyptusTrunkPlacer extends TrunkPlacer {
+    //I DO NOT REMEMBER HOW THIS WORKS, AND I AM SCARED TO POKE THIS BEAR WITH A STICK
     public static final MapCodec<EucalyptusTrunkPlacer> MAP_CODEC = RecordCodecBuilder.mapCodec(instance ->
             fillTrunkPlacerFields(instance).apply(instance, EucalyptusTrunkPlacer::new));
 
@@ -39,26 +40,18 @@ public class EucalyptusTrunkPlacer extends TrunkPlacer {
     @Override
     public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,
                                                  Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
+
         List<FoliagePlacer.TreeNode> foliageNodes = Lists.newArrayList();
-
         setDirtAt(replacer, startPos.down());
-
-        // Create a straight trunk up to 7 blocks high
         for (int i = 0; i < 7; i++) {
             BlockPos trunkPos = startPos.up(i);
             placeLog(world, replacer, random, trunkPos, config);
         }
-
-        // Generate branches at the top
         BlockPos branchStartPos = startPos.up(7);
-
-        // Four branches that go in different directions
         placeDirectionalLog(world, replacer, random, branchStartPos, config, Direction.EAST.getAxis()); // East
         placeDirectionalLog(world, replacer, random, branchStartPos, config, Direction.WEST.getAxis()); // West
         placeDirectionalLog(world, replacer, random, branchStartPos, config, Direction.SOUTH.getAxis()); // South
         placeDirectionalLog(world, replacer, random, branchStartPos, config, Direction.NORTH.getAxis()); // North
-
-        // Return the foliage attachment points
         return List.of(
                 new FoliagePlacer.TreeNode(branchStartPos.east(2).up(1), 0, false),
                 new FoliagePlacer.TreeNode(branchStartPos.west(2).up(1), 0, false),
@@ -69,17 +62,15 @@ public class EucalyptusTrunkPlacer extends TrunkPlacer {
 
 
     private void setDirtAt(BiConsumer<BlockPos, BlockState> replacer, BlockPos pos) {
-        // Place rooted dirt at the position
         replacer.accept(pos, Blocks.DIRT.getDefaultState());
     }
 
     private void placeDirectionalLog(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, TreeFeatureConfig config, Direction.Axis axis) {
         if (TreeFeature.isAirOrLeaves(world, pos)) {
-            replacer.accept(pos, config.trunkProvider.get(random, pos).with(PillarBlock.AXIS, axis)); // Place log with config's trunk provider
+            replacer.accept(pos, config.trunkProvider.get(random, pos).with(PillarBlock.AXIS, axis));
         }
     }
 
-    // Helper method to place logs for the trunk
     private void placeLog(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos pos, TreeFeatureConfig config) {
         if (TreeFeature.isAirOrLeaves(world, pos)) {
             this.getAndSetState(world, replacer, random, pos, config);

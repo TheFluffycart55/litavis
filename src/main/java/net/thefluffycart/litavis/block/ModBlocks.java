@@ -1,9 +1,9 @@
 package net.thefluffycart.litavis.block;
 
-import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
-import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
-import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
-import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformHangingSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformWallHangingSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformWallSignBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -20,7 +20,7 @@ import net.thefluffycart.litavis.block.custom.*;
 import net.thefluffycart.litavis.world.tree.ModSaplingGenerators;
 
 public class ModBlocks {
-
+    //TRIPSLATE BLOCKS
     public static final Block TRIPSLATE = registerBlock("tripslate",
             new TripslateBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
     public static final Block TRIPSLATE_BRICKS = registerBlock("tripslate_bricks",
@@ -60,7 +60,7 @@ public class ModBlocks {
             new WallBlock(AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BANJO).mapColor(MapColor.PALE_PURPLE).requiresTool().strength(1.5f, 6.0f)));
 
 
-
+    //EUCALYPTUS BLOCKS
     public static final Block EUCALYPTUS_LOG = registerBlock("eucalyptus_log",
             new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
     public static final Block EUCALYPTUS_WOOD = registerBlock("eucalyptus_wood",
@@ -114,17 +114,14 @@ public class ModBlocks {
             .group("wooden").unlockCriterionName("has_planks").build();
 
     //EUCALYPTUS DOORS
-
     public static final Block EUCALYPTUS_DOOR = registerBlock("eucalyptus_door",
             new DoorBlock(BlockSetType.DARK_OAK, AbstractBlock.Settings.create().nonOpaque()));
     public static final Block EUCALYPTUS_TRAPDOOR = registerBlock("eucalyptus_trapdoor",
             new TrapdoorBlock(BlockSetType.DARK_OAK, AbstractBlock.Settings.create().nonOpaque()));
 
     //EUCALYPTUS TREE BLOCKS
-
     public static final Block EUCALYPTUS_LEAVES = registerBlock("eucalyptus_leaves",
             new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
-
     public static final Block EUCALYPTUS_SAPLING = registerBlock("eucalyptus_sapling",
             new SaplingBlock(ModSaplingGenerators.EUCALYPTUS,AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
@@ -180,13 +177,12 @@ public class ModBlocks {
             new SlabBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
     public static final Block CRACKED_MOSSY_GRANITE_BRICK_WALL = registerBlock("cracked_mossy_granite_brick_wall",
             new WallBlock(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
-
     public static final Block CHISELED_GRANITE = registerBlock("chiseled_granite",
             new Block(FabricBlockSettings.copyOf(Blocks.GRANITE).sounds(BlockSoundGroup.MUD_BRICKS)));
 
+    //MISC BLOCKS
     public static final Block GRAVEL_EXHAUST = registerBlock("gravel_exhaust",
             new GravelExhaustBlock(AbstractBlock.Settings.create().strength(3.0f, 6.0f).sounds(BlockSoundGroup.COPPER_GRATE).mapColor(MapColor.ORANGE).requiresTool().nonOpaque()));
-
     public static final Block SCULPTED_CORE = registerBlock("sculpted_core",
             new SculptedCoreBlock(AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_YELLOW).instrument(NoteBlockInstrument.SNARE).sounds(BlockSoundGroup.DECORATED_POT).strength(10.0F).pistonBehavior(PistonBehavior.NORMAL).resistance(1200.0F)));
 

@@ -29,13 +29,6 @@ public class TerraformerItem extends ToolItem {
     public ActionResult useOnBlock(ItemUsageContext context) {
         return super.useOnBlock(context);
     }
-
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        float fallDistance = 0f;
-        user.handleFallDamage(fallDistance, 0.05f, world.getDamageSources().fall());
-        return super.use(world, user, hand);
-    }
 }
 
 

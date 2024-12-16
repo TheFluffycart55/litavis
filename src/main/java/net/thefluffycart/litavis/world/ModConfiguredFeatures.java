@@ -21,6 +21,7 @@ import net.thefluffycart.litavis.world.tree.custom.EucalyptusTrunkPlacer;
 public class ModConfiguredFeatures {
     public static final RegistryKey<ConfiguredFeature<?, ?>> EUCALYPTUS_KEY = registerKey("eucalyptus");
 
+    //PLACEHOLDER FOR NOW, CUSTOM TRUNK AND LEAVE PLACER COMING SOON
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
         register(context, EUCALYPTUS_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                 BlockStateProvider.of(ModBlocks.EUCALYPTUS_LOG),

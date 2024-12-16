@@ -17,6 +17,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.entity.ModBoats;
 import net.thefluffycart.litavis.entity.ModEntities;
 import net.thefluffycart.litavis.entity.custom.BurrowEntity;
 import net.thefluffycart.litavis.item.ModItemGroups;
@@ -35,6 +36,7 @@ public class Litavis implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		//EVENT HANDLER FOR THE TERRAFORMER DURABILITY LOSS
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
 			ItemStack offhandStack = player.getOffHandStack();
 			ItemStack mainHandStack = player.getMainHandStack();
@@ -72,16 +74,17 @@ public class Litavis implements ModInitializer {
 			}
 		});
 
+		//REGISTER EVERYTHING
 		registerStrippables();
 
 		ModSounds.registerSounds();
 		ModEntities.registerModEntities();
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
-		ModItems.registerModItems();
+		ModBlocks.registerModBlocks();
 		ModBlocks.registerModBlocks();
 		ModTrunkPlacerTypes.register();
-
+		ModBoats.registerBoats();
 		ModWorldGeneration.generateModWorldGeneration();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.BURROW, BurrowEntity.createburrowAttributes());

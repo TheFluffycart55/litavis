@@ -10,12 +10,11 @@
     }
   },
   "pattern": [
-    "AAA",
-    "ATA",
-    "AAA"
+    "TA",
+    "AT"
   ],
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "litavis:calibrated_tripslate"
   }
 }

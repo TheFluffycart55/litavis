@@ -10,6 +10,7 @@ import net.thefluffycart.litavis.util.ModTags;
 
 import java.util.function.Supplier;
 
+//SETUP THE REPAIR COST AND ENCHANTABILITY OF THE TERRAFORMER
 public enum ModToolMaterials implements ToolMaterial {
     TERRACOTTA(BlockTags.TERRACOTTA, 200, 7.0f,
             2.0f, 22, () -> Ingredient.ofItems(ModItems.EARTH_CHARGE));

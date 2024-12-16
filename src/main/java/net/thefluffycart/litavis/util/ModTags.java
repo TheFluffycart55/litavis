@@ -12,6 +12,7 @@ public class ModTags {
         {
             return TagKey.of(RegistryKeys.BLOCK, Identifier.of(Litavis.MOD_ID, name));
         }
+        //UNUSED TAG TO MAKE TRIPSLATE VARIANTS FALL TOGETHER. NEEDS WORK DUE TO THE WAY THE WALLS, STAIRS, AND SLABS ARE IMPLEMENTED
         public static final TagKey<Block> TRIPSLATE_BRICK_VARIANTS =
                 createTag("tripslate_brick_variants");
     }

@@ -12,9 +12,10 @@ import net.thefluffycart.litavis.entity.custom.BurrowEntity;
 import net.thefluffycart.litavis.entity.custom.EarthChargeEntity;
 
 public class ModEntities {
+    //BURROW SETUP
     public static final EntityType<BurrowEntity> BURROW = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(Litavis.MOD_ID, "burrow"),
-            EntityType.Builder.create(BurrowEntity::new, SpawnGroup.MONSTER).dimensions(1f, 2f).build());
+            EntityType.Builder.create(BurrowEntity::new, SpawnGroup.MONSTER).dimensions(1f, 1.5f).build());
 
     public static final EntityType<EarthChargeEntity> EARTH_CHARGE = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(Litavis.MOD_ID, "earth_charge"),

@@ -37,6 +37,8 @@ public class ModItemGroups {
                         entries.add(ModBlocks.EUCALYPTUS_TRAPDOOR);
                         entries.add(ModBlocks.EUCALYPTUS_SIGN);
                         entries.add(ModBlocks.HANGING_EUCALYPTUS_SIGN);
+                        entries.add(ModItems.EUCALYPTUS_BOAT);
+                        entries.add(ModItems.EUCALYPTUS_CHEST_BOAT);
                         entries.add(ModBlocks.STRIPPED_EUCALYPTUS_LOG);
                         entries.add(ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
                         entries.add(ModBlocks.EUCALYPTUS_PLANKS);

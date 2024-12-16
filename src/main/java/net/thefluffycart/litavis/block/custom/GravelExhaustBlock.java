@@ -37,8 +37,8 @@ public class GravelExhaustBlock extends Block {
     }
 
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-            randomDisplayTick(state, world, pos, Random.create());
-            entity.handleFallDamage(fallDistance, 0.05f, world.getDamageSources().fall());
+        randomTick(state, (ServerWorld) world, pos, Random.create());
+        entity.handleFallDamage(fallDistance, 0.05f, world.getDamageSources().fall());
     }
 
     public static void spawnSmokeParticle(World world, BlockPos pos, boolean isSignal, boolean lotsOfSmoke) {
@@ -72,9 +72,12 @@ public class GravelExhaustBlock extends Block {
                 if (world.isReceivingRedstonePower(pos))
                 {
                     world.addParticle(ParticleTypes.GUST, (double)pos.getX() + 0.5, (double)pos.getY() + 2, (double)pos.getZ() + 0.5, 1,1,1);
+                    //FOLLOWING MATH BY HOLLOWEDWANDERER
+                    //SETS POWER OF 1 TO 3 BLOCK BOOST, AND POWER OF 15 TO 20
                     Vec3d currentMotion = entity.getVelocity();
                     double boostHeight = 1.214*signalStrength+1.786;
-                    entity.setVelocity(currentMotion.x, Math.sqrt(2*0.115*boostHeight), currentMotion.z);                    entity.velocityModified = true;
+                    entity.setVelocity(currentMotion.x, Math.sqrt(2*0.115*boostHeight), currentMotion.z);
+                    entity.velocityModified = true;
                 }
 
             }

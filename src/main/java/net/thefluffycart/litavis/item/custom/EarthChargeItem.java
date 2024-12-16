@@ -1,6 +1,7 @@
 package net.thefluffycart.litavis.item.custom;
 
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.WindChargeEntity;
@@ -17,6 +18,7 @@ import net.minecraft.util.math.Position;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.thefluffycart.litavis.entity.custom.BurrowEntity;
 import net.thefluffycart.litavis.entity.custom.EarthChargeEntity;
 
 
@@ -29,22 +31,20 @@ public class EarthChargeItem extends Item {
 
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand); // creates a new ItemStack instance of the user's itemStack in-hand
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 1F); // plays a globalSoundEvent
-		/*
-		user.getItemCooldownManager().set(this, 5);
-		Optionally, you can add a cooldown to your item's right-click use, similar to Ender Pearls.
-		*/
+        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 1F);
         if (!world.isClient) {
-            EarthChargeEntity snowballEntity = new EarthChargeEntity(world, user);
-            snowballEntity.setItem(itemStack);
-            snowballEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 1.5F, 0F);
-            world.spawnEntity(snowballEntity);
+            //SETUP EARTH CHARGE ENTITY
+            EarthChargeEntity earthChargeEntity = new EarthChargeEntity(world, user);
+            earthChargeEntity.setItem(itemStack);
+            //SET VELOCITY
+            earthChargeEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 1.5F, 0F);
+            world.spawnEntity(earthChargeEntity);
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         if (!user.getAbilities().creativeMode) {
-            itemStack.decrement(1); // decrements itemStack if user is not in creative mode
+            itemStack.decrement(1);
         }
-
+        //SOUND PLUS HANDLE ITEM
         world.playSound((PlayerEntity)null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WIND_CHARGE_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
         user.getItemCooldownManager().set(this, 10);
         user.incrementStat(Stats.USED.getOrCreateStat(this));

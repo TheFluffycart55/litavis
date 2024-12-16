@@ -76,8 +76,9 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.BURROW_ROD, Models.GENERATED);
-        itemModelGenerator.register(ModItems.EUCALYPTUS_SIGN, Models.GENERATED);
         itemModelGenerator.register(ModItems.HANGING_EUCALYPTUS_SIGN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EUCALYPTUS_BOAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EUCALYPTUS_CHEST_BOAT, Models.GENERATED);
         itemModelGenerator.register(ModBlocks.EUCALYPTUS_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModItems.ENTOMBED_KEY, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARTH_CHARGE, Models.GENERATED);
