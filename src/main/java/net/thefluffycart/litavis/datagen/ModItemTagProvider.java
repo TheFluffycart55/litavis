@@ -2,6 +2,7 @@ package net.thefluffycart.litavis.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.thefluffycart.litavis.block.ModBlocks;
@@ -23,6 +24,18 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.PLANKS)
                 .add(ModBlocks.EUCALYPTUS_PLANKS.asItem());
 
+        getOrCreateTagBuilder(ItemTags.DOORS)
+                .add(ModBlocks.EUCALYPTUS_DOOR.asItem());
+
+        getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS)
+                .add(ModBlocks.EUCALYPTUS_TRAPDOOR.asItem());
+
+        getOrCreateTagBuilder(ItemTags.SIGNS)
+                .add(ModItems.EUCALYPTUS_SIGN);
+
+        getOrCreateTagBuilder(ItemTags.HANGING_SIGNS)
+                .add(ModItems.HANGING_EUCALYPTUS_SIGN);
+
         getOrCreateTagBuilder(ItemTags.BOATS)
                 .add(ModItems.EUCALYPTUS_BOAT);
 
@@ -33,5 +46,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.TERRAFORMER);
         getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE)
                 .add(ModItems.TERRAFORMER);
+
+        getOrCreateTagBuilder(ItemTags.TRIM_TEMPLATES)
+                .add(ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE);
     }
 }
