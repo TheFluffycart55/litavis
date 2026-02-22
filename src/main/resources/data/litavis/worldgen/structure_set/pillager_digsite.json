@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 109112001,
+    "separation": 25,
+    "spacing": 30
+  },
+  "structures": [
+    {
+      "structure": "litavis:pillager_digsite",
+      "weight": 3
+    }
+  ]
+}
+

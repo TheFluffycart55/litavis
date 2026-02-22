@@ -28,11 +28,19 @@ repositories {
 	}
 
 	maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com/'
+	}
+
+	maven {
 		name = 'Sherds API'
 		url = 'https://dl.cloudsmith.io/public/thomasglasser/sherdsapi/maven/'
 		content {
 			includeGroupAndSubgroups("dev.thomasglasser.sherdsapi")
 		}
+	}
+	maven {
+		url = 'https://maven.minecraftforge.net/'
 	}
 
 }
@@ -48,6 +56,8 @@ repositories {
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 		modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}"
 		modImplementation "dev.thomasglasser.sherdsapi:sherdsapi-fabric-${project.minecraft_version}:5.2.10"
+		modImplementation 'com.github.glitchfiend:TerraBlender-fabric:1.21.1-4.1.0.8'
+		modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraform_wood_api_version}"
 	}
 
 	processResources {

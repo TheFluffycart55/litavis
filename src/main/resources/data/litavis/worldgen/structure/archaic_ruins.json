@@ -133,10 +133,10 @@
   "start_height": {
     "type": "minecraft:uniform",
     "max_inclusive": {
-      "absolute": 10
+      "absolute": 20
     },
     "min_inclusive": {
-      "absolute": -40
+      "absolute": -10
     }
   },
   "start_pool": "litavis:archaic_ruins/origin/origin",

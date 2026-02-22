@@ -2,6 +2,7 @@
   "values": [
     "minecraft:savanna",
     "minecraft:savanna_plateau",
-    "minecraft:wooded_badlands"
+    "minecraft:wooded_badlands",
+    "litavis:outback"
   ]
 }

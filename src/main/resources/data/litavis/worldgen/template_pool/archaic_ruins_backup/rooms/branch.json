@@ -3,8 +3,8 @@
     {
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "litavis:archaic_ruins/rooms/lobby01",
-        "processors": "litavis:lobby_gravel_path",
+        "location": "litavis:archaic_ruins/rooms/lobby02",
+        "processors": "litavis:archaic",
         "projection": "rigid"
       },
       "weight": 1

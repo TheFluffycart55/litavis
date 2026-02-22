@@ -1,8 +1,16 @@
 package net.thefluffycart.litavis.block;
 
+import com.terraformersmc.terraform.sign.api.block.TerraformHangingSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformWallHangingSignBlock;
+import com.terraformersmc.terraform.sign.api.block.TerraformWallSignBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.enums.VaultState;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.data.family.BlockFamilies;
+import net.minecraft.data.family.BlockFamily;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -10,6 +18,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
 import net.thefluffycart.litavis.block.custom.*;
@@ -57,9 +66,9 @@ public class ModBlocks {
 
     //EUCALYPTUS BLOCKS
     public static final Block EUCALYPTUS_LOG = registerBlock("eucalyptus_log",
-            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+            new BurningLogBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
     public static final Block EUCALYPTUS_WOOD = registerBlock("eucalyptus_wood",
-            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+            new BurningLogBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
     public static final Block STRIPPED_EUCALYPTUS_LOG = registerBlock("stripped_eucalyptus_log",
             new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
     public static final Block STRIPPED_EUCALYPTUS_WOOD = registerBlock("stripped_eucalyptus_wood",
@@ -93,6 +102,58 @@ public class ModBlocks {
             new OilyLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
     public static final Block EUCALYPTUS_SAPLING = registerBlock("eucalyptus_sapling",
             new SaplingBlock(ModSaplingGenerators.EUCALYPTUS,AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
+    public static final Block EUCALYPTUS_SIGN = registerBlock("eucalyptus_sign",
+            new SignBlock(WoodType.ACACIA, AbstractBlock.Settings.create().mapColor(MapColor.DARK_CRIMSON).solid().instrument(NoteBlockInstrument.BASS).noCollision().strength(1.0f)));
+
+
+    //EUCALYPTUS SIGNS
+
+    public static final Identifier EUCALYPTUS_SIGN_TEXTURE = Identifier.of(Litavis.MOD_ID, "entity/signs/eucalyptus_sign");
+    public static final Identifier EUCALYPTUS_HANGING_SIGN_TEXTURE = Identifier.of(Litavis.MOD_ID, "entity/signs/hanging/hanging_eucalyptus_sign");
+    public static final Identifier EUCALYPTUS_HANGING_GUI_SIGN_TEXTURE = Identifier.of(Litavis.MOD_ID, "textures/gui/hanging_signs/eucalyptus_sign");
+
+    public static final Block STANDING_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_standing_sign"),
+            new TerraformSignBlock(EUCALYPTUS_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_SIGN)));
+
+    public static final Block WALL_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_wall_sign"),
+            new TerraformWallSignBlock(EUCALYPTUS_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_WALL_SIGN).dropsLike(STANDING_EUCALYPTUS_SIGN)));
+
+    public static final Block HANGING_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_hanging_sign"),
+            new TerraformHangingSignBlock(EUCALYPTUS_HANGING_SIGN_TEXTURE, EUCALYPTUS_HANGING_GUI_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_HANGING_SIGN)));
+
+    public static final Block WALL_HANGING_EUCALYPTUS_SIGN = Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, "eucalyptus_wall_hanging_sign"),
+            new TerraformWallHangingSignBlock(EUCALYPTUS_HANGING_SIGN_TEXTURE, EUCALYPTUS_HANGING_GUI_SIGN_TEXTURE, FabricBlockSettings.copyOf(Blocks.OAK_WALL_HANGING_SIGN).dropsLike(HANGING_EUCALYPTUS_SIGN)));
+
+    public static final BlockFamily EUCALYPTUS_FAMILY = BlockFamilies.register(ModBlocks.EUCALYPTUS_PLANKS)
+            .sign(ModBlocks.STANDING_EUCALYPTUS_SIGN, ModBlocks.WALL_EUCALYPTUS_SIGN)
+            .group("wooden").unlockCriterionName("has_planks").build();
+
+    public static final Block CRISPEN_LOG = registerBlock("crispen_log",
+            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+    public static final Block CRISPEN_WOOD = registerBlock("crispen_wood",
+            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+    public static final Block STRIPPED_CRISPEN_LOG = registerBlock("stripped_crispen_log",
+            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+    public static final Block STRIPPED_CRISPEN_WOOD = registerBlock("stripped_crispen_wood",
+            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+    public static final Block CRISPEN_PLANKS = registerBlock("crispen_planks",
+            new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+    public static final Block CRISPEN_STAIRS = registerBlock("crispen_stairs",
+            new StairsBlock(ModBlocks.CRISPEN_PLANKS.getDefaultState(),
+                    AbstractBlock.Settings.copy(Blocks.ACACIA_STAIRS)));
+    public static final Block CRISPEN_SLAB = registerBlock("crispen_slab",
+            new SlabBlock(AbstractBlock.Settings.copy(Blocks.ACACIA_SLAB)));
+
+    public static final Block CRISPEN_FENCE = registerBlock("crispen_fence",
+            new FenceBlock(AbstractBlock.Settings.copy(Blocks.ACACIA_FENCE)));
+    public static final Block CRISPEN_FENCE_GATE = registerBlock("crispen_fence_gate",
+            new FenceGateBlock(WoodType.ACACIA, AbstractBlock.Settings.copy(Blocks.ACACIA_FENCE_GATE)));
+
+    public static final Block CRISPEN_PRESSURE_PLATE = registerBlock("crispen_pressure_plate",
+            new PressurePlateBlock(BlockSetType.ACACIA, AbstractBlock.Settings.copy(Blocks.ACACIA_PRESSURE_PLATE)));
+    public static final Block CRISPEN_BUTTON = registerBlock("crispen_button",
+            new ButtonBlock(BlockSetType.ACACIA, 10, AbstractBlock.Settings.copy(Blocks.ACACIA_BUTTON)));
 
     //Granite Variants
     public static final Block GRANITE_PILLAR = registerBlock("granite_pillar",
@@ -146,6 +207,7 @@ public class ModBlocks {
 
     public static final Block BURROW_HEAD = registerBlock("burrow_head", new BurrowSkullBlock(AbstractBlock.Settings.create().strength(1.0F).pistonBehavior(PistonBehavior.DESTROY)));
 
+    public static final Block SAFETY_ROPE = registerBlockWithoutBlockItem("safety_rope", new SafetyRopeBlock(AbstractBlock.Settings.create().mapColor(MapColor.BROWN).noCollision().breakInstantly().strength(0.5F).sounds(BlockSoundGroup.WOOL).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));
 
     private static Block registerBlockWithoutBlockItem(String name, Block block) {
         return Registry.register(Registries.BLOCK, Identifier.of(Litavis.MOD_ID, name), block);

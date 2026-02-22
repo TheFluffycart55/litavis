@@ -70,6 +70,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.EUCALYPTUS_TRAPDOOR);
 
         getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(ModBlocks.EUCALYPTUS_FENCE);
+        getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.EUCALYPTUS_FENCE);
         getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(ModBlocks.EUCALYPTUS_FENCE_GATE);
 
         getOrCreateTagBuilder(BlockTags.MOSS_REPLACEABLE)
@@ -135,5 +136,11 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(Blocks.DEEPSLATE_COAL_ORE, Blocks.DEEPSLATE_COPPER_ORE, Blocks.DEEPSLATE_IRON_ORE,
                         Blocks.DEEPSLATE_GOLD_ORE, Blocks.DEEPSLATE_REDSTONE_ORE, Blocks.DEEPSLATE_LAPIS_ORE,
                         Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.DEEPSLATE_EMERALD_ORE);
+
+        getOrCreateTagBuilder(BlockTags.CLIMBABLE)
+                .add(ModBlocks.SAFETY_ROPE);
+
+        getOrCreateTagBuilder(ModTags.Blocks.PLATYPUS_SPAWNABLE)
+                .add(Blocks.DIRT, Blocks.WATER, Blocks.GRAVEL);
     }
 }

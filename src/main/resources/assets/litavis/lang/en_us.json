@@ -25,6 +25,9 @@
   "advancements.litavis.get_terraformer": "Rock and Stone",
   "advancements.description.litavis.get_terraformer": "Find a Terraformer and equip it in your offhand",
 
+  "advancements.litavis.secret_agent.title": "Mission Compromised",
+  "advancements.litavis.secret_agent.description": "Feed a Platypus a Glow Sac to blow their cover",
+
   "block.litavis.eucalyptus_sapling": "Eucalyptus Sapling",
   "block.litavis.eucalyptus_leaves": "Eucalyptus Leaves",
   "block.litavis.eucalyptus_stairs": "Eucalyptus Stairs",
@@ -50,6 +53,7 @@
   "item.litavis.tirim_berries": "Tirim Berries",
   "block.litavis.tirim_berries": "Tirim Berries",
   "block.litavis.powder_keg": "Powder Keg",
+  "block.litavis.burrow_head": "Burrow Head",
 
   "block.litavis.granite_bricks": "Granite Bricks",
   "block.litavis.granite_brick_stairs": "Granite Brick Stairs",

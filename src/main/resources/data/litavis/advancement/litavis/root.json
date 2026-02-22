@@ -3,11 +3,11 @@
     "icon": {
       "id": "litavis:eucalyptus_log"
     },
-    "title": "Can't Take the Heat",
-    "description": "Enter a biome with a hot climate",
+    "title": "Down and Under Again",
+    "description": "Enter an Outback Biome for the first time",
     "background": "minecraft:textures/block/mud.png",
     "show_toast": false,
-    "announce_to_chat": false
+    "announce_to_chat": true
   },
   "criteria": {
     "enter_biome": {
@@ -20,7 +20,7 @@
             "predicate": {
               "biomes": [],
               "location": {
-                "biomes": "#litavis:has_structure/archaic_ruins"
+                "biomes": "litavis:outback"
               }
             }
           }

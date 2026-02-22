@@ -1,20 +1,23 @@
-// 1.21.1	2025-11-26T14:03:15.7906028	Litavis/Tags for minecraft:block
+// 1.21.1	2026-02-21T19:16:49.2790493	Litavis/Tags for minecraft:block
 b7d90a5ea3aac2aa12cf5d41172820a97da00de0 data\minecraft\tags\block\mineable\pickaxe.json
 18daf366727681dbf3eaa7c654faf337201a6301 data\minecraft\tags\block\wooden_buttons.json
+240e9ad037615dc29250544099b4cf230d196f17 data\minecraft\tags\block\climbable.json
 315862ba23f6f1e4371816fe41dcfc5dc2d31b74 data\litavis\tags\block\earth_charge_restricted.json
 50f65509577876af9efb311a1fe877464d29b10a data\minecraft\tags\block\saplings.json
+b163091ae5c45cc462925477285893d1220e04b4 data\minecraft\tags\block\fences.json
 f666b620fc95f0438e37d9211265283ec6e3f14f data\minecraft\tags\block\wooden_pressure_plates.json
 dc13d350eb014cd001bd49cc7798620db0cf8ed4 data\minecraft\tags\block\stairs.json
 0335ba64d2a61959216e5721aa833852e6ec7ae5 data\minecraft\tags\block\logs.json
+d05176600fec09f2a42104d5a0ed831180aa374f data\litavis\tags\block\platypus_spawnable.json
 bad3d598dff4b24b4de2515661cf6f87a022fdf5 data\minecraft\tags\block\slabs.json
 f2cb8853f48db95e6940b18b16fcca23b832b174 data\minecraft\tags\block\leaves.json
 663aa6132d27bec46b2222e1868195c9212265a9 data\minecraft\tags\block\wooden_doors.json
 7754f623280be7b8bccf994b25b8ce8a7d1b8e04 data\minecraft\tags\block\planks.json
 c61ed250b448725f46210af040475f4c4b09118f data\minecraft\tags\block\fence_gates.json
 f456f4d576e67feb071de087b6589978855dbca9 data\c\tags\block\stripped_woods.json
-682081399192465de7ad879ce91b7448dbda2112 data\minecraft\tags\block\wooden_trapdoors.json
 b163091ae5c45cc462925477285893d1220e04b4 data\minecraft\tags\block\wooden_fences.json
+682081399192465de7ad879ce91b7448dbda2112 data\minecraft\tags\block\wooden_trapdoors.json
 7d7cd1e52f550d335df691d72c9dd50828121d93 data\minecraft\tags\block\walls.json
-ece2e98b87b230801c2c1d6044b87f71e3067e6b data\minecraft\tags\block\moss_replaceable.json
 418e41ab3c66199ff8c56c71f7a2ec83cd578ad0 data\c\tags\block\stripped_logs.json
+ece2e98b87b230801c2c1d6044b87f71e3067e6b data\minecraft\tags\block\moss_replaceable.json
 5f67f5b1b9411281a8c59382c7a1588538f78446 data\litavis\tags\block\earth_charge_throwable.json

@@ -4,7 +4,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "litavis:archaic_ruins/rooms/dungeon/cliffside",
-        "processors": "litavis:granite_vars",
+        "processors": "litavis:archaic",
         "projection": "rigid"
       },
       "weight": 1
@@ -13,16 +13,25 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "litavis:archaic_ruins/rooms/dungeon/spring",
-        "processors": "litavis:granite_vars",
+        "processors": "litavis:archaic",
         "projection": "rigid"
       },
-      "weight": 5
+      "weight": 1
     },
     {
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "litavis:archaic_ruins/rooms/dungeon/street",
-        "processors": "litavis:granite_vars",
+        "processors": "litavis:archaic",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "litavis:archaic_ruins/rooms/dungeon/tower",
+        "processors": "litavis:archaic",
         "projection": "rigid"
       },
       "weight": 3
@@ -30,11 +39,11 @@
     {
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "litavis:archaic_ruins/rooms/dungeon/tower",
-        "processors": "litavis:granite_vars",
+        "location": "litavis:archaic_ruins/rooms/dungeon/graveyard",
+        "processors": "litavis:archaic",
         "projection": "rigid"
       },
-      "weight": 4
+      "weight": 2
     }
   ],
   "fallback": "minecraft:empty"

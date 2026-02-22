@@ -1,19 +1,23 @@
 package net.thefluffycart.litavis.item;
 
+import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.thefluffycart.litavis.Litavis;
 import net.thefluffycart.litavis.block.ModBlocks;
+import net.thefluffycart.litavis.entity.ModBoats;
 import net.thefluffycart.litavis.entity.ModEntities;
-import net.thefluffycart.litavis.item.custom.CapsizerItem;
-import net.thefluffycart.litavis.item.custom.EarthChargeItem;
-import net.thefluffycart.litavis.item.custom.EucalyptusOilItem;
-import net.thefluffycart.litavis.item.custom.TerraformerItem;
+import net.thefluffycart.litavis.item.custom.*;
 import net.thefluffycart.litavis.sound.ModSounds;
 
 public class ModItems {
@@ -27,12 +31,19 @@ public class ModItems {
     public static final Item ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("entombed_armor_trim_smithing_template", SmithingTemplateItem.of(Identifier.of("litavis", "entombed_armor_trim")));
     public static final Item DRIP_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("drip_armor_trim_smithing_template", SmithingTemplateItem.of(Identifier.of("litavis", "drip_armor_trim")));
     public static final Item BURROW_SPAWN_EGG = registerItem("burrow_spawn_egg",
-            new SpawnEggItem(ModEntities.BURROW, 0xffc8a1, 0xa16133, new Item.Settings()));
-    public static final Item TUNING_FORK = registerItem("tuning_fork", new Item(new Item.Settings().maxCount(1)));
+            new SpawnEggItem(ModEntities.BURROW, 0x9C5D41, 0x783F2C, new Item.Settings()));
+    public static final Item PLATYPUS_SPAWN_EGG = registerItem("platypus_spawn_egg",
+            new SpawnEggItem(ModEntities.PLATYPUS, 0x6E5741, 0x41362B, new Item.Settings()));
     public static final Item TERRA_POTTERY_SHERD = registerItem("terra_pottery_sherd", new Item(new Item.Settings()));
+    public static final Item PLATYPUS_BUCKET = registerItem("platypus_bucket", new EntityBucketItem(ModEntities.PLATYPUS, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_AXOLOTL, (new Item.Settings()).maxCount(1).component(DataComponentTypes.BUCKET_ENTITY_DATA, NbtComponent.DEFAULT)));
     public static final Item TOMB_POTTERY_SHERD = registerItem("tomb_pottery_sherd", new Item(new Item.Settings()));
     public static final Item EUCALYPTUS_OIL_VIAL = registerItem("eucalyptus_oil_vial", new EucalyptusOilItem(new Item.Settings().maxCount(16)));
-
+    public static final Item EUCALYPTUS_SIGN = registerItem("eucalyptus_sign",
+            new SignItem(new Item.Settings().maxCount(16), ModBlocks.STANDING_EUCALYPTUS_SIGN, ModBlocks.WALL_EUCALYPTUS_SIGN));
+    public static final Item HANGING_EUCALYPTUS_SIGN = registerItem("eucalyptus_hanging_sign",
+            new HangingSignItem(ModBlocks.HANGING_EUCALYPTUS_SIGN, ModBlocks.WALL_HANGING_EUCALYPTUS_SIGN, new Item.Settings().maxCount(16)));
+    public static final Item EUCALYPTUS_BOAT = TerraformBoatItemHelper.registerBoatItem(ModBoats.EUCALYPTUS_BOAT_ID, ModBoats.EUCALYPTUS_BOAT_KEY, false);
+    public static final Item EUCALYPTUS_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(ModBoats.EUCALYPTUS_CHEST_BOAT_ID, ModBoats.EUCALYPTUS_BOAT_KEY, true);
 
     public static final Item EARTH_CHARGE = registerItem("earth_charge",
             new EarthChargeItem(new Item.Settings()));
@@ -40,9 +51,11 @@ public class ModItems {
     public static final Item TIRIM_BERRIES = registerItem("tirim_berries",
             new AliasedBlockItem(ModBlocks.TIRIM_BERRY_BUSH, new Item.Settings().food(ModFoodComponents.TIRIM_BERRY)));
 
+    public static final Item SAFETY_ROPE = registerItem("safety_rope_item",
+            new SafetyRopeItem(ModBlocks.SAFETY_ROPE, new Item.Settings()));
+
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
         entries.add(BURROW_ROD);
-        entries.add(ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE);
         entries.add(EARTH_CHARGE);
     }
 

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "bottom=false": {
+      "model": "litavis:block/safety_rope_middle"
+    },
+    "bottom=true": {
+      "model": "litavis:block/safety_rope_bottom"
+    }
+  }
+}

@@ -18,10 +18,8 @@ public class LitavisDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModLootTableProvider::new);
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModRecipeProvider::new);
-		pack.addProvider(ModWorldGenerator::new);
 		pack.addProvider(ModRegistryProvider::new);
 	}
-
 
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {

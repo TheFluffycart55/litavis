@@ -24,6 +24,7 @@ public class ModModelProvider extends FabricModelProvider {
         BlockStateModelGenerator.BlockTexturePool mossyTripslateBrickTexturePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MOSSY_TRIPSLATE_BRICKS);
         BlockStateModelGenerator.BlockTexturePool crackedTripslateBrickTexturePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.CRACKED_TRIPSLATE_BRICKS);
         BlockStateModelGenerator.BlockTexturePool eucalyptusTexturePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.EUCALYPTUS_PLANKS);
+        BlockStateModelGenerator.BlockTexturePool crispenTexturePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.CRISPEN_PLANKS);
 
         graniteBrickTexturePool.stairs(ModBlocks.GRANITE_BRICK_STAIRS);
         graniteBrickTexturePool.slab(ModBlocks.GRANITE_BRICK_SLAB);
@@ -50,7 +51,6 @@ public class ModModelProvider extends FabricModelProvider {
         mossyTripslateBrickTexturePool.slab(ModBlocks.MOSSY_TRIPSLATE_BRICK_SLAB);
         mossyTripslateBrickTexturePool.wall(ModBlocks.MOSSY_TRIPSLATE_BRICK_WALL);
 
-        blockStateModelGenerator.registerLog(ModBlocks.EUCALYPTUS_LOG).log(ModBlocks.EUCALYPTUS_LOG).wood(ModBlocks.EUCALYPTUS_WOOD);
         blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_EUCALYPTUS_LOG).log(ModBlocks.STRIPPED_EUCALYPTUS_LOG).wood(ModBlocks.STRIPPED_EUCALYPTUS_WOOD);
 
         blockStateModelGenerator.registerFlowerPotPlant(ModBlocks.EUCALYPTUS_SAPLING, ModBlocks.POTTED_EUCALYPTUS_SAPLING, BlockStateModelGenerator.TintType.NOT_TINTED);
@@ -62,8 +62,21 @@ public class ModModelProvider extends FabricModelProvider {
         eucalyptusTexturePool.fence(ModBlocks.EUCALYPTUS_FENCE);
         eucalyptusTexturePool.fenceGate(ModBlocks.EUCALYPTUS_FENCE_GATE);
 
+        blockStateModelGenerator.registerLog(ModBlocks.CRISPEN_LOG).log(ModBlocks.CRISPEN_LOG).wood(ModBlocks.CRISPEN_WOOD);
+        blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_CRISPEN_LOG).log(ModBlocks.STRIPPED_CRISPEN_LOG).wood(ModBlocks.STRIPPED_CRISPEN_WOOD);
+
+        crispenTexturePool.stairs(ModBlocks.CRISPEN_STAIRS);
+        crispenTexturePool.slab(ModBlocks.CRISPEN_SLAB);
+        crispenTexturePool.button(ModBlocks.CRISPEN_BUTTON);
+        crispenTexturePool.pressurePlate(ModBlocks.CRISPEN_PRESSURE_PLATE);
+        crispenTexturePool.fence(ModBlocks.CRISPEN_FENCE);
+        crispenTexturePool.fenceGate(ModBlocks.CRISPEN_FENCE_GATE);
+
         blockStateModelGenerator.registerDoor(ModBlocks.EUCALYPTUS_DOOR);
         blockStateModelGenerator.registerOrientableTrapdoor(ModBlocks.EUCALYPTUS_TRAPDOOR);
+
+        eucalyptusTexturePool.family(ModBlocks.EUCALYPTUS_FAMILY);
+
 
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.TIRIM_BERRY_BUSH, BlockStateModelGenerator.TintType.NOT_TINTED,
                 TirimBerryBushBlock.AGE, 0, 1, 2, 3);
@@ -77,20 +90,18 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.BURROW_ROD, Models.GENERATED);
         itemModelGenerator.register(ModItems.TERRA_POTTERY_SHERD, Models.GENERATED);
         itemModelGenerator.register(ModItems.TOMB_POTTERY_SHERD, Models.GENERATED);
-//        itemModelGenerator.register(ModItems.HANGING_EUCALYPTUS_SIGN, Models.GENERATED);
-//        itemModelGenerator.register(ModItems.EUCALYPTUS_BOAT, Models.GENERATED);
-//        itemModelGenerator.register(ModItems.EUCALYPTUS_CHEST_BOAT, Models.GENERATED);
-        //itemModelGenerator.register(ModBlocks.EUCALYPTUS_SAPLING.asItem(), Models.GENERATED);
-//        itemModelGenerator.register(ModItems.HANGING_CRISPEN_SIGN, Models.GENERATED);
-//        itemModelGenerator.register(ModItems.CRISPEN_BOAT, Models.GENERATED);
-//        itemModelGenerator.register(ModItems.CRISPEN_CHEST_BOAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.HANGING_EUCALYPTUS_SIGN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EUCALYPTUS_BOAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EUCALYPTUS_CHEST_BOAT, Models.GENERATED);
         itemModelGenerator.register(ModItems.ARCHAIC_KEY, Models.GENERATED);
-        itemModelGenerator.register(ModItems.TUNING_FORK, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARTH_CHARGE, Models.GENERATED);
         itemModelGenerator.register(ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE, Models.GENERATED);
         itemModelGenerator.register(ModItems.DRIP_ARMOR_TRIM_SMITHING_TEMPLATE, Models.GENERATED);
         itemModelGenerator.register(ModItems.EUCALYPTUS_OIL_VIAL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.PLATYPUS_BUCKET, Models.GENERATED);
         itemModelGenerator.register(ModItems.BURROW_SPAWN_EGG,
+                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
+        itemModelGenerator.register(ModItems.PLATYPUS_SPAWN_EGG,
                 new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
     }
 }

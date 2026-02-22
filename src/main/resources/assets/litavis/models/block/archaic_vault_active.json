@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/template_archaic_vault",
+  "textures": {
+    "bottom": "minecraft:block/archaic_vault_bottom",
+    "front": "minecraft:block/archaic_vault_front_on",
+    "side": "minecraft:block/archaic_vault_side_on",
+    "top": "minecraft:block/archaic_vault_top"
+  }
+}

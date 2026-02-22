@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 123456789,
+    "separation": 12,
+    "spacing": 22
+  },
+  "structures": [
+    {
+      "structure": "litavis:pillager_balloon",
+      "weight": 3
+    }
+  ]
+}
+

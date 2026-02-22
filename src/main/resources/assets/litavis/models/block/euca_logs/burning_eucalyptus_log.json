@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "litavis:block/euca_log/burning_eucalyptus_log_top",
+    "side": "litavis:block/euca_log/burning_eucalyptus_log"
+  }
+}

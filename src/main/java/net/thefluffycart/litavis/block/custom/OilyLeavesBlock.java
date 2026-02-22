@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class OilyLeavesBlock extends LeavesBlock {
     public static BooleanProperty HAS_OIL = BooleanProperty.of("has_oil");
-    public static final MapCodec<BeehiveBlock> CODEC = createCodec(BeehiveBlock::new);
+//    public static final MapCodec<BeehiveBlock> CODEC = createCodec(BeehiveBlock::new);
 
     public OilyLeavesBlock(Settings settings) {
         super(settings);
@@ -92,7 +93,7 @@ public class OilyLeavesBlock extends LeavesBlock {
         if (has_oil)
         {
             if (!(f > 0.05F)) {
-                if (EucalyptusLeavesBlock.canSpawnParticles(world.getBlockState(pos.down())))
+                if (OilyLeavesBlock.canSpawnParticles(world.getBlockState(pos.down())))
                 {
                     createParticle(world, pos, state, random);
                 }
@@ -127,5 +128,17 @@ public class OilyLeavesBlock extends LeavesBlock {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(HAS_OIL);
+    }
+
+    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        if (this.shouldDecay(state)) {
+            dropStacks(state, world, pos);
+            world.removeBlock(pos, false);
+        }
+
+    }
+
+    protected boolean shouldDecay(BlockState state) {
+        return (Integer)state.get(DISTANCE) == 7;
     }
 }

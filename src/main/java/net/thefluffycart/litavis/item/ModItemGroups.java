@@ -18,6 +18,8 @@ public class ModItemGroups {
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.litavis"))
                     .icon(()-> new ItemStack(ModItems.ARCHAIC_KEY)).entries((displayContext, entries) -> {
                         entries.add(ModItems.BURROW_SPAWN_EGG);
+                        entries.add(ModItems.PLATYPUS_SPAWN_EGG);
+                        entries.add(ModItems.PLATYPUS_BUCKET);
                         entries.add(ModItems.EARTH_CHARGE);
                         entries.add(ModItems.ARCHAIC_KEY);
                         entries.add(ModItems.BURROW_ROD);
@@ -26,12 +28,15 @@ public class ModItemGroups {
                         entries.add(ModItems.DRIP_ARMOR_TRIM_SMITHING_TEMPLATE);
                         entries.add(ModItems.TERRA_POTTERY_SHERD);
                         entries.add(ModItems.TOMB_POTTERY_SHERD);
-                        entries.add(ModItems.RELIC_DISC_FRAGMENT);
                         entries.add(ModItems.BURIED_DISC_FRAGMENT);
+                        entries.add(ModItems.RELIC_DISC_FRAGMENT);
                         entries.add(ModItems.ECHOES_MUSIC_DISC);
                         entries.add(ModBlocks.POWDER_KEG);
                         entries.add(ModItems.TIRIM_BERRIES);
                         entries.add(ModBlocks.EUCALYPTUS_SAPLING);
+                        entries.add(ModItems.EUCALYPTUS_OIL_VIAL);
+                        entries.add(ModItems.EUCALYPTUS_BOAT);
+                        entries.add(ModItems.EUCALYPTUS_CHEST_BOAT);
                     }).build());
 
     public static final ItemGroup LITAVIS_GRANITE = Registry.register(Registries.ITEM_GROUP,
@@ -58,6 +63,7 @@ public class ModItemGroups {
                         entries.add(ModBlocks.MOSSY_GRANITE_PILLAR);
 
                         entries.add(ModBlocks.TRIPSLATE);
+                        entries.add(ModBlocks.CALIBRATED_TRIPSLATE);
                         entries.add(ModBlocks.POLISHED_TRIPSLATE);
                         entries.add(ModBlocks.TRIPSLATE_BRICKS);
                         entries.add(ModBlocks.TRIPSLATE_BRICK_STAIRS);
@@ -89,6 +95,22 @@ public class ModItemGroups {
                         entries.add(ModBlocks.EUCALYPTUS_BUTTON);
                         entries.add(ModBlocks.EUCALYPTUS_PRESSURE_PLATE);
                         entries.add(ModBlocks.EUCALYPTUS_LEAVES);
+                        entries.add(ModItems.EUCALYPTUS_SIGN);
+                        entries.add(ModItems.HANGING_EUCALYPTUS_SIGN);
+                        entries.add(ModBlocks.BURROW_HEAD);
+                        entries.add(ModItems.SAFETY_ROPE);
+
+                        entries.add(ModBlocks.CRISPEN_LOG);
+                        entries.add(ModBlocks.CRISPEN_WOOD);
+                        entries.add(ModBlocks.STRIPPED_CRISPEN_LOG);
+                        entries.add(ModBlocks.STRIPPED_CRISPEN_WOOD);
+                        entries.add(ModBlocks.CRISPEN_PLANKS);
+                        entries.add(ModBlocks.CRISPEN_STAIRS);
+                        entries.add(ModBlocks.CRISPEN_SLAB);
+                        entries.add(ModBlocks.CRISPEN_FENCE);
+                        entries.add(ModBlocks.CRISPEN_FENCE_GATE);
+                        entries.add(ModBlocks.CRISPEN_BUTTON);
+                        entries.add(ModBlocks.CRISPEN_PRESSURE_PLATE);
 
                         if (FabricLoader.getInstance().isModLoaded("zeldacraft"))
                         {

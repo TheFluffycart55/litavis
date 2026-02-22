@@ -8,9 +8,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.thefluffycart.litavis.Litavis;
-import net.thefluffycart.litavis.entity.custom.BurrowEntity;
-import net.thefluffycart.litavis.entity.custom.CopperGolemEntity;
-import net.thefluffycart.litavis.entity.custom.EarthChargeEntity;
+import net.thefluffycart.litavis.entity.custom.*;
 
 public class ModEntities {
     //BURROW SETUP
@@ -21,6 +19,10 @@ public class ModEntities {
     public static final EntityType<CopperGolemEntity> COPPER_GOLEM = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(Litavis.MOD_ID, "copper_golem"),
             EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MONSTER).dimensions(0.8f, 1.45f).build());
+
+    public static final EntityType<PlatypusEntity> PLATYPUS = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(Litavis.MOD_ID, "platypus"),
+            EntityType.Builder.create(PlatypusEntity::new, SpawnGroup.WATER_AMBIENT).dimensions(0.8f, 0.8f).build());
 
     public static final EntityType<EarthChargeEntity> EARTH_CHARGE = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(Litavis.MOD_ID, "earth_charge"),

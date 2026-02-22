@@ -19,8 +19,8 @@ public class ModTags {
                 createTag("earth_charge_throwable");
         public static final TagKey<Block> EARTH_CHARGE_RESTRICTED =
                 createTag("earth_charge_restricted");
-        public static final TagKey<Block> BURROW_PASSABLE =
-                createTag("burrow_passable");
+        public static final TagKey<Block> PLATYPUS_SPAWNABLE =
+                createTag("platypus_spawnable");
     }
 
     public static class Items {
@@ -30,6 +30,8 @@ public class ModTags {
         }
         public static final TagKey<Item> EARTH_CHARGE_THROWABLE =
                 createTag("earth_charge_throwable");
+        public static final TagKey<Item> PLATYPUS_FOOD =
+                createTag("platypus_food");
 
     }
 

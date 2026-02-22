@@ -1,6 +1,5 @@
 package net.thefluffycart.litavis.entity.custom;
 
-import net.minecraft.client.render.entity.EvokerEntityRenderer;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -12,20 +11,14 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.thefluffycart.litavis.entity.ai.goals.BurrowCharge;
-import net.thefluffycart.litavis.entity.ai.goals.GroundPound;
 import net.thefluffycart.litavis.entity.variant.BurrowVariant;
 import net.thefluffycart.litavis.sound.ModSounds;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumSet;
 
 public class BurrowEntity extends HostileEntity {
     private static final TrackedData<Integer> DATA_ID_TYPE_VARIANT =
@@ -114,8 +107,7 @@ public class BurrowEntity extends HostileEntity {
         //BURROW GOALS
         protected void initGoals() {
         this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-        this.goalSelector.add(3, new BurrowCharge(this));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.65));
+        //this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.65));
         this.goalSelector.add(6, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true).setMaxTimeWithoutVisibility(300));
@@ -214,4 +206,6 @@ public class BurrowEntity extends HostileEntity {
         super.writeCustomDataToNbt(nbt);
         nbt.putInt("Variant", this.getTypeVariant());
     }
+
+    //EARTH-AND-WATER REF
 }

@@ -29,6 +29,9 @@
 		],
 		"fabric-datagen": [
 			"net.thefluffycart.litavis.LitavisDataGenerator"
+		],
+		"terrablender": [
+			"net.thefluffycart.litavis.world.biome.ModTerrablenderAPI"
 		]
 	},
 	"mixins": [

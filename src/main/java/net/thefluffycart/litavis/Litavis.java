@@ -1,24 +1,16 @@
 package net.thefluffycart.litavis;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.ComposterBlock;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.dispenser.BlockPlacementDispenserBehavior;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.thefluffycart.litavis.block.ModBlocks;
 import net.thefluffycart.litavis.block.ModCompatBlocks;
@@ -27,13 +19,13 @@ import net.thefluffycart.litavis.effect.ModEffects;
 import net.thefluffycart.litavis.entity.ModBoats;
 import net.thefluffycart.litavis.entity.ModEntities;
 import net.thefluffycart.litavis.entity.custom.BurrowEntity;
+import net.thefluffycart.litavis.entity.custom.CacklewaryEntity;
 import net.thefluffycart.litavis.entity.custom.CopperGolemEntity;
+import net.thefluffycart.litavis.entity.custom.PlatypusEntity;
 import net.thefluffycart.litavis.item.ModItemGroups;
 import net.thefluffycart.litavis.item.ModItems;
-import net.thefluffycart.litavis.item.custom.TerraformerItem;
 import net.thefluffycart.litavis.potion.ModPotions;
 import net.thefluffycart.litavis.sound.ModSounds;
-import net.thefluffycart.litavis.world.gen.ModWorldGeneration;
 import net.thefluffycart.litavis.world.tree.ModTrunkPlacerTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +37,9 @@ public class Litavis implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(ModItems.TIRIM_BERRIES, 0.3f);
-		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(ModBlocks.EUCALYPTUS_LEAVES.asItem(), 0.3f);
-		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(ModBlocks.EUCALYPTUS_SAPLING.asItem(), 0.3f);
+		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(ModItems.TIRIM_BERRIES, 0.25f);
+		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(ModBlocks.EUCALYPTUS_LEAVES.asItem(), 0.5f);
+		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(ModBlocks.EUCALYPTUS_SAPLING.asItem(), 0.35f);
 
 		registerStrippables();
 
@@ -56,16 +48,20 @@ public class Litavis implements ModInitializer {
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
-		ModBlocks.registerModBlocks();
+		ModBoats.registerBoats();
 		ModTrunkPlacerTypes.register();
 		ModCompatBlocks.register();
 		LitavisBlockEntityType.register();
 		ModEffects.registerEffects();
 		ModPotions.registerPotions();
-		ModWorldGeneration.generateModWorldGeneration();
+
+		DispenserBlock.registerBehavior(ModBlocks.POWDER_KEG, new BlockPlacementDispenserBehavior());
+		DispenserBlock.registerBehavior(ModBlocks.SAFETY_ROPE, new BlockPlacementDispenserBehavior());
 
 		FabricDefaultAttributeRegistry.register(ModEntities.BURROW, BurrowEntity.createburrowAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntities.COPPER_GOLEM, CopperGolemEntity.createCopperGolemAttributes());
+//		FabricDefaultAttributeRegistry.register(ModEntities.CACKLEWARY, CacklewaryEntity.createDodoAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntities.PLATYPUS, PlatypusEntity.createPlatypusAttribute());
 
 		FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
 			builder.registerPotionRecipe(Potions.AWKWARD, ModItems.EUCALYPTUS_OIL_VIAL, ModPotions.IGNITION_POTION);

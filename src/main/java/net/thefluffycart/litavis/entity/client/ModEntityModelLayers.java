@@ -7,6 +7,8 @@ import net.thefluffycart.litavis.Litavis;
 public class ModEntityModelLayers {
     public static final EntityModelLayer BURROW =
             new EntityModelLayer(Identifier.of(Litavis.MOD_ID, "burrow"), "main");
+    public static final EntityModelLayer PLATYPUS =
+            new EntityModelLayer(Identifier.of(Litavis.MOD_ID, "platypus"), "main");
     public static final EntityModelLayer COPPER_GOLEM =
             new EntityModelLayer(Identifier.of(Litavis.MOD_ID, "copper_golem"), "main");
     public static final EntityModelLayer EARTH_CHARGE =

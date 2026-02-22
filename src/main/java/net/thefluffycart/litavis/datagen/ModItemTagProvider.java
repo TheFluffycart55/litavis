@@ -2,10 +2,12 @@ package net.thefluffycart.litavis.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.thefluffycart.litavis.block.ModBlocks;
 import net.thefluffycart.litavis.item.ModItems;
+import net.thefluffycart.litavis.util.ModTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -35,39 +37,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
                 .add(ModItems.TERRAFORMER);
-//                .add(ModItems.TERRAFORMER_BLACK)
-//                .add(ModItems.TERRAFORMER_BLUE)
-//                .add(ModItems.TERRAFORMER_BROWN)
-//                .add(ModItems.TERRAFORMER_CYAN)
-//                .add(ModItems.TERRAFORMER_GRAY)
-//                .add(ModItems.TERRAFORMER_GREEN)
-//                .add(ModItems.TERRAFORMER_LIGHT_BLUE)
-//                .add(ModItems.TERRAFORMER_LIGHT_GRAY)
-//                .add(ModItems.TERRAFORMER_LIME)
-//                .add(ModItems.TERRAFORMER_MAGENTA)
-//                .add(ModItems.TERRAFORMER_ORANGE)
-//                .add(ModItems.TERRAFORMER_PINK)
-//                .add(ModItems.TERRAFORMER_PURPLE)
-//                .add(ModItems.TERRAFORMER_RED)
-//                .add(ModItems.TERRAFORMER_WHITE)
-//                .add(ModItems.TERRAFORMER_YELLOW);
+
         getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE)
                 .add(ModItems.TERRAFORMER);
-//                .add(ModItems.TERRAFORMER_BLACK)
-//                .add(ModItems.TERRAFORMER_BLUE)
-//                .add(ModItems.TERRAFORMER_BROWN)
-//                .add(ModItems.TERRAFORMER_CYAN)
-//                .add(ModItems.TERRAFORMER_GRAY)
-//                .add(ModItems.TERRAFORMER_GREEN)
-//                .add(ModItems.TERRAFORMER_LIGHT_BLUE)
-//                .add(ModItems.TERRAFORMER_LIGHT_GRAY)
-//                .add(ModItems.TERRAFORMER_LIME)
-//                .add(ModItems.TERRAFORMER_MAGENTA)
-//                .add(ModItems.TERRAFORMER_ORANGE)
-//                .add(ModItems.TERRAFORMER_PINK)
-//                .add(ModItems.TERRAFORMER_PURPLE)
-//                .add(ModItems.TERRAFORMER_RED)
-//                .add(ModItems.TERRAFORMER_WHITE)
-//                .add(ModItems.TERRAFORMER_YELLOW);
+
+        getOrCreateTagBuilder(ModTags.Items.PLATYPUS_FOOD)
+                .add(Items.PUFFERFISH, Items.PUFFERFISH_BUCKET, Items.TROPICAL_FISH, Items.TROPICAL_FISH_BUCKET)
+                .add(Items.SALMON, Items.SALMON_BUCKET, Items.COD, Items.COD_BUCKET);
     }
 }

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "is_burning=false,axis=y": {
+      "model": "litavis:block/euca_logs/eucalyptus_log"
+    },
+    "is_burning=false,axis=x": {
+      "model": "litavis:block/euca_logs/eucalyptus_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "is_burning=false,axis=z": {
+      "model": "litavis:block/euca_logs/eucalyptus_log_horizontal",
+      "x": 90
+    },
+    "is_burning=true,axis=x": {
+      "model": "litavis:block/euca_logs/burning_eucalyptus_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "is_burning=true,axis=y": {
+      "model": "litavis:block/euca_logs/burning_eucalyptus_log"
+    },
+    "is_burning=true,axis=z": {
+      "model": "litavis:block/euca_logs/burning_eucalyptus_log_horizontal",
+      "x": 90
+    }
+  }
+}
