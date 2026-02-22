@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:forest_rock",
+  "config": {
+    "state": {
+      "Name": "litavis:tripslate",
+      "Properties": {
+        "axis": "y",
+        "falling": "false"
+      }
+    }
+  }
+}

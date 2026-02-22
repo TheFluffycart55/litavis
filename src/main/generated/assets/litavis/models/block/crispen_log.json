@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "litavis:block/crispen_log_top",
+    "side": "litavis:block/crispen_log"
+  }
+}

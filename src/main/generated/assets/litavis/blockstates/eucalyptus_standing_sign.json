@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "litavis:block/eucalyptus_standing_sign"
+    }
+  }
+}
