@@ -47,7 +47,7 @@ public class PlatypusModel extends SinglePartEntityModel<PlatypusEntity> {
         this.getPart().traverse().forEach(ModelPart::resetTransform);
 
         this.animateMovement(PlatypusAnimations.PLATYPUS_WALK, limbSwing, limbSwingAmount, 1f, 1.5f);
-        this.updateAnimation(entity.idleAnimationState, PlatypusAnimations.PLATYPUS_IDLE, ageInTicks, 0.0125f);
+        this.updateAnimation(entity.idleAnimationState, PlatypusAnimations.PLATYPUS_IDLE, ageInTicks, 0.025f);
     }
 
     @Override

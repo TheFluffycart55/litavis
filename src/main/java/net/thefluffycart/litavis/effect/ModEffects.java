@@ -17,6 +17,18 @@ public class ModEffects {
                             Identifier.of(Litavis.MOD_ID, "ignition"), 1f,
                             EntityAttributeModifier.Operation.ADD_VALUE));
 
+    public static final RegistryEntry<StatusEffect> UNSTEADY = registerStatusEffect("unsteady",
+            new UnsteadyEffect(StatusEffectCategory.HARMFUL, 0xb85f30)
+                    .addAttributeModifier(EntityAttributes.GENERIC_JUMP_STRENGTH,
+                            Identifier.of(Litavis.MOD_ID, "unsteady"), -0.5f,
+                            EntityAttributeModifier.Operation.ADD_VALUE)
+                    .addAttributeModifier(EntityAttributes.PLAYER_BLOCK_BREAK_SPEED,
+                            Identifier.of(Litavis.MOD_ID, "unsteady"), -0.5f,
+                            EntityAttributeModifier.Operation.ADD_VALUE)
+                    .addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,
+                            Identifier.of(Litavis.MOD_ID, "unsteady"), -1f,
+                            EntityAttributeModifier.Operation.ADD_VALUE));
+
 
     private static RegistryEntry<StatusEffect> registerStatusEffect(String name, StatusEffect statusEffect) {
         return Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(Litavis.MOD_ID, name), statusEffect);

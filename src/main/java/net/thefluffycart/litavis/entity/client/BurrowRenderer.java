@@ -1,6 +1,7 @@
 package net.thefluffycart.litavis.entity.client;
 
 import com.google.common.collect.Maps;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -47,7 +48,16 @@ public class BurrowRenderer extends MobEntityRenderer<BurrowEntity, BurrowModel>
 
     @Override
     public void render(BurrowEntity livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-
         super.render(livingEntity, f, g, matrixStack, vertexConsumerProvider, i);
+    }
+
+    public static BurrowModel updatePartVisibility(BurrowModel model, ModelPart... modelParts) {
+        model.getPart().visible = false;
+
+        for (ModelPart modelPart : modelParts) {
+            modelPart.visible = true;
+        }
+
+        return model;
     }
 }

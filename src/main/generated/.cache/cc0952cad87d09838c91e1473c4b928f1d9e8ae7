@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-21T19:16:49.2790493	Litavis/Tags for minecraft:block
+// 1.21.1	2026-02-24T19:30:25.5437938	Litavis/Tags for minecraft:block
 b7d90a5ea3aac2aa12cf5d41172820a97da00de0 data\minecraft\tags\block\mineable\pickaxe.json
 18daf366727681dbf3eaa7c654faf337201a6301 data\minecraft\tags\block\wooden_buttons.json
 240e9ad037615dc29250544099b4cf230d196f17 data\minecraft\tags\block\climbable.json
@@ -20,4 +20,4 @@ b163091ae5c45cc462925477285893d1220e04b4 data\minecraft\tags\block\wooden_fences
 7d7cd1e52f550d335df691d72c9dd50828121d93 data\minecraft\tags\block\walls.json
 418e41ab3c66199ff8c56c71f7a2ec83cd578ad0 data\c\tags\block\stripped_logs.json
 ece2e98b87b230801c2c1d6044b87f71e3067e6b data\minecraft\tags\block\moss_replaceable.json
-5f67f5b1b9411281a8c59382c7a1588538f78446 data\litavis\tags\block\earth_charge_throwable.json
+247ed71cfe86c581c44cc2f31b2cdce0a546b6ba data\litavis\tags\block\earth_charge_throwable.json

@@ -30,7 +30,7 @@ public class ModConfiguredFeatures {
         Random leavesRandom = new Random();
         boolean hasOil = leavesRandom.nextBoolean();
         register(context, EUCALYPTUS_KEY, Feature.TREE, new TreeFeatureConfig.Builder(BlockStateProvider.of(ModBlocks.EUCALYPTUS_LOG.getDefaultState().with(BurningLogBlock.AXIS, Direction.Axis.Y)),
-                new ForkingTrunkPlacer(5, 2, 4), BlockStateProvider.of(ModBlocks.EUCALYPTUS_LEAVES.getDefaultState().with(OilyLeavesBlock.HAS_OIL, true)),
+                new ForkingTrunkPlacer(5, 2, 4), BlockStateProvider.of(ModBlocks.EUCALYPTUS_LEAVES.getDefaultState().with(OilyLeavesBlock.HAS_OIL, true).with(OilyLeavesBlock.PERSISTENT, false)),
                 new CherryFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(1), ConstantIntProvider.create(5),
                         0.25f, 0.5f, 0.15f, 0.05f),
                 new TwoLayersFeatureSize(3, 2, 3)).dirtProvider(BlockStateProvider.of(Blocks.ROOTED_DIRT)).build()

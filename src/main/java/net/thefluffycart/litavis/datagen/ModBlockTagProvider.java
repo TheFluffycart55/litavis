@@ -111,7 +111,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
                 .add(Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.DIRT_PATH,
                         Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.MOSS_BLOCK,
-                        Blocks.SAND, Blocks.GRAVEL, Blocks.RED_SAND)
+                        Blocks.SAND, Blocks.GRAVEL, Blocks.RED_SAND, ModBlocks.POWDER_KEG)
 
                 .add(Blocks.STONE, Blocks.COBBLESTONE, Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE, Blocks.OBSIDIAN, Blocks.CRYING_OBSIDIAN, Blocks.NETHERRACK,
                         Blocks.BLACKSTONE, Blocks.GILDED_BLACKSTONE, Blocks.SHROOMLIGHT, Blocks.DRIPSTONE_BLOCK, Blocks.TUFF, Blocks.END_STONE, Blocks.GLOWSTONE,
@@ -135,7 +135,14 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
                 .add(Blocks.DEEPSLATE_COAL_ORE, Blocks.DEEPSLATE_COPPER_ORE, Blocks.DEEPSLATE_IRON_ORE,
                         Blocks.DEEPSLATE_GOLD_ORE, Blocks.DEEPSLATE_REDSTONE_ORE, Blocks.DEEPSLATE_LAPIS_ORE,
-                        Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.DEEPSLATE_EMERALD_ORE);
+                        Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.DEEPSLATE_EMERALD_ORE)
+
+                .add(Blocks.ACACIA_LEAVES, Blocks.BIRCH_LEAVES, Blocks.CHERRY_LEAVES,
+                        Blocks.AZALEA_LEAVES, Blocks.FLOWERING_AZALEA_LEAVES, Blocks.DARK_OAK_LEAVES,
+                        Blocks.JUNGLE_LEAVES, Blocks.MANGROVE_LEAVES, ModBlocks.EUCALYPTUS_LEAVES,
+                        Blocks.OAK_LEAVES, Blocks.SPRUCE_LEAVES)
+
+                .add(Blocks.SHORT_GRASS, Blocks.TALL_GRASS, Blocks.PACKED_MUD);
 
         getOrCreateTagBuilder(BlockTags.CLIMBABLE)
                 .add(ModBlocks.SAFETY_ROPE);

@@ -1,18 +1,30 @@
 package net.thefluffycart.litavis.entity.custom;
 
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.GoatEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -20,132 +32,155 @@ import net.thefluffycart.litavis.entity.variant.BurrowVariant;
 import net.thefluffycart.litavis.sound.ModSounds;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Objects;
+
 public class BurrowEntity extends HostileEntity {
+
+    public final AnimationState idleAnimationState = new AnimationState();
+    public final AnimationState shootingAnimationState = new AnimationState();
+    public final AnimationState burrowingAnimationState = new AnimationState();
+    public final AnimationState unburrowingAnimationState = new AnimationState();
+    public final AnimationState whileburrowingAnimationState = new AnimationState();
+
+    private int idleAnimationTimeout = 0;
+    private boolean isIdleAnimationRunning = false;
+
+    private BlockPos burrowDestination = null;
+    private boolean isWalkingWhileBurrowed = false;
+    private int burrowCooldown = 0;
+    private int nextBurrowTime = 0;
+    private int burrowCooldownTimer = 0;
+    private static final int BURROW_COOLDOWN_TICKS = 80;
+    private boolean burrowAnimPlayed = false;
+    private boolean animationStartedThisTick = false;
+    private boolean whileburrowAnimPlayed = false;
+
+    private int shootingDelay = 0;
+    private static final double PROJECTILE_DANGER_RADIUS = 6.0;
+    private static final double FRIENDLY_PROJECTILE_AVOIDANCE_RADIUS = 8.0;
+
+    private boolean isInCombat = false;
+    private int combatStartTime = 0;
+    private LivingEntity lastTarget = null;
+    private Vec3d circlingCenter = null;
+    private double circlingAngle = 0;
+    private int circlingDirection = 1;
+
+    private Vec3d stuckCheckPosition = null;
+    private int stuckTimer = 0;
+    private static final int STUCK_TIME_THRESHOLD = 60;
+    private static final double STUCK_AREA_SIZE = 2.5;
+
+    protected int getXpToDrop() {
+        return 8 + this.random.nextInt(5);
+    }
+
+    public AnimationState getAnimationState(String name) {
+        return switch (name) {
+            case "BURROW_SHOOTING" -> shootingAnimationState;
+            case "BURROW_BURROWING" -> burrowingAnimationState;
+            case "BURROW_WHILE_BURROWING" -> whileburrowingAnimationState;
+            case "BURROW_UNBURROWING" -> unburrowingAnimationState;
+            default -> idleAnimationState;
+        };
+    }
+
+    public enum BurrowState {
+        IDLE,
+        SHOOTING,
+        BURROWING,
+        UNBURROWING
+    }
+
     private static final TrackedData<Integer> DATA_ID_TYPE_VARIANT =
             DataTracker.registerData(BurrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState chargeAnimationState = new AnimationState();
-    public final AnimationState dashAnimationState = new AnimationState();
+    private BurrowState burrowState = BurrowState.IDLE;
+    private BurrowState previousState = BurrowState.IDLE;
+    private int animationTick = 0;
+    private int stateTimer = 0;
+    private int shootCooldown = 0;
+    private BlockPos relocateTarget = null;
+    private Vec3d lastShootPosition = null;
+    private boolean hasMovedEnoughToShoot = true;
 
-    private int idleAnimationTimeout = 0;
-    private int chargeAnimationTimeout = 0;
-    private int dashAnimationTimeout = 0;
-    public static boolean doIdle = true;
-    public static boolean doCharge = false;
-    public static boolean doDash = false;
-    private static final TrackedData<Byte> BURROW_FLAGS = DataTracker.registerData(BurrowEntity.class, TrackedDataHandlerRegistry.BYTE);
-
-    public BurrowEntity(EntityType<? extends BurrowEntity> entityType, World world) {
-        super((EntityType<? extends HostileEntity>)entityType, world);
-        this.experiencePoints = 15;
-    }
-    private State state = State.IDLE;
-
-    public enum State {
-        IDLE,
-        CHARGE,
-        DASH,
-        BURROWED
+    public BurrowEntity(EntityType<? extends HostileEntity> entityType, World world) {
+        super(entityType, world);
+        this.experiencePoints = 8;
     }
 
-    public void setState(State newState) {
-        if (state != newState)
-        {
-            this.state = newState;
-            switch (this.state) {
-                case IDLE -> {
-                    doIdle = true;
-                    doCharge = false;
-                    doDash = false;
-                    idleAnimationTimeout = 0;
-                    idleAnimationState.start(this.age);
-                }
-                case CHARGE -> {
-                    doIdle = false;
-                    doCharge = true;
-                    doDash = false;
-                    chargeAnimationTimeout = 0;
-                    chargeAnimationState.start(this.age);
-                }
-                case DASH -> {
-                    doIdle = false;
-                    doCharge = false;
-                    doDash = true;
-                    dashAnimationTimeout = 0;
-                    dashAnimationState.start(this.age);
-                }
-            }
-        }
+    public static DefaultAttributeContainer.Builder createBurrowAttributes() {
+        return MobEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0);
     }
 
-    public State getState() {
-        return this.state;
-    }
+    @Override
+    protected void initGoals() {
+        this.goalSelector.add(0, new BurrowAvoidProjectileGoal(this));
+        this.goalSelector.add(1, new BurrowBurrowingMovementGoal(this));
+        this.goalSelector.add(2, new BurrowShootGoal(this));
+        this.goalSelector.add(3, new BurrowCircleGoal(this));
+        this.goalSelector.add(4, new BurrowRelocateGoal(this));
+        this.goalSelector.add(6, new BurrowSmartPositioningGoal(this));
+        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(9, new LookAroundGoal(this));
 
-
-    private void setupAnimationStates() {
-            if(doIdle)
-        {
-            if(this.idleAnimationTimeout <= 0) {
-                this.idleAnimationTimeout = 40;
-                this.idleAnimationState.start(this.age);
-            } else {
-                --this.idleAnimationTimeout;
-            }
-        }
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
+        this.targetSelector.add(3, new RevengeGoal(this, BurrowEntity.class));
     }
 
     @Override
     public void tick() {
-        super.tick();
-        if (this.getWorld().isClient()) {
-            setupAnimationStates();
+        if (this.isRemoved() || this.getEntityWorld() == null) {
+            return;
         }
-    }
 
-        //BURROW GOALS
-        protected void initGoals() {
-        this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-        //this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.65));
-        this.goalSelector.add(6, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true).setMaxTimeWithoutVisibility(300));
-        this.targetSelector.add(3, new ActiveTargetGoal<>(this, GoatEntity.class, true).setMaxTimeWithoutVisibility(300));
-    }
+        animationStartedThisTick = false;
 
-    public static DefaultAttributeContainer.Builder createburrowAttributes() {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, (double)0.285F)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 32f)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 20f)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20f);
-    }
+        super.tick();
+        animationTick++;
+        stateTimer++;
 
-    @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        builder.add(DATA_ID_TYPE_VARIANT, 0);
-        super.initDataTracker(builder);
-        builder.add(BURROW_FLAGS, (byte)0);
-    }
+        if (shootCooldown > 0) {
+            shootCooldown--;
+        }
 
-    @Override
-    public boolean hurtByWater() {
-        return true;
-    }
+        if (shootingDelay > 0) {
+            shootingDelay--;
+        }
 
-    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-        return false;
-    }
+        if (burrowCooldownTimer > 0) {
+            burrowCooldownTimer--;
+        }
 
-    @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
-        return ModSounds.BURROW_HIT;
-    }
-    public void playAmbientSound() {
-        if (this.getTarget() == null || !this.isOnGround()) {
-            this.getWorld().playSoundFromEntity(this, ModSounds.BURROW_IDLE, this.getSoundCategory(), 1.0F, 1.0F);
+        try {
+            updateCombatState();
+            updateMovementTracking();
+            updateMovementSpeed();
+            handleStateTransitions();
+            updateAnimations();
+
+            if (this.getEntityWorld().isClient()) {
+                switch (this.getBurrowState()) {
+                    case BURROWING -> {
+                        if (this.stateTimer < 20) {
+                            this.addBurrowParticles(this.burrowingAnimationState);
+                        }
+                    }
+                    case UNBURROWING -> {
+                        if (this.stateTimer < 10) {
+                            this.addBurrowParticles(this.unburrowingAnimationState);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
         }
     }
 
@@ -154,7 +189,1549 @@ public class BurrowEntity extends HostileEntity {
         return ModSounds.BURROW_HIT;
     }
 
-    //BURROW VARIANTS
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ModSounds.BURROW_HIT;
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.BURROW_IDLE;
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(DATA_ID_TYPE_VARIANT, 0);
+        builder.add(DATA_ID_STATE, BurrowState.IDLE.ordinal());
+    }
+
+    private void updateCombatState() {
+        LivingEntity target = this.getTarget();
+        boolean wasInCombat = isInCombat;
+
+        if (target != null && target.isAlive() && !target.isRemoved() && target != lastTarget) {
+            isInCombat = true;
+            combatStartTime = this.age;
+            lastTarget = target;
+            circlingCenter = target.getPos();
+            circlingAngle = this.random.nextDouble() * Math.PI * 2;
+            circlingDirection = this.random.nextBoolean() ? 1 : -1;
+
+        } else if (target == null || !target.isAlive() || target.isRemoved()) {
+            isInCombat = false;
+            lastTarget = null;
+            circlingCenter = null;
+            shootingDelay = 0;
+            burrowCooldown = 0;
+            nextBurrowTime = 0;
+        }
+
+        if (isInCombat && target != null && target.isAlive() && !target.isRemoved()) {
+            circlingCenter = target.getPos();
+
+            handleCombatBurrowing();
+        }
+    }
+
+    private boolean isStuckInSmallArea() {
+        if (burrowState != BurrowState.BURROWING || !isWalkingWhileBurrowed) {
+            stuckCheckPosition = null;
+            stuckTimer = 0;
+            return false;
+        }
+
+        Vec3d currentPos = this.getPos();
+
+        if (stuckCheckPosition == null) {
+            stuckCheckPosition = currentPos;
+            stuckTimer = 0;
+            return false;
+        }
+
+        double distance = currentPos.distanceTo(stuckCheckPosition);
+
+        if (distance <= STUCK_AREA_SIZE) {
+            stuckTimer++;
+            return stuckTimer >= STUCK_TIME_THRESHOLD;
+        } else {
+            stuckCheckPosition = currentPos;
+            stuckTimer = 0;
+            return false;
+        }
+    }
+
+    private void handleCombatBurrowing() {
+        if (burrowCooldown > 0) {
+            burrowCooldown--;
+        }
+
+        LivingEntity target = this.getTarget();
+        if (target != null && target.isAlive() && !target.isRemoved()) {
+            double distanceToTarget = this.distanceTo(target);
+
+            List<BurrowEntity> nearbyBurrowers = this.getEntityWorld().getEntitiesByClass(
+                    BurrowEntity.class,
+                    this.getBoundingBox().expand(16.0),
+                    burrow -> burrow != this && burrow.getBurrowState() == BurrowState.BURROWING
+            );
+
+            boolean withinLimit = nearbyBurrowers.size() < 4;
+
+            if (distanceToTarget <= 4.0 &&
+                    burrowCooldown <= 0 &&
+                    burrowCooldownTimer <= 0 &&
+                    burrowState == BurrowState.IDLE &&
+                    !isNearbyProjectileDangerous() &&
+                    withinLimit) {
+
+                startBurrowing();
+                burrowCooldown = 200 + this.random.nextInt(100);
+
+                for (BurrowEntity burrow : nearbyBurrowers) {
+                    Vec3d away = burrow.getPos().subtract(target.getPos()).normalize();
+                    Vec3d retreatPos = burrow.getPos().add(away.multiply(6.0));
+                    burrow.getNavigation().startMovingTo(retreatPos.x, retreatPos.y, retreatPos.z, 1.3);
+                }
+            }
+        }
+    }
+
+    private void updateAnimations() {
+        if (this.getEntityWorld().isClient()) {
+            if (this.burrowState == BurrowState.IDLE) {
+                if (!isIdleAnimationRunning) {
+                    --this.idleAnimationTimeout;
+                    if (this.idleAnimationTimeout <= 0) {
+                        this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+                        this.idleAnimationState.start(this.age);
+                        this.isIdleAnimationRunning = true;
+                    }
+                }
+            } else {
+                this.idleAnimationTimeout = 0;
+                this.isIdleAnimationRunning = false;
+                this.idleAnimationState.stop();
+            }
+        }
+    }
+
+    private void updateMovementTracking() {
+        if (lastShootPosition != null) {
+            Vec3d currentPos = this.getPos();
+            if (currentPos != null) {
+                double distanceMoved = currentPos.distanceTo(lastShootPosition);
+
+                if (distanceMoved >= 4.0) {
+                    hasMovedEnoughToShoot = true;
+                }
+            }
+        }
+    }
+
+    private void updateMovementSpeed() {
+        double baseSpeed = 0.23;
+
+        if (isInCombat && this.getTarget() != null) {
+            int timeSinceCombatStart = this.age - combatStartTime;
+            double progressionFactor = Math.min(timeSinceCombatStart / 120.0, 1.0);
+
+            progressionFactor = easeInOutQuad(progressionFactor);
+
+            double targetSpeed = 0.35;
+            baseSpeed = baseSpeed + (targetSpeed - baseSpeed) * progressionFactor;
+        }
+
+        switch (burrowState) {
+            case BURROWING:
+                if (isWalkingWhileBurrowed) {
+                    if (isInCombat && this.getTarget() != null) {
+                        Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.35);
+                    } else {
+                        Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.6);
+                    }
+                } else {
+                    Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)).setBaseValue(baseSpeed * 0.1);
+                }
+                break;
+            case UNBURROWING:
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)).setBaseValue(baseSpeed * 0.1);
+                break;
+            default:
+                Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)).setBaseValue(baseSpeed);
+                break;
+        }
+    }
+
+    private double easeInOutQuad(double t) {
+        return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    @Override
+    public boolean hurtByWater() {
+        return true;
+    }
+
+    @Override
+    public boolean damage(DamageSource damageSource, float amount) {
+        if (damageSource.isOf(DamageTypes.FALL) && burrowState == BurrowState.BURROWING) {
+            return false;
+        }
+
+        if (this.getBurrowState() == BurrowState.BURROWING) {
+            if (damageSource.isOf(DamageTypes.OUT_OF_WORLD) ||
+                    damageSource.isOf(DamageTypes.GENERIC_KILL)) {
+                return super.damage(damageSource, amount);
+            }
+
+            Entity attacker = damageSource.getAttacker();
+            if (attacker instanceof LivingEntity living) {
+                ItemStack weapon = living.getMainHandStack();
+                if (weapon.getItem().toString().contains("pickaxe")) {
+                    this.forceUnburrow();
+                    this.burrowCooldownTimer = 80;
+                    return super.damage(damageSource, amount);
+                }
+            }
+            return false;
+        }
+        return super.damage(damageSource, amount);
+    }
+
+
+    private void handleStateTransitions() {
+        switch (burrowState) {
+            case SHOOTING:
+                if (stateTimer == 20 && !this.getEntityWorld().isClient()) {
+                    fireEarthCharge();
+                }
+                if (stateTimer >= 40) {
+                    setBurrowState(BurrowState.IDLE);
+                    setRelocationTarget();
+                }
+                break;
+            case BURROWING:
+                if (stateTimer == 20) {
+                    if (!isWalkingWhileBurrowed) {
+                        setBurrowDestination();
+                        isWalkingWhileBurrowed = true;
+
+                        if (this.getEntityWorld().isClient() && burrowDestination != null && !whileburrowAnimPlayed) {
+                            burrowingAnimationState.stop();
+                            whileburrowingAnimationState.start(this.age);
+                            whileburrowAnimPlayed = true;
+                        } else if (this.getEntityWorld().isClient() && burrowDestination == null) {
+                            forceUnburrow();
+                            return;
+                        }
+                    }
+                }
+
+                if (isWalkingWhileBurrowed && burrowDestination != null) {
+                    if (this.getNavigation().isIdle()) {
+                        this.getNavigation().startMovingTo(
+                                burrowDestination.getX(),
+                                this.getY(),
+                                burrowDestination.getZ(),
+                                isInCombat && this.getTarget() != null ? 1.2 : 1.4
+                        );
+                    }
+
+                    double distanceToDestination = Math.sqrt(this.squaredDistanceTo(
+                            burrowDestination.getX(), burrowDestination.getY(), burrowDestination.getZ()));
+
+                    if (distanceToDestination < 1.5 || stateTimer >= 300) {
+                        forceUnburrow();
+                    }
+                } else {
+                    if (stateTimer >= 70) {
+                        forceUnburrow();
+                    }
+                }
+                break;
+            case UNBURROWING:
+                if (stateTimer >= 40) {
+                    setBurrowState(BurrowState.IDLE);
+                    burrowCooldownTimer = BURROW_COOLDOWN_TICKS;
+                }
+                break;
+        }
+    }
+
+    private void forceUnburrow() {
+        if (this.getEntityWorld().isClient()) {
+            whileburrowingAnimationState.stop();
+            burrowingAnimationState.stop();
+        }
+        setBurrowState(BurrowState.UNBURROWING);
+        burrowDestination = null;
+        isWalkingWhileBurrowed = false;
+        stuckCheckPosition = null;
+        stuckTimer = 0;
+    }
+
+    private void setBurrowDestination() {
+        LivingEntity target = this.getTarget();
+        if (target == null || !target.isAlive() || target.isRemoved()) {
+            setBurrowDestinationRandom();
+            return;
+        }
+
+        double currentY = this.getY();
+        Vec3d targetPos = target.getPos();
+        Vec3d currentPos = this.getPos();
+
+        Vec3d awayDirection = currentPos.subtract(targetPos).normalize();
+
+        BlockPos bestDestination = null;
+        double bestScore = Double.MAX_VALUE;
+
+        for (int attempts = 0; attempts < 24; attempts++) {
+            double baseAngle = Math.atan2(awayDirection.z, awayDirection.x);
+            double variance = (this.random.nextDouble() - 0.5) * Math.PI * 0.6;
+            double angle = baseAngle + variance;
+
+            double distance = 8 + this.random.nextDouble() * 6;
+
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            double targetX = this.getX() + offsetX;
+            double targetZ = this.getZ() + offsetZ;
+
+            double groundY = findGroundLevel(targetX, targetZ);
+
+            if (groundY != -1) {
+                if (groundY < currentY) {
+                    continue;
+                }
+
+                BlockPos targetPosBlock = new BlockPos((int) targetX, (int) groundY, (int) targetZ);
+
+                if (isPositionSafeForBurrowing(targetPosBlock)) {
+                    double distanceFromTarget = Math.sqrt(Math.pow(targetX - targetPos.x, 2) + Math.pow(targetZ - targetPos.z, 2));
+                    double score = Math.abs(groundY - currentY) + (distance * 0.1) - (distanceFromTarget * 0.2);
+
+                    if (!isPathBlocked(new Vec3d(targetPosBlock.getX(), targetPosBlock.getY(), targetPosBlock.getZ()))) {
+                        score -= 5.0;
+                    }
+
+                    if (score < bestScore) {
+                        bestScore = score;
+                        bestDestination = targetPosBlock;
+                    }
+                }
+            }
+        }
+
+        if (bestDestination != null) {
+            this.burrowDestination = bestDestination;
+            return;
+        }
+
+        for (int attempts = 0; attempts < 16; attempts++) {
+            double baseAngle = Math.atan2(awayDirection.z, awayDirection.x);
+            double variance = (this.random.nextDouble() - 0.5) * Math.PI * 0.8;
+            double angle = baseAngle + variance;
+            double distance = 4 + this.random.nextDouble() * 4;
+
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            double targetX = this.getX() + offsetX;
+            double targetZ = this.getZ() + offsetZ;
+
+            BlockPos targetPosBlock = new BlockPos((int) targetX, (int) currentY, (int) targetZ);
+
+            if (targetPosBlock.getY() < this.getBlockY()) {
+                continue;
+            }
+
+            if (isPositionSafe(targetPosBlock)) {
+                this.burrowDestination = targetPosBlock;
+                return;
+            }
+        }
+
+        this.burrowDestination = null;
+    }
+
+    private void setBurrowDestinationRandom() {
+        double currentY = this.getY();
+        BlockPos bestDestination = null;
+        double bestScore = Double.MAX_VALUE;
+
+        for (int attempts = 0; attempts < 24; attempts++) {
+            double angle = this.random.nextDouble() * 2 * Math.PI;
+            double distance = 8 + this.random.nextDouble() * 6;
+
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            double targetX = this.getX() + offsetX;
+            double targetZ = this.getZ() + offsetZ;
+
+            double groundY = findGroundLevel(targetX, targetZ);
+
+            if (groundY != -1) {
+                BlockPos targetPos = new BlockPos((int)targetX, (int)groundY, (int)targetZ);
+
+                if (isPositionSafeForBurrowing(targetPos)) {
+                    double score = Math.abs(groundY - currentY) + (distance * 0.1);
+
+                    if (!isPathBlocked(new Vec3d(targetPos.getX(), targetPos.getY(), targetPos.getZ()))) {
+                        score -= 5.0;
+                    }
+
+                    if (score < bestScore) {
+                        bestScore = score;
+                        bestDestination = targetPos;
+                    }
+                }
+            }
+        }
+
+        if (bestDestination != null) {
+            this.burrowDestination = bestDestination;
+            return;
+        }
+
+        for (int attempts = 0; attempts < 16; attempts++) {
+            double angle = this.random.nextDouble() * 2 * Math.PI;
+            double distance = 4 + this.random.nextDouble() * 4;
+
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            double targetX = this.getX() + offsetX;
+            double targetZ = this.getZ() + offsetZ;
+
+            BlockPos targetPos = new BlockPos((int)targetX, (int)currentY, (int)targetZ);
+
+            if (isPositionSafe(targetPos)) {
+                this.burrowDestination = targetPos;
+                return;
+            }
+        }
+
+        this.burrowDestination = null;
+    }
+
+    private boolean isPositionSafeForBurrowing(BlockPos pos) {
+        if (this.getEntityWorld() == null || pos == null) return false;
+
+        if (this.getEntityWorld().getBlockState(pos).getBlock().toString().contains("lava") ||
+                this.getEntityWorld().getBlockState(pos).getBlock().toString().contains("water")) {
+            return false;
+        }
+
+        int topY = this.getEntityWorld().getBottomY() + this.getEntityWorld().getHeight() - 1;
+        if (pos.getY() <= this.getEntityWorld().getBottomY() || pos.getY() >= topY - 2) {
+            return false;
+        }
+
+        BlockPos belowPos = pos.down();
+        if (!this.getEntityWorld().getBlockState(belowPos).isSolidBlock(this.getEntityWorld(), belowPos)) {
+            return false;
+        }
+
+        if (this.getEntityWorld().getBlockState(pos).isSolidBlock(this.getEntityWorld(), pos) ||
+                this.getEntityWorld().getBlockState(pos.up()).isSolidBlock(this.getEntityWorld(), pos.up())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static class BurrowBurrowingMovementGoal extends Goal {
+        private final BurrowEntity burrow;
+        private int stuckCounter = 0;
+        private Vec3d lastPosition = null;
+        private int forceMovementTimer = 0;
+
+        public BurrowBurrowingMovementGoal(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
+
+        @Override
+        public boolean canStart() {
+            return burrow.getBurrowState() == BurrowState.BURROWING &&
+                    burrow.isWalkingWhileBurrowed &&
+                    burrow.burrowDestination != null;
+        }
+
+        @Override
+        public void start() {
+            stuckCounter = 0;
+            forceMovementTimer = 0;
+            lastPosition = burrow.getPos();
+        }
+
+        @Override
+        public void tick() {
+            if (burrow.burrowDestination != null) {
+                double currentY = burrow.getY();
+                double moveSpeed = (burrow.isInCombat() && burrow.getTarget() != null) ? 1.2 : 1.4;
+
+                Vec3d currentPos = burrow.getPos();
+
+                if (lastPosition != null && currentPos.distanceTo(lastPosition) < 0.1) {
+                    stuckCounter++;
+                    forceMovementTimer++;
+
+                    if (stuckCounter > 10) {
+                        BlockPos alternative = burrow.findAlternativeBurrowDestination();
+                        if (alternative != null) {
+                            if (alternative.getY() < burrow.getBlockY()) {
+                                burrow.forceUnburrow();
+                                return;
+                            }
+
+                            burrow.burrowDestination = alternative;
+                            burrow.getNavigation().stop();
+                            burrow.getNavigation().startMovingTo(
+                                    alternative.getX(), currentY, alternative.getZ(), moveSpeed
+                            );
+                            stuckCounter = 0;
+                            forceMovementTimer = 0;
+                        }
+                    }
+
+                    if (forceMovementTimer > 5 && burrow.burrowDestination != null) {
+                        Vec3d direction = new Vec3d(
+                                burrow.burrowDestination.getX(), currentY, burrow.burrowDestination.getZ()
+                        ).subtract(currentPos).normalize();
+
+                        Vec3d forceMovement = direction.multiply(0.15);
+                        burrow.setVelocity(burrow.getVelocity().add(forceMovement));
+                        forceMovementTimer = 0;
+                    }
+                } else {
+                    stuckCounter = 0;
+                    forceMovementTimer = 0;
+                }
+
+                lastPosition = currentPos;
+
+                if (burrow.getNavigation().isIdle()) {
+                    if (burrow.burrowDestination.getY() < burrow.getBlockY()) {
+                        burrow.forceUnburrow();
+                        return;
+                    }
+
+                    burrow.getNavigation().startMovingTo(
+                            burrow.burrowDestination.getX(),
+                            currentY,
+                            burrow.burrowDestination.getZ(),
+                            moveSpeed
+                    );
+                }
+            }
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return burrow.getBurrowState() == BurrowState.BURROWING &&
+                    burrow.isWalkingWhileBurrowed &&
+                    burrow.burrowDestination != null;
+        }
+    }
+
+    private boolean isNavigationStuck() {
+        return this.getNavigation().isIdle() &&
+                burrowState == BurrowState.BURROWING &&
+                isWalkingWhileBurrowed &&
+                burrowDestination != null;
+    }
+
+    private boolean wouldFallOffEdge(Vec3d targetPos) {
+        if (this.getEntityWorld() == null || targetPos == null) return true;
+
+        BlockPos blockPos = new BlockPos((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
+        BlockPos belowPos = blockPos.down();
+
+        for (int i = 1; i <= 3; i++) {
+            BlockPos checkPos = belowPos.down(i);
+            if (this.getEntityWorld().getBlockState(checkPos).isSolidBlock(this.getEntityWorld(), checkPos)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void setRelocationTarget() {
+        for (int attempts = 0; attempts < 10; attempts++) {
+            double angle = this.random.nextDouble() * 2 * Math.PI;
+            double distance = 10 + this.random.nextDouble() * 2;
+
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            BlockPos targetPos = new BlockPos((int)(this.getX() + offsetX), (int)this.getY(), (int)(this.getZ() + offsetZ));
+
+            if (isPositionSafe(targetPos)) {
+                this.relocateTarget = targetPos;
+                break;
+            }
+        }
+    }
+
+    private boolean isPositionSafe(BlockPos pos) {
+        if (this.getEntityWorld() == null || pos == null) return false;
+        return this.getEntityWorld().isAir(pos) &&
+                this.getEntityWorld().isAir(pos.up()) &&
+                this.getEntityWorld().getBlockState(pos.down()).isSolidBlock(this.getEntityWorld(), pos.down());
+    }
+
+    public Vec3d getCirclingPosition() {
+        if (circlingCenter == null) return null;
+
+        double radius = 8.0;
+        double x = circlingCenter.x + Math.cos(circlingAngle) * radius;
+        double z = circlingCenter.z + Math.sin(circlingAngle) * radius;
+
+        double y = circlingCenter.y;
+        BlockPos testPos = new BlockPos((int)x, (int)y, (int)z);
+
+        if (!isPositionSafe(testPos)) {
+            for (int yOffset = -2; yOffset <= 3; yOffset++) {
+                BlockPos adjustedPos = testPos.add(0, yOffset, 0);
+                if (isPositionSafe(adjustedPos)) {
+                    y = adjustedPos.getY();
+                    break;
+                }
+            }
+        }
+
+        return new Vec3d(x, y, z);
+    }
+
+    @Override
+    public void travel(Vec3d movementInput) {
+        if (getBurrowState() == BurrowState.BURROWING && isWalkingWhileBurrowed) {
+            Vec3d currentPos = this.getPos();
+            Vec3d targetPos = currentPos.add(movementInput);
+
+            BlockPos currentBlock = BlockPos.ofFloored(currentPos);
+            BlockPos targetBlock = BlockPos.ofFloored(targetPos);
+
+            if (targetBlock.getY() < currentBlock.getY()) {
+                this.setVelocity(0, 0, 0);
+                return;
+            }
+
+            Vec3d flatMovement = new Vec3d(movementInput.x, 0, movementInput.z);
+            super.travel(flatMovement);
+            return;
+        }
+
+        super.travel(movementInput);
+    }
+
+    private double findGroundLevel(double x, double z) {
+        if (this.getEntityWorld() == null) return -1;
+
+        int blockX = (int) Math.floor(x);
+        int blockZ = (int) Math.floor(z);
+        int startY = (int) this.getY();
+        int topY = this.getEntityWorld().getBottomY() + this.getEntityWorld().getHeight() - 1;
+
+        for (int y = startY; y >= this.getEntityWorld().getBottomY(); y--) {
+            BlockPos checkPos = new BlockPos(blockX, y, blockZ);
+            BlockPos abovePos = checkPos.up();
+
+            if (this.getEntityWorld().getBlockState(checkPos).isSolidBlock(this.getEntityWorld(), checkPos) &&
+                    (!this.getEntityWorld().getBlockState(abovePos).isSolidBlock(this.getEntityWorld(), abovePos) ||
+                            this.getEntityWorld().isAir(abovePos))) {
+
+                BlockPos aboveAbove = abovePos.up();
+                if (!this.getEntityWorld().getBlockState(aboveAbove).isSolidBlock(this.getEntityWorld(), aboveAbove) ||
+                        this.getEntityWorld().isAir(aboveAbove)) {
+                    return y + 1.0;
+                }
+            }
+        }
+
+        for (int y = startY + 1; y <= topY - 2; y++) {
+            BlockPos checkPos = new BlockPos(blockX, y, blockZ);
+            BlockPos abovePos = checkPos.up();
+
+            if (this.getEntityWorld().getBlockState(checkPos).isSolidBlock(this.getEntityWorld(), checkPos) &&
+                    (!this.getEntityWorld().getBlockState(abovePos).isSolidBlock(this.getEntityWorld(), abovePos) ||
+                            this.getEntityWorld().isAir(abovePos))) {
+
+                BlockPos aboveAbove = abovePos.up();
+                if (!this.getEntityWorld().getBlockState(aboveAbove).isSolidBlock(this.getEntityWorld(), aboveAbove) ||
+                        this.getEntityWorld().isAir(aboveAbove)) {
+                    return y + 1.0;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
+    protected float getJumpVelocity() {
+        if (burrowState == BurrowState.BURROWING) {
+            return 0.0f;
+        }
+        return super.getJumpVelocity();
+    }
+
+    @Override
+    public boolean isClimbing() {
+        return super.isClimbing() && burrowState != BurrowState.BURROWING;
+    }
+
+    public void updateCirclingAngle() {
+        double angularSpeed = 0.05;
+        circlingAngle += circlingDirection * angularSpeed;
+
+        while (circlingAngle > Math.PI * 2) circlingAngle -= Math.PI * 2;
+        while (circlingAngle < 0) circlingAngle += Math.PI * 2;
+    }
+
+    public boolean isInCombat() {
+        return isInCombat;
+    }
+
+    public int getCombatDuration() {
+        return isInCombat ? this.age - combatStartTime : 0;
+    }
+
+    private boolean isNearbyProjectileDangerous() {
+        if (this.getEntityWorld() == null) return false;
+
+        try {
+            List<EarthChargeEntity> projectiles = this.getEntityWorld().getEntitiesByClass(
+                    EarthChargeEntity.class,
+                    this.getBoundingBox().expand(PROJECTILE_DANGER_RADIUS),
+                    projectile -> projectile != null && projectile.getOwner() != this
+            );
+
+            return !projectiles.isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isNearFriendlyProjectile() {
+        if (this.getEntityWorld() == null) return false;
+
+        try {
+            List<EarthChargeEntity> friendlyProjectiles = this.getEntityWorld().getEntitiesByClass(
+                    EarthChargeEntity.class,
+                    this.getBoundingBox().expand(FRIENDLY_PROJECTILE_AVOIDANCE_RADIUS),
+                    projectile -> projectile != null && projectile.getOwner() instanceof BurrowEntity && projectile.getOwner() != this
+            );
+
+            return !friendlyProjectiles.isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Vec3d getProjectileAvoidanceDirection() {
+        if (this.getEntityWorld() == null) return null;
+
+        try {
+            List<EarthChargeEntity> projectiles = this.getEntityWorld().getEntitiesByClass(
+                    EarthChargeEntity.class,
+                    this.getBoundingBox().expand(Math.max(PROJECTILE_DANGER_RADIUS, FRIENDLY_PROJECTILE_AVOIDANCE_RADIUS)),
+                    projectile -> projectile != null && projectile.getOwner() != this
+            );
+
+            if (projectiles.isEmpty()) return null;
+
+            Vec3d avoidanceDirection = Vec3d.ZERO;
+            for (EarthChargeEntity projectile : projectiles) {
+                if (projectile != null && projectile.getPos() != null) {
+                    Vec3d directionAway = this.getPos().subtract(projectile.getPos()).normalize();
+                    double weight = (projectile.getOwner() instanceof BurrowEntity) ? 1.5 : 1.0;
+                    avoidanceDirection = avoidanceDirection.add(directionAway.multiply(weight));
+                }
+            }
+
+            return avoidanceDirection.normalize();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private int countNearbyShootingAllies() {
+        if (this.getEntityWorld() == null) return 0;
+
+        try {
+            List<BurrowEntity> nearbyAllies = this.getEntityWorld().getEntitiesByClass(
+                    BurrowEntity.class,
+                    this.getBoundingBox().expand(16.0),
+                    burrow -> burrow != null && burrow != this && burrow.isAlive() && !burrow.isRemoved()
+            );
+
+            int shootingCount = 0;
+            for (BurrowEntity ally : nearbyAllies) {
+                if (this.distanceTo(ally) <= 16.0 &&
+                        (ally.getBurrowState() == BurrowState.SHOOTING || ally.shootCooldown > 45)) {
+                    shootingCount++;
+                }
+            }
+
+            return shootingCount;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public BlockPos getRelocationTarget() {
+        return relocateTarget;
+    }
+
+    public void clearRelocationTarget() {
+        this.relocateTarget = null;
+    }
+
+    public int getAnimationTick() {
+        return animationTick;
+    }
+
+    public int getStateTimer() {
+        return stateTimer;
+    }
+
+    public BurrowState getBurrowState() {
+        return burrowState;
+    }
+
+    public BurrowState getPreviousState() {
+        return previousState;
+    }
+
+    private boolean isChangingState = false;
+
+    public void setBurrowState(BurrowState newState) {
+        if (this.burrowState != newState && !isChangingState) {
+            if (!isValidStateTransition(this.burrowState, newState)) {
+                return;
+            }
+
+            isChangingState = true;
+
+            this.previousState = this.burrowState;
+            this.burrowState = newState;
+            this.animationTick = 0;
+            this.stateTimer = 0;
+
+            if (!this.getEntityWorld().isClient()) {
+                this.dataTracker.set(DATA_ID_STATE, newState.ordinal());
+            } else {
+                startStateAnimation(newState);
+            }
+
+            if (newState == BurrowState.IDLE && previousState == BurrowState.UNBURROWING) {
+                burrowAnimPlayed = false;
+                whileburrowAnimPlayed = false;
+            }
+
+            isChangingState = false;
+        }
+    }
+
+    private void startStateAnimation(BurrowState state) {
+        if (!this.getEntityWorld().isClient() || animationStartedThisTick) return;
+
+        animationStartedThisTick = true;
+
+        switch (state) {
+            case IDLE -> {
+                if (previousState == BurrowState.UNBURROWING) {
+                    burrowingAnimationState.stop();
+                    whileburrowingAnimationState.stop();
+                    unburrowingAnimationState.stop();
+
+                    burrowAnimPlayed = false;
+                    whileburrowAnimPlayed = false;
+                }
+
+                if (previousState == BurrowState.SHOOTING) {
+                    shootingAnimationState.stop();
+                }
+
+                this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+                this.idleAnimationState.start(this.age);
+                this.isIdleAnimationRunning = true;
+            }
+            case SHOOTING -> {
+                stopAllAnimations();
+                this.shootingAnimationState.start(this.age);
+                this.isIdleAnimationRunning = false;
+            }
+            case BURROWING -> {
+                idleAnimationState.stop();
+                shootingAnimationState.stop();
+                unburrowingAnimationState.stop();
+
+                if (!burrowAnimPlayed) {
+                    this.burrowingAnimationState.start(this.age);
+                    burrowAnimPlayed = true;
+                }
+                this.isIdleAnimationRunning = false;
+            }
+            case UNBURROWING -> {
+                whileburrowingAnimationState.stop();
+                burrowingAnimationState.stop();
+                idleAnimationState.stop();
+                shootingAnimationState.stop();
+
+                this.unburrowingAnimationState.start(this.age);
+                this.isIdleAnimationRunning = false;
+            }
+        }
+    }
+
+    private boolean isValidStateTransition(BurrowState from, BurrowState to) {
+        switch (from) {
+            case IDLE:
+                return to == BurrowState.SHOOTING || to == BurrowState.BURROWING;
+            case SHOOTING:
+                return to == BurrowState.IDLE;
+            case BURROWING:
+                return to == BurrowState.UNBURROWING;
+            case UNBURROWING:
+                return to == BurrowState.IDLE;
+            default:
+                return false;
+        }
+    }
+
+    private boolean isPathBlocked(Vec3d targetPos) {
+        if (this.getEntityWorld() == null || targetPos == null) return true;
+
+        Vec3d currentPos = this.getPos();
+        Vec3d direction = targetPos.subtract(currentPos).normalize();
+
+        for (double step = 1.0; step <= 3.0; step += 0.5) {
+            Vec3d checkPos = currentPos.add(direction.multiply(step));
+            BlockPos blockPos = new BlockPos((int)checkPos.x, (int)checkPos.y, (int)checkPos.z);
+
+            if (this.getEntityWorld().getBlockState(blockPos).isSolidBlock(this.getEntityWorld(), blockPos) ||
+                    this.getEntityWorld().getBlockState(blockPos.up()).isSolidBlock(this.getEntityWorld(), blockPos.up())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private BlockPos findAlternativeBurrowDestination() {
+        double currentY = this.getY();
+
+        for (int attempts = 0; attempts < 24; attempts++) {
+            double angle = (Math.PI * 2 * attempts) / 24.0;
+            double distance = 8 + this.random.nextDouble() * 4;
+
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            BlockPos targetPos = new BlockPos(
+                    (int)(this.getX() + offsetX),
+                    (int)currentY,
+                    (int)(this.getZ() + offsetZ)
+            );
+
+            if (isPositionSafeForBurrowing(targetPos) && !isPathBlocked(new Vec3d(targetPos.getX(), targetPos.getY(), targetPos.getZ()))) {
+                return targetPos;
+            }
+        }
+
+        return null;
+    }
+
+    private void stopAllAnimations() {
+        if (this.getEntityWorld().isClient()) {
+            idleAnimationState.stop();
+            shootingAnimationState.stop();
+            burrowingAnimationState.stop();
+            whileburrowingAnimationState.stop();
+            unburrowingAnimationState.stop();
+        }
+    }
+
+    public boolean canShoot() {
+        LivingEntity target = this.getTarget();
+        if (target == null || !target.isAlive() || target.isRemoved()) return false;
+        if (burrowState == BurrowState.BURROWING || burrowState == BurrowState.UNBURROWING) return false;
+
+        try {
+            double distance = this.distanceTo(target);
+            if (distance < 4.0) return false;
+            if (!hasMovedEnoughToShoot || isNearbyProjectileDangerous()) return false;
+            if (isNearFriendlyProjectile()) return false;
+
+            if (isStuckInSmallArea() && distance < 6.0) return false;
+
+            return shootingDelay <= 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void tryShootAtPlayer() {
+        if (shootCooldown > 0 || !canShoot()) return;
+
+        LivingEntity target = this.getTarget();
+        if (target == null || !target.isAlive() || target.isRemoved()) return;
+
+        int nearbyShooters = (int) this.getEntityWorld().getEntitiesByClass(
+                BurrowEntity.class,
+                this.getBoundingBox().expand(16.0),
+                burrow -> burrow != this && burrow.getBurrowState() == BurrowState.SHOOTING
+        ).size();
+
+        if (nearbyShooters >= 2) return;
+
+        this.getEntityWorld().getEntitiesByClass(
+                BurrowEntity.class,
+                this.getBoundingBox().expand(8.0),
+                burrow -> burrow != this && burrow.isInCombat()
+        ).forEach(ally -> {
+            Vec3d away = ally.getPos().subtract(this.getPos()).normalize();
+            ally.getNavigation().startMovingTo(
+                    ally.getX() + away.x * 6,
+                    ally.getY(),
+                    ally.getZ() + away.z * 6,
+                    1.4
+            );
+        });
+
+        shootCooldown = 40 + this.random.nextInt(20);
+        this.setBurrowState(BurrowState.SHOOTING);
+        lastShootPosition = this.getPos();
+        hasMovedEnoughToShoot = false;
+        shootingDelay = 15 + this.random.nextInt(10);
+    }
+
+
+
+    public void startBurrowing() {
+        if (burrowState == BurrowState.IDLE && !isWalkingWhileBurrowed) {
+            boolean canBurrow = false;
+
+            for (int quickCheck = 0; quickCheck < 8; quickCheck++) {
+                double angle = (Math.PI * 2 * quickCheck) / 8.0;
+                double distance = 6 + this.random.nextDouble() * 4;
+
+                double offsetX = Math.cos(angle) * distance;
+                double offsetZ = Math.sin(angle) * distance;
+
+                BlockPos testPos = new BlockPos(
+                        (int)(this.getX() + offsetX),
+                        (int)this.getY(),
+                        (int)(this.getZ() + offsetZ)
+                );
+
+                if (isPositionSafeForBurrowing(testPos)) {
+                    canBurrow = true;
+                    break;
+                }
+            }
+
+            if (canBurrow) {
+                setBurrowState(BurrowState.BURROWING);
+            }
+        }
+    }
+
+    private void fireEarthCharge() {
+        LivingEntity target = this.getTarget();
+        if (target == null || !target.isAlive() || target.isRemoved()) return;
+
+        Vec3d targetPos = predictTargetPosition(target);
+        if (targetPos == null) return;
+
+        Vec3d direction = targetPos.subtract(this.getPos()).normalize();
+
+        try {
+            EarthChargeEntity charge = new EarthChargeEntity(this.getEntityWorld(), this);
+            charge.setPosition(this.getX(), this.getEyeY(), this.getZ());
+            charge.setVelocity(direction.x, direction.y, direction.z, 1.2f, 0.05f);
+            this.getEntityWorld().spawnEntity(charge);
+        } catch (Exception e) {
+        }
+    }
+
+    private Vec3d predictTargetPosition(LivingEntity target) {
+        if (target == null || !target.isAlive() || target.isRemoved()) {
+            return this.getPos();
+        }
+
+        try {
+            Vec3d targetVelocity = target.getVelocity();
+            if (targetVelocity == null) {
+                targetVelocity = Vec3d.ZERO;
+            }
+
+            double projectileSpeed = 1.2;
+            double distance = this.distanceTo(target);
+            double timeToHit = distance / projectileSpeed;
+
+            Vec3d predictedPos = target.getPos().add(targetVelocity.multiply(timeToHit));
+            return predictedPos.add(0, target.getStandingEyeHeight() - 1.0, 0);
+        } catch (Exception e) {
+            return target.getPos();
+        }
+    }
+
+    public String getCurrentAnimation() {
+        switch (burrowState) {
+            case IDLE -> {
+                return "BURROW_IDLE";
+            }
+            case SHOOTING -> {
+                return "BURROW_SHOOTING";
+            }
+            case BURROWING -> {
+                return "BURROW_BURROWING";
+            }
+            case UNBURROWING -> {
+                return "BURROW_UNBURROWING";
+            }
+            default -> {
+                return "BURROW_IDLE";
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+        BurrowVariant variant = getWeightedRandomVariant();
+        setVariant(variant);
+        return super.initialize(world, difficulty, spawnReason, entityData);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putString("BurrowState", burrowState.name());
+        nbt.putInt("StateTimer", stateTimer);
+        nbt.putInt("Variant", this.getTypeVariant());
+        nbt.putBoolean("HasMovedEnoughToShoot", hasMovedEnoughToShoot);
+        nbt.putBoolean("IsInCombat", isInCombat);
+        nbt.putInt("CombatStartTime", combatStartTime);
+        nbt.putDouble("CirclingAngle", circlingAngle);
+        nbt.putInt("CirclingDirection", circlingDirection);
+        nbt.putInt("ShootingDelay", shootingDelay);
+        nbt.putInt("StuckTimer", stuckTimer);
+        nbt.putInt("BurrowCooldownTimer", burrowCooldownTimer);
+
+        if (stuckCheckPosition != null) {
+            nbt.putDouble("StuckCheckX", stuckCheckPosition.x);
+            nbt.putDouble("StuckCheckY", stuckCheckPosition.y);
+            nbt.putDouble("StuckCheckZ", stuckCheckPosition.z);
+        }
+
+        if (relocateTarget != null) {
+            nbt.putLong("RelocateTarget", relocateTarget.asLong());
+        }
+        if (lastShootPosition != null) {
+            nbt.putDouble("LastShootX", lastShootPosition.x);
+            nbt.putDouble("LastShootY", lastShootPosition.y);
+            nbt.putDouble("LastShootZ", lastShootPosition.z);
+        }
+        if (circlingCenter != null) {
+            nbt.putDouble("CirclingCenterX", circlingCenter.x);
+            nbt.putDouble("CirclingCenterY", circlingCenter.y);
+            nbt.putDouble("CirclingCenterZ", circlingCenter.z);
+        }
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        String stateString = nbt.getString("BurrowState");
+        if (!stateString.isEmpty() && !stateString.equals("IDLE")) {
+            try {
+                BurrowState loadedState = BurrowState.valueOf(stateString);
+                this.burrowState = loadedState;
+                if (!this.getWorld().isClient()) {
+                    this.dataTracker.set(DATA_ID_STATE, loadedState.ordinal());
+                }
+            } catch (IllegalArgumentException e) {
+                this.burrowState = BurrowState.IDLE;
+            }
+        }
+
+        this.stateTimer = nbt.getInt("StateTimer");
+
+        if (nbt.contains("Variant")) {
+            this.dataTracker.set(DATA_ID_TYPE_VARIANT, nbt.getInt("Variant"));
+        }
+        this.hasMovedEnoughToShoot = nbt.getBoolean("HasMovedEnoughToShoot");
+        this.isInCombat = nbt.getBoolean("IsInCombat");
+        this.combatStartTime = nbt.getInt("CombatStartTime");
+        this.circlingAngle = nbt.getDouble("CirclingAngle");
+        this.circlingDirection = nbt.getInt("CirclingDirection");
+        this.shootingDelay = nbt.getInt("ShootingDelay");
+        this.stuckTimer = nbt.getInt("StuckTimer");
+        this.burrowCooldownTimer = nbt.getInt("BurrowCooldownTimer");
+
+        if (nbt.contains("StuckCheckX")) {
+            this.stuckCheckPosition = new Vec3d(
+                    nbt.getDouble("StuckCheckX"),
+                    nbt.getDouble("StuckCheckY"),
+                    nbt.getDouble("StuckCheckZ")
+            );
+        }
+
+        if (nbt.contains("RelocateTarget")) {
+            this.relocateTarget = BlockPos.fromLong(nbt.getLong("RelocateTarget"));
+        }
+
+        if (nbt.contains("LastShootX")) {
+            this.lastShootPosition = new Vec3d(
+                    nbt.getDouble("LastShootX"),
+                    nbt.getDouble("LastShootY"),
+                    nbt.getDouble("LastShootZ")
+            );
+        }
+
+        if (nbt.contains("CirclingCenterX")) {
+            this.circlingCenter = new Vec3d(
+                    nbt.getDouble("CirclingCenterX"),
+                    nbt.getDouble("CirclingCenterY"),
+                    nbt.getDouble("CirclingCenterZ")
+            );
+        }
+    }
+
+    private static class BurrowCircleGoal extends Goal {
+        private final BurrowEntity burrow;
+        private Vec3d targetPosition;
+        private int repositionTimer = 0;
+
+        public BurrowCircleGoal(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity target = burrow.getTarget();
+            return burrow.isInCombat() &&
+                    target != null &&
+                    target.isAlive() &&
+                    !target.isRemoved() &&
+                    burrow.getBurrowState() == BurrowState.IDLE &&
+                    burrow.getCombatDuration() < 120;
+        }
+
+        @Override
+        public void start() {
+            targetPosition = burrow.getCirclingPosition();
+            repositionTimer = 0;
+        }
+
+        @Override
+        public void tick() {
+            repositionTimer++;
+
+            burrow.updateCirclingAngle();
+
+            if (repositionTimer >= 10 ||
+                    (targetPosition != null && burrow.squaredDistanceTo(targetPosition) < 2.0)) {
+                targetPosition = burrow.getCirclingPosition();
+                repositionTimer = 0;
+            }
+
+            if (targetPosition != null) {
+                burrow.getNavigation().startMovingTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2);
+            }
+
+            LivingEntity target = burrow.getTarget();
+            if (target != null && target.isAlive() && !target.isRemoved()) {
+                try {
+                    burrow.getLookControl().lookAt(target.getX(), target.getEyeY(), target.getZ());
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            LivingEntity target = burrow.getTarget();
+            return burrow.isInCombat() &&
+                    target != null &&
+                    target.isAlive() &&
+                    !target.isRemoved() &&
+                    burrow.getBurrowState() == BurrowState.IDLE &&
+                    burrow.getCombatDuration() < 120;
+        }
+    }
+
+    private static class BurrowAvoidProjectileGoal extends Goal {
+        private final BurrowEntity burrow;
+        private Vec3d avoidanceDirection;
+
+        public BurrowAvoidProjectileGoal(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
+
+        @Override
+        public boolean canStart() {
+            if (burrow.getBurrowState() != BurrowState.IDLE) return false;
+
+            avoidanceDirection = burrow.getProjectileAvoidanceDirection();
+            return avoidanceDirection != null;
+        }
+
+        @Override
+        public void tick() {
+            if (avoidanceDirection != null) {
+                Vec3d targetPos = burrow.getPos().add(avoidanceDirection.multiply(6.0));
+                burrow.getNavigation().startMovingTo(targetPos.x, targetPos.y, targetPos.z, 1.5);
+            }
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return (burrow.isNearbyProjectileDangerous() || burrow.isNearFriendlyProjectile()) &&
+                    burrow.getBurrowState() == BurrowState.IDLE;
+        }
+    }
+
+    private static class BurrowSmartPositioningGoal extends Goal {
+        private final BurrowEntity burrow;
+        private Vec3d optimalPosition;
+
+        public BurrowSmartPositioningGoal(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity target = burrow.getTarget();
+            if (target == null || target.isRemoved() || !target.isAlive() || burrow.getBurrowState() != BurrowState.IDLE) return false;
+
+            try {
+                double distance = burrow.distanceTo(target);
+
+                if (distance < 6.0 || distance > 12.0) {
+                    optimalPosition = findOptimalPosition(target);
+                    return optimalPosition != null;
+                }
+            } catch (Exception e) {
+                return false;
+            }
+
+            return false;
+        }
+
+        private Vec3d findOptimalPosition(LivingEntity target) {
+            if (target == null || target.isRemoved() || !target.isAlive()) return null;
+
+            try {
+                Vec3d targetPos = target.getPos();
+                if (targetPos == null) return null;
+
+                double optimalDistance = 8.0;
+
+                for (int attempts = 0; attempts < 8; attempts++) {
+                    double angle = (Math.PI * 2 * attempts) / 8.0;
+                    double x = targetPos.x + Math.cos(angle) * optimalDistance;
+                    double z = targetPos.z + Math.sin(angle) * optimalDistance;
+
+                    BlockPos testPos = new BlockPos((int)x, (int)targetPos.y, (int)z);
+
+                    if (burrow.isPositionSafe(testPos)) {
+                        return new Vec3d(x, targetPos.y, z);
+                    }
+                }
+            } catch (Exception e) {
+            }
+
+            return null;
+        }
+
+        @Override
+        public void tick() {
+            if (optimalPosition != null) {
+                burrow.getNavigation().startMovingTo(optimalPosition.x, optimalPosition.y, optimalPosition.z, 1.0);
+            }
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return optimalPosition != null &&
+                    burrow.squaredDistanceTo(optimalPosition) > 4.0 &&
+                    burrow.getBurrowState() == BurrowState.IDLE;
+        }
+    }
+
+    private static class BurrowRelocateGoal extends Goal {
+        private final BurrowEntity burrow;
+
+        public BurrowRelocateGoal(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
+
+        @Override
+        public boolean canStart() {
+            return burrow.getRelocationTarget() != null &&
+                    burrow.getBurrowState() == BurrowState.IDLE;
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            BlockPos target = burrow.getRelocationTarget();
+            return target != null && burrow.squaredDistanceTo(target.getX(), target.getY(), target.getZ()) > 4.0;
+        }
+
+        @Override
+        public void tick() {
+            BlockPos target = burrow.getRelocationTarget();
+            if (target != null) {
+                burrow.getNavigation().startMovingTo(target.getX(), target.getY(), target.getZ(), 1.0);
+            }
+        }
+
+        @Override
+        public void stop() {
+            burrow.clearRelocationTarget();
+        }
+    }
+
+    private static class BurrowFleeGoal extends FleeEntityGoal<PlayerEntity> {
+        private final BurrowEntity burrow;
+
+        public BurrowFleeGoal(BurrowEntity burrow) {
+            super(burrow, PlayerEntity.class, 6.0F, 1.2, 1.5);
+            this.burrow = burrow;
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity target = burrow.getTarget();
+            return super.canStart() &&
+                    burrow.getBurrowState() != BurrowState.SHOOTING &&
+                    burrow.getBurrowState() != BurrowState.BURROWING &&
+                    burrow.getBurrowState() != BurrowState.UNBURROWING &&
+                    target != null &&
+                    target.isAlive() &&
+                    !target.isRemoved() &&
+                    burrow.distanceTo(target) < 4.0 &&
+                    (burrow.burrowCooldown > 0 || burrow.burrowCooldownTimer > 0);
+        }
+    }
+
+    private static class BurrowShootGoal extends Goal {
+        private final BurrowEntity burrow;
+        private int aimTimer = 0;
+
+        public BurrowShootGoal(BurrowEntity burrow) {
+            this.burrow = burrow;
+            this.setControls(EnumSet.of(Control.LOOK));
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity target = burrow.getTarget();
+            return target != null &&
+                    burrow.shootCooldown <= 0 &&
+                    burrow.canShoot() &&
+                    burrow.distanceTo(target) >= 4.0 &&
+                    burrow.distanceTo(target) <= 16.0f &&
+                    burrow.getBurrowState() == BurrowState.IDLE &&
+                    burrow.getCombatDuration() >= 40;
+        }
+
+        @Override
+        public void start() {
+            aimTimer = 15;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = burrow.getTarget();
+            if (target != null && target.isAlive() && !target.isRemoved()) {
+                try {
+                    burrow.getLookControl().lookAt(target.getX(), target.getEyeY(), target.getZ());
+
+                    if (--aimTimer <= 0) {
+                        burrow.tryShootAtPlayer();
+                        aimTimer = 60;
+                    }
+                } catch (Exception e) {
+                    aimTimer = 60;
+                }
+            }
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            LivingEntity target = burrow.getTarget();
+            return target != null &&
+                    burrow.getBurrowState() != BurrowState.SHOOTING &&
+                    burrow.distanceTo(target) >= 4.0 &&
+                    burrow.distanceTo(target) <= 16.0f;
+        }
+
+        @Override
+        public void stop() {
+            aimTimer = 0;
+        }
+    }
+
+    private static final TrackedData<Integer> DATA_ID_STATE =
+            DataTracker.registerData(BurrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
+    private void syncStateToClients() {
+        if (!this.getEntityWorld().isClient()) {
+            this.dataTracker.set(DATA_ID_STATE, this.burrowState.ordinal());
+        }
+    }
+
+    @Override
+    public void onTrackedDataSet(TrackedData<?> data) {
+        if (DATA_ID_STATE.equals(data) && this.getEntityWorld().isClient()) {
+            BurrowState newState = BurrowState.values()[this.dataTracker.get(DATA_ID_STATE)];
+            if (this.burrowState != newState && !isChangingState) {
+                isChangingState = true;
+
+                this.previousState = this.burrowState;
+                this.burrowState = newState;
+                this.animationTick = 0;
+                this.stateTimer = 0;
+
+                startStateAnimation(newState);
+
+                isChangingState = false;
+            }
+        }
+        super.onTrackedDataSet(data);
+    }
+
+    private void addBurrowParticles(AnimationState animationState) {
+        if (this.getEntityWorld().isClient() && animationState.isRunning()) {
+            BlockState blockState = this.getSteppingBlockState();
+            if (blockState.getRenderType() != BlockRenderType.INVISIBLE) {
+                Random random = this.getRandom();
+                for (int i = 0; i < 7; ++i) {
+                    double d = this.getX() + (double) MathHelper.nextBetween(random, -0.3F, 0.3F);
+                    double e = this.getY();
+                    double f = this.getZ() + (double)MathHelper.nextBetween(random, -0.3F, 0.3F);
+                    this.getEntityWorld().addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState), d, e, f, 0.0, 0.0, 0.0);
+                }
+            }
+        }
+    }
+
+    //BASE CODE
 
     private int getTypeVariant() {
         return this.dataTracker.get(DATA_ID_TYPE_VARIANT);
@@ -166,19 +1743,6 @@ public class BurrowEntity extends HostileEntity {
 
     public void setVariant(BurrowVariant variant) {
         this.dataTracker.set(DATA_ID_TYPE_VARIANT, variant.getId());
-    }
-
-    @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
-        BurrowVariant variant = getWeightedRandomVariant();
-        setVariant(variant);
-         return super.initialize(world, difficulty, spawnReason, entityData);
-    }
-
-    @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.dataTracker.set(DATA_ID_TYPE_VARIANT, nbt.getInt("Variant"));
     }
 
     private BurrowVariant getWeightedRandomVariant() {
@@ -200,12 +1764,4 @@ public class BurrowEntity extends HostileEntity {
         }
         return variants[0];
     }
-
-    @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("Variant", this.getTypeVariant());
-    }
-
-    //EARTH-AND-WATER REF
 }

@@ -75,7 +75,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerDoor(ModBlocks.EUCALYPTUS_DOOR);
         blockStateModelGenerator.registerOrientableTrapdoor(ModBlocks.EUCALYPTUS_TRAPDOOR);
 
-        eucalyptusTexturePool.family(ModBlocks.EUCALYPTUS_FAMILY);
+//        eucalyptusTexturePool.family(ModBlocks.EUCALYPTUS_FAMILY);
 
 
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.TIRIM_BERRY_BUSH, BlockStateModelGenerator.TintType.NOT_TINTED,
@@ -90,9 +90,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.BURROW_ROD, Models.GENERATED);
         itemModelGenerator.register(ModItems.TERRA_POTTERY_SHERD, Models.GENERATED);
         itemModelGenerator.register(ModItems.TOMB_POTTERY_SHERD, Models.GENERATED);
-        itemModelGenerator.register(ModItems.HANGING_EUCALYPTUS_SIGN, Models.GENERATED);
-        itemModelGenerator.register(ModItems.EUCALYPTUS_BOAT, Models.GENERATED);
-        itemModelGenerator.register(ModItems.EUCALYPTUS_CHEST_BOAT, Models.GENERATED);
+//        itemModelGenerator.register(ModItems.HANGING_EUCALYPTUS_SIGN, Models.GENERATED);
+//        itemModelGenerator.register(ModItems.EUCALYPTUS_BOAT, Models.GENERATED);
+//        itemModelGenerator.register(ModItems.EUCALYPTUS_CHEST_BOAT, Models.GENERATED);
         itemModelGenerator.register(ModItems.ARCHAIC_KEY, Models.GENERATED);
         itemModelGenerator.register(ModItems.EARTH_CHARGE, Models.GENERATED);
         itemModelGenerator.register(ModItems.ENTOMBED_ARMOR_TRIM_SMITHING_TEMPLATE, Models.GENERATED);

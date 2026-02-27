@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.BlockPlacementDispenserBehavior;
+import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;
 import net.minecraft.world.GameRules;
@@ -18,10 +19,7 @@ import net.thefluffycart.litavis.block.entity.LitavisBlockEntityType;
 import net.thefluffycart.litavis.effect.ModEffects;
 import net.thefluffycart.litavis.entity.ModBoats;
 import net.thefluffycart.litavis.entity.ModEntities;
-import net.thefluffycart.litavis.entity.custom.BurrowEntity;
-import net.thefluffycart.litavis.entity.custom.CacklewaryEntity;
-import net.thefluffycart.litavis.entity.custom.CopperGolemEntity;
-import net.thefluffycart.litavis.entity.custom.PlatypusEntity;
+import net.thefluffycart.litavis.entity.custom.*;
 import net.thefluffycart.litavis.item.ModItemGroups;
 import net.thefluffycart.litavis.item.ModItems;
 import net.thefluffycart.litavis.potion.ModPotions;
@@ -48,7 +46,7 @@ public class Litavis implements ModInitializer {
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
-		ModBoats.registerBoats();
+//		ModBoats.registerBoats();
 		ModTrunkPlacerTypes.register();
 		ModCompatBlocks.register();
 		LitavisBlockEntityType.register();
@@ -58,8 +56,8 @@ public class Litavis implements ModInitializer {
 		DispenserBlock.registerBehavior(ModBlocks.POWDER_KEG, new BlockPlacementDispenserBehavior());
 		DispenserBlock.registerBehavior(ModBlocks.SAFETY_ROPE, new BlockPlacementDispenserBehavior());
 
-		FabricDefaultAttributeRegistry.register(ModEntities.BURROW, BurrowEntity.createburrowAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntities.COPPER_GOLEM, CopperGolemEntity.createCopperGolemAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntities.BURROW, BurrowEntity.createBurrowAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntities.SCORCHER, ScorcherEntity.createScorcherAttributes());
 //		FabricDefaultAttributeRegistry.register(ModEntities.CACKLEWARY, CacklewaryEntity.createDodoAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntities.PLATYPUS, PlatypusEntity.createPlatypusAttribute());
 

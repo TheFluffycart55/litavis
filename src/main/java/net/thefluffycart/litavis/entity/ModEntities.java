@@ -16,9 +16,9 @@ public class ModEntities {
             Identifier.of(Litavis.MOD_ID, "burrow"),
             EntityType.Builder.create(BurrowEntity::new, SpawnGroup.MONSTER).dimensions(0.8f, 1.5f).build());
 
-    public static final EntityType<CopperGolemEntity> COPPER_GOLEM = Registry.register(Registries.ENTITY_TYPE,
-            Identifier.of(Litavis.MOD_ID, "copper_golem"),
-            EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MONSTER).dimensions(0.8f, 1.45f).build());
+    public static final EntityType<ScorcherEntity> SCORCHER = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(Litavis.MOD_ID, "scorcher"),
+            EntityType.Builder.create(ScorcherEntity::new, SpawnGroup.MONSTER).dimensions(2f, 1.5f).build());
 
     public static final EntityType<PlatypusEntity> PLATYPUS = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(Litavis.MOD_ID, "platypus"),

@@ -80,6 +80,8 @@ public class TripslateBlock extends Block {
     protected void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
         BlockPos blockPos = hit.getBlockPos();
         if (!world.isClient && state.isOf(this) && !(projectile instanceof EarthChargeEntity)) {
+            BlockPos pos = hit.getBlockPos();
+            world.playSound(null, pos, ModSounds.TRIPSLATE_COLLAPSE, SoundCategory.BLOCKS, 1f, 1f);
             blockDrop(state, (ServerWorld) world, blockPos);
         }
     }

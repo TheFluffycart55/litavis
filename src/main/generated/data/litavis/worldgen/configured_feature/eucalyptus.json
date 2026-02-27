@@ -25,7 +25,7 @@
         "Properties": {
           "distance": "1",
           "has_oil": "true",
-          "persistent": "true",
+          "persistent": "false",
           "waterlogged": "true"
         }
       }

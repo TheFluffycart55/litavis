@@ -11,8 +11,7 @@ import net.thefluffycart.litavis.Litavis;
 
 public class ModSounds {
 
-    //REMOVED SOUNDS DUE TO SOME ISSUES, ECHOING HALLS HAS BEEN CUT FROM THE MOD DUE TO THE COMPOSER HANDING OUT MY ASSETS WITHOUT ASKING OR CREDIT.
-    //ADDED IN A BASED ASS SONG BY MAZEER A, WAS NOT GIVEN A TITLE SO CALLING IT "ECHOES" W/ AUTHOR PERMISSION
+    //UPDATING SOUNDS FOR 2.1, BURROW SOUNDS, EARTH CHARGE SOUNDS, AND TRIPSLATE
     public static final SoundEvent BURROW_IDLE = registerSoundEvent("burrow_idle");
     public static final SoundEvent BURROW_HIT = registerSoundEvent("burrow_hit");
     public static final SoundEvent FLUFFY_SQUEAKS = registerSoundEvent("fluffy_squeaks");

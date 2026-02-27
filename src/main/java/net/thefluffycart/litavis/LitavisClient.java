@@ -1,6 +1,5 @@
 package net.thefluffycart.litavis;
 
-import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -32,8 +31,8 @@ public class LitavisClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.BURROW, BurrowModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.BURROW, BurrowRenderer::new);
 
-        EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.COPPER_GOLEM, CopperGolemModel::getTexturedModelData);
-        EntityRendererRegistry.register(ModEntities.COPPER_GOLEM, CopperGolemRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.SCORCHER, ScorcherModel::getTexturedModelData);
+        EntityRendererRegistry.register(ModEntities.SCORCHER, ScorcherRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.PLATYPUS, PlatypusModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.PLATYPUS, PlatypusRenderer::new);
@@ -43,7 +42,7 @@ public class LitavisClient implements ClientModInitializer {
 
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.BURROW_HEAD, BurrowHeadModel::getTexturedModelData);
 
-        TerraformBoatClientHelper.registerModelLayers(ModBoats.EUCALYPTUS_BOAT_ID, false);
+//        TerraformBoatClientHelper.registerModelLayers(ModBoats.EUCALYPTUS_BOAT_ID, false);
 
     }
 }

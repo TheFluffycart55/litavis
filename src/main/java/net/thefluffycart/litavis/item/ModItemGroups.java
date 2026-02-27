@@ -35,8 +35,8 @@ public class ModItemGroups {
                         entries.add(ModItems.TIRIM_BERRIES);
                         entries.add(ModBlocks.EUCALYPTUS_SAPLING);
                         entries.add(ModItems.EUCALYPTUS_OIL_VIAL);
-                        entries.add(ModItems.EUCALYPTUS_BOAT);
-                        entries.add(ModItems.EUCALYPTUS_CHEST_BOAT);
+//                        entries.add(ModItems.EUCALYPTUS_BOAT);
+//                        entries.add(ModItems.EUCALYPTUS_CHEST_BOAT);
                     }).build());
 
     public static final ItemGroup LITAVIS_GRANITE = Registry.register(Registries.ITEM_GROUP,
@@ -95,8 +95,8 @@ public class ModItemGroups {
                         entries.add(ModBlocks.EUCALYPTUS_BUTTON);
                         entries.add(ModBlocks.EUCALYPTUS_PRESSURE_PLATE);
                         entries.add(ModBlocks.EUCALYPTUS_LEAVES);
-                        entries.add(ModItems.EUCALYPTUS_SIGN);
-                        entries.add(ModItems.HANGING_EUCALYPTUS_SIGN);
+//                        entries.add(ModItems.EUCALYPTUS_SIGN);
+//                        entries.add(ModItems.HANGING_EUCALYPTUS_SIGN);
                         entries.add(ModBlocks.BURROW_HEAD);
                         entries.add(ModItems.SAFETY_ROPE);
 

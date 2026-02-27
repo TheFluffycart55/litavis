@@ -4,9 +4,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.enchantment.effect.entity.ApplyMobEffectEnchantmentEffect;
+import net.minecraft.entity.*;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,13 +25,14 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.thefluffycart.litavis.Litavis;
+import net.thefluffycart.litavis.effect.ModEffects;
 import net.thefluffycart.litavis.entity.ModEntities;
 import net.thefluffycart.litavis.item.ModItems;
 import net.thefluffycart.litavis.util.ModTags;
 
 import java.util.List;
 
-public class EarthChargeEntity extends ThrownItemEntity {
+public class EarthChargeEntity extends ThrownItemEntity implements FlyingItemEntity {
     public EarthChargeEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -64,8 +67,8 @@ public class EarthChargeEntity extends ThrownItemEntity {
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
         World world = this.getWorld();
-
-        if (!world.isClient) {
+        BlockPos pos = blockHitResult.getBlockPos();
+        if (!world.isClient && world.getBlockState(pos).isSolidBlock(world, pos)) {
             BlockPos hitPos = blockHitResult.getBlockPos();
             replaceBlocks((ServerWorld) world, hitPos);
             entityLaunch((ServerWorld) world, hitPos);
@@ -77,28 +80,41 @@ public class EarthChargeEntity extends ThrownItemEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         World world = this.getWorld();
-        if (!world.isClient)
+        Entity target = entityHitResult.getEntity();
+        if (!world.isClient && target instanceof LivingEntity && !((LivingEntity) target).isBlocking())
         {
-            BlockPos hitPos = entityHitResult.getEntity().getBlockPos();
+            BlockPos hitPos = target.getBlockPos().down();
             replaceBlocks((ServerWorld) world, hitPos);
             entityLaunch((ServerWorld) world, hitPos);
             this.discard();
         }
+        else return;
         super.onEntityHit(entityHitResult);
     }
 
+
+
     private void entityLaunch(ServerWorld serverWorld, BlockPos pos) {
-        Box impactBox = new Box(pos).expand(2.5, 2.5, 2.5); // 5x5x5 radius
+        Box impactBox = new Box(pos).expand(2.5, 2.5, 2.5);
         List<LivingEntity> nearbyEntities = serverWorld.getEntitiesByClass(
                 LivingEntity.class,
                 impactBox,
-                entity -> true
+                entity -> isAlive()
         );
 
         for (LivingEntity entity : nearbyEntities) {
-            Vec3d currentMotion = entity.getVelocity();
-            entity.addVelocity(currentMotion.x, 1.5, currentMotion.z);
-            entity.velocityModified = true;
+            if (entity.isBlocking())
+            {
+                break;
+            }
+            else
+            {
+                entity.addStatusEffect(new StatusEffectInstance(ModEffects.UNSTEADY, 30, 0), this);
+                entity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 0), this);
+                Vec3d currentMotion = entity.getVelocity();
+                entity.addVelocity(currentMotion.x, 0.5, currentMotion.z);
+                entity.velocityModified = true;
+            }
         }
     }
 
@@ -162,28 +178,47 @@ public class EarthChargeEntity extends ThrownItemEntity {
     }
     private void spawnLowerFallingBlock(ServerWorld world, BlockPos pos, BlockState blockState) {
         FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, pos, blockState);
-        if (fallingBlockEntity != null) {
+        if (world.getBlockState(pos.up()).isOf(Blocks.AIR) || world.getBlockState(pos.up()).isIn(ModTags.Blocks.EARTH_CHARGE_THROWABLE)) {
             fallingBlockEntity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-            fallingBlockEntity.setVelocity(new Vec3d(0, 1, 0));
+            fallingBlockEntity.setVelocity(new Vec3d(0, 0.7, 0));
             fallingBlockEntity.velocityModified = true;
             world.spawnEntity(fallingBlockEntity);
 
-            world.spawnEntity(fallingBlockEntity);
+//            world.spawnEntity(fallingBlockEntity);
         }
     }
     private void spawnUpperFallingBlock(ServerWorld world, BlockPos pos, BlockState blockState) {
         FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, pos, blockState);
-        if (fallingBlockEntity != null) {
+        if (world.getBlockState(pos.up()).isOf(Blocks.AIR)) {
             fallingBlockEntity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-            fallingBlockEntity.setVelocity(new Vec3d(0, 1.02, 0));
+            fallingBlockEntity.setVelocity(new Vec3d(0, 0.75, 0));
             fallingBlockEntity.velocityModified = true;
             world.spawnEntity(fallingBlockEntity);
 
-            world.spawnEntity(fallingBlockEntity);
+//            world.spawnEntity(fallingBlockEntity);
         }
     }
 
+    public void tick() {
+        for (int x = 0; x<400; x++)
+        {
+
+        }
+        if (!this.getWorld().isClient && this.getBlockY() > this.getWorld().getTopY() + 30) {
+            this.discard();
+        } else {
+            super.tick();
+        }
+
+    }
+
+    @Override
     protected Item getDefaultItem() {
         return ModItems.EARTH_CHARGE;
+    }
+
+    @Override
+    public ItemStack getStack() {
+        return ModItems.EARTH_CHARGE.getDefaultStack();
     }
 }
